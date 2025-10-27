@@ -407,6 +407,7 @@ ul, li {
 
 .article-item-content h3 a {
     color: #333;
+	word-break: break-all;
 }
 
 .article-item-content h3 a:hover {
