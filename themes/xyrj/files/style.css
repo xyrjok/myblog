@@ -1159,6 +1159,7 @@ ul, li {
 }
 
 .recent-article-item-date {
+	word-break: break-all;
     font-size: 12px;
     color: #999;
     margin-top: auto;
