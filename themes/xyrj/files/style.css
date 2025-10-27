@@ -400,6 +400,7 @@ ul, li {
 }
 
 .article-item-content h3 {
+	word-break: break-all;
     margin: 0 0 10px;
     font-size: 17px;
     font-weight: bold;
@@ -407,7 +408,6 @@ ul, li {
 
 .article-item-content h3 a {
     color: #333;
-	word-break: break-all;
 }
 
 .article-item-content h3 a:hover {
