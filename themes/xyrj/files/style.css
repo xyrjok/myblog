@@ -1106,6 +1106,7 @@ ul, li {
 
 /* --- 热门文章模块样式修改 --- */
 .recent-article-item-box {
+	word-break: break-all;
     display: flex;
     align-items: flex-start;
     margin-bottom: 15px;
@@ -1159,7 +1160,6 @@ ul, li {
 }
 
 .recent-article-item-date {
-	word-break: break-all;
     font-size: 12px;
     color: #999;
     margin-top: auto;
