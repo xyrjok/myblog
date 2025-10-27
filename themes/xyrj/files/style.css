@@ -912,7 +912,7 @@ ul, li {
         flex: 1 1 60%;
         display: flex;
         flex-direction: column;
-        aspect-ratio: 588 / 140;
+        /* aspect-ratio: 588 / 140; */
         overflow: hidden;
     }
     .article-item-content h3 {
