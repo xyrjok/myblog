@@ -418,6 +418,7 @@ ul, li {
     margin: 0 0 10px;
     color: #666;
     overflow: hidden;
+	word-break: break-all;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
