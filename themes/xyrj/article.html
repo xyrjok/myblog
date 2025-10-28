@@ -1015,14 +1015,15 @@ window.addEventListener('load', function() {
         // --- END: New Comment Logic ---
 		// ========== START: Highlight.js 初始化 ==========
 		if (typeof hljs !== 'undefined') {
-			// 1. 初始化高亮 (必须先执行)
+			
+			// 1. 初始化复制按钮 (必须在 highlightAll 之前注册)
+			hljs.addPlugin(new CopyButtonPlugin());
+
+			// 2. 初始化高亮 (现在执行)
 			hljs.highlightAll();
 			
-			// 2. 初始化行号 (必须在 highlightAll 之后)
+			// 3. 初始化行号 (必须在 highlightAll 之后)
 			hljs.initLineNumbersOnLoad();
-
-			// 3. 初始化复制按钮
-			hljs.addPlugin(new CopyButtonPlugin());
 		}
 		// ========== END: Highlight.js 初始化 ==========
         const swiper = new Swiper('.swiper', {
