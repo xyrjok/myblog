@@ -603,7 +603,7 @@ ul, li {
 }
 
 .friend-links .link-item img {
-    max-height: 22px; /* 限制图片的最大高度 */
+    max-height: 38px; /* 限制图片的最大高度 */
     max-width: 120px;
     border-radius: 4px;
 }
