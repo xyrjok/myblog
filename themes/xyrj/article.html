@@ -178,13 +178,12 @@
         .entry-content-protected button:hover {
             background: #555;
         }
-		/* --- START: Highlight.js 自定义样式 --- */
 		
-		/* 1. 替换旧的 Prism 字体大小规则 */
-		/* (HLJS 将 class 加在 <code> 标签上) */
+		/* --- START: Highlight.js 自定义样式 (修正版) --- */
+		/* 1. HLJS 字体大小 */
 		pre code.hljs {
-			font-size: 90% !important; /* 在这里修改为您想要的字体大小 */
-			line-height: 1.5;      /* (可选) 调整行高 */
+			font-size: 90% !important; 
+			line-height: 1.5;
 		}
 		
 		/* 2. 确保 pre 标签是相对定位 (为复制按钮定位) */
@@ -192,39 +191,43 @@
 			position: relative;
 		}
 
-		/* 3. 行号样式 (可选, 用于微调) */
+		/* 3. 行号样式 (由 JS 添加, 我们在这里设置样式) */
 		.hljs-ln-numbers {
 			padding-right: 10px !important;
 			color: #6c757d; /* 灰色行号 */
 			user-select: none; /* 禁止选中行号 */
+			border-right: 1px solid #444; /* 添加分隔线 (可选) */
+			margin-right: 15px; /* (可选) */
 		}
 
-		/* 4. 复制按钮样式 */
-		.hljs-copy-button {
+		/* 4. 复制按钮样式 (使用 highlightjs-copy 插件的正确类名) */
+		pre .hljs-copy-wrapper {
 			position: absolute;
 			top: 8px;
 			right: 8px;
+			opacity: 0; /* 默认隐藏 */
+			transition: opacity 0.3s;
+		}
+		pre:hover .hljs-copy-wrapper {
+			opacity: 1; /* 鼠标悬停时显示 */
+		}
+		.hljs-copy-button {
 			background: #555;
 			color: white;
 			border: none;
 			padding: 5px 8px;
 			border-radius: 4px;
 			cursor: pointer;
-			opacity: 0; /* 默认隐藏 */
-			transition: opacity 0.3s;
-			font-size: 12px; /* 按钮字体大小 */
-		}
-		pre:hover .hljs-copy-button {
-			opacity: 1; /* 鼠标悬停在 <pre> 上时显示按钮 */
+			font-size: 12px;
 		}
 		.hljs-copy-button:after {
-			content: "复制"; /* 默认文本 */
+			content: "复制";
 		}
-		.hljs-copy-button.copied:after {
-			content: "已复制!"; /* 复制后文本 */
+		.hljs-copy-button[data-copied=true]:after {
+			content: "已复制!";
 		}
 		/* --- END: Highlight.js 自定义样式 --- */
-
+		
     </style>
     </head>
 <body class="m-flex"> 
