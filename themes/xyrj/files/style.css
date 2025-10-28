@@ -1325,13 +1325,19 @@ ul, li {
     background: #f5f5f5;
     border-radius: 4px;
     font-family: 'Courier New', Courier, monospace;
-    white-space: pre-wrap !important;     /* 关键：允许换行 */
-    overflow-wrap: break-word !important; /* 强制长单词换行 */
-    word-break: break-all !important;   /* 在任意字符间换行 */
+    /* 1. 删除了下面三行中的 !important 标记 */
+    /* 这些规则将继续作用于行内 <code> 标签，使其可以换行 */
+    white-space: pre-wrap;     
+    overflow-wrap: break-word; 
+    word-break: break-all;   
 }
 .entry-content pre {
     padding: 15px;
-    overflow-x: auto; /* 优先换行，只在极端情况下才允许横向滚动 */
+    overflow-x: auto; /* 2. 保持此行，它会启用水平滚动条 */
+    /* 3. 添加下面三行，以覆盖上面的规则，实现代码块不换行 */
+    white-space: pre; /* 关键：禁止自动换行 */
+    overflow-wrap: normal;
+    word-break: normal;
 }
 
 /* Article Footer */
