@@ -16,7 +16,8 @@
     <link rel='stylesheet' href='{{ &OPT.theme_github_path }}xyrj/files/noto+serif.css' type='text/css' media='all' />
 	<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="/atom.xml">
 	<link rel="shortcut icon" href="{{& OPT.theme_github_path}}xyrj/files/xyrj.png" type="image/x-icon">
-	<link rel="stylesheet" href="{{ &OPT.theme_github_path }}xyrj/files/prism-okaidia.min.css" />
+	<link rel="stylesheet" href="{{ &OPT.theme_github_path }}xyrj/files/corepress-dark.css" />
+	<script src="{{ &OPT.theme_github_path }}xyrj/files/highlight.min.js"></script>
 	{{& OPT.codeBeforHead}}
     <style>
         .breadcrumb a {
@@ -177,13 +178,52 @@
         .entry-content-protected button:hover {
             background: #555;
         }
-		/* --- START: 自定义代码高亮字体大小 --- */
-		pre[class*="language-"],
-		code[class*="language-"] {
-		    font-size: 90%; !important; /* 在这里修改为您想要的字体大小, 例如 12px, 16px, 或 1em */
-		    line-height: 1.5;      /* (可选) 调整行高以适应新的字体大小 */
+		/* --- START: Highlight.js 自定义样式 --- */
+		
+		/* 1. 替换旧的 Prism 字体大小规则 */
+		/* (HLJS 将 class 加在 <code> 标签上) */
+		pre code.hljs {
+			font-size: 90% !important; /* 在这里修改为您想要的字体大小 */
+			line-height: 1.5;      /* (可选) 调整行高 */
 		}
-		/* --- END: 自定义代码高亮字体大小 --- */
+		
+		/* 2. 确保 pre 标签是相对定位 (为复制按钮定位) */
+		.entry-content pre {
+			position: relative;
+		}
+
+		/* 3. 行号样式 (可选, 用于微调) */
+		.hljs-ln-numbers {
+			padding-right: 10px !important;
+			color: #6c757d; /* 灰色行号 */
+			user-select: none; /* 禁止选中行号 */
+		}
+
+		/* 4. 复制按钮样式 */
+		.hljs-copy-button {
+			position: absolute;
+			top: 8px;
+			right: 8px;
+			background: #555;
+			color: white;
+			border: none;
+			padding: 5px 8px;
+			border-radius: 4px;
+			cursor: pointer;
+			opacity: 0; /* 默认隐藏 */
+			transition: opacity 0.3s;
+			font-size: 12px; /* 按钮字体大小 */
+		}
+		pre:hover .hljs-copy-button {
+			opacity: 1; /* 鼠标悬停在 <pre> 上时显示按钮 */
+		}
+		.hljs-copy-button:after {
+			content: "复制"; /* 默认文本 */
+		}
+		.hljs-copy-button.copied:after {
+			content: "已复制!"; /* 复制后文本 */
+		}
+		/* --- END: Highlight.js 自定义样式 --- */
 
     </style>
     </head>
@@ -506,7 +546,6 @@
     <div class="overlay" id="overlay"></div>
     
     <script src="{{ &OPT.theme_github_path }}xyrj/files/swiper.min.js"></script>
-	<script src="{{ &OPT.theme_github_path }}xyrj/files/prism.combined.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/files/sticky-sidebar.min.js"></script>
 	<script>
 window.addEventListener('load', function() {
@@ -971,9 +1010,18 @@ window.addEventListener('load', function() {
         }
         // --- END: 搜索按钮的 JS 逻辑 ---
         // --- END: New Comment Logic ---
-		if (typeof Prism !== 'undefined') {
-					Prism.highlightAll();
-				}
+		// ========== START: Highlight.js 初始化 ==========
+		if (typeof hljs !== 'undefined') {
+			// 1. 初始化高亮 (必须先执行)
+			hljs.highlightAll();
+			
+			// 2. 初始化行号 (必须在 highlightAll 之后)
+			hljs.initLineNumbersOnLoad();
+
+			// 3. 初始化复制按钮
+			hljs.addPlugin(new CopyButtonPlugin());
+		}
+		// ========== END: Highlight.js 初始化 ==========
         const swiper = new Swiper('.swiper', {
             autoHeight: true,
             loop: true,
