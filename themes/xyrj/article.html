@@ -971,7 +971,9 @@ window.addEventListener('load', function() {
         }
         // --- END: 搜索按钮的 JS 逻辑 ---
         // --- END: New Comment Logic ---
-
+		if (typeof Prism !== 'undefined') {
+					Prism.highlightAll();
+				}
         const swiper = new Swiper('.swiper', {
             autoHeight: true,
             loop: true,
