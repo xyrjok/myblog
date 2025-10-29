@@ -35,8 +35,8 @@ function getFirstImageUrl(htmlContent) {
     return match ? match[1] : '';
 }
 
-const theme = "JustNews";
-const cdn = "https://myblog-1dt.pages.dev/themes";
+const theme = "xyrj";
+const cdn = "https://bk.xyrj.dpdns.org/themes";
 
 let site = {
 	"title": "cf-blog", "logo": cdn + "/" + theme + "/files/logo.png", "siteName": "CF-BLOG", "siteDescription": "cf-blog", "copyRight": "Copyright © 2022", "siteKeywords": "cf-blog", "github": "-A-RA/cf-blog-plus", "theme_github_path": cdn + "/", "codeBeforHead": "", "codeBeforBody": "", "commentCode": "", "widgetOther": "",
@@ -390,6 +390,34 @@ async function handleRequest({ request, env, ctx }) {
 					return new Response(JSON.stringify(allComments), { headers: { 'Content-Type': 'application/json' } });
 				}
 				// --- END: 新路由结束 ---
+				// --- START: 新增的轮播图排序保存 API ---
+				else if (pathname === '/admin/api/carousel/setAll' && request.method === 'POST') {
+					// 此路由已在 checkPass() 内部，是安全的。
+					try {
+						const newCarouselArray = await request.json();
+						
+						// 1. 确保它是一个数组
+						if (!Array.isArray(newCarouselArray)) {
+						  return new Response(JSON.stringify({ msg: "无效的数据格式，需要一个数组" }), { status: 400 });
+						}
+				
+						// 2. 验证数据 (这匹配 admin/index.html 中 saveCarouselOrder 的逻辑)
+						for (const item of newCarouselArray) {
+						  if (!item.id || !item.imageUrl || !item.linkUrl) {
+							return new Response(JSON.stringify({ msg: "数组中的项缺少 id, imageUrl 或 linkUrl" }), { status: 400 });
+						  }
+						}
+				
+						// 3. (重要) 使用您现有的 KV 绑定和 'slides' 键
+						await env.XYRJ_CAROUSEL_KV.put('slides', JSON.stringify(newCarouselArray));
+						
+						return new Response(JSON.stringify({ msg: "OK" }), { status: 200 });
+				
+					  } catch (e) {
+						return new Response(JSON.stringify({ msg: e.message }), { status: 500 });
+					  }
+				}
+				// --- END: 轮播图排序 API ---
 
 			}
 			else {
@@ -535,7 +563,7 @@ async function getStaticFile(request, env, ctx) {
 	const cache = caches.default;
 	let response = await cache.match(request);
 	if (!response) {
-		const pagesUrl = url.toString().replace(url.origin, "https://myblog-1dt.pages.dev");
+		const pagesUrl = url.toString().replace(url.origin, "https://bk.xyrj.dpdns.org");
 		response = await fetch(pagesUrl);
 		if (response.ok) {
 			ctx.waitUntil(cache.put(request, response.clone()));
