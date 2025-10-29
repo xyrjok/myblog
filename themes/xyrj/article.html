@@ -179,57 +179,6 @@
             background: #555;
         }
 		
-		/* --- START: Highlight.js 自定义样式 (修正版) --- */
-		/* 1. HLJS 字体大小 */
-		pre code.hljs {
-			font-size: 90% !important; 
-			font-weight: 500;
-			line-height: 1.5;
-			font-family: Consolas, 'Courier New', monospace;
-		}
-		
-		/* 2. 确保 pre 标签是相对定位 (为复制按钮定位) */
-		.entry-content pre {
-			position: relative;
-		}
-
-		/* 3. 行号样式 (由 JS 添加, 我们在这里设置样式) */
-		.hljs-ln-numbers {
-			padding-right: 10px !important;
-			color: #6c757d; /* 灰色行号 */
-			user-select: none; /* 禁止选中行号 */
-			border-right: 1px solid #444; /* 添加分隔线 (可选) */
-			margin-right: 15px; /* (可选) */
-		}
-
-		/* 4. 复制按钮样式 (使用 highlightjs-copy 插件的正确类名) */
-		pre .hljs-copy-wrapper {
-			position: absolute;
-			top: 8px;
-			right: 8px;
-			opacity: 1; /* 默认隐藏 */
-			transition: opacity 0.3s;
-		}
-		/* pre:hover .hljs-copy-wrapper {
-			opacity: 0; 鼠标悬停时显示 */
-		}
-		.hljs-copy-button {
-			background: #555;
-			color: white;
-			border: none;
-			padding: 5px 8px;
-			border-radius: 4px;
-			cursor: pointer;
-			font-size: 12px;
-		}
-		.hljs-copy-button:after {
-			content: "复制";
-		}
-		.hljs-copy-button[data-copied=true]:after {
-			content: "已复制!";
-		}
-		/* --- END: Highlight.js 自定义样式 --- */
-		
     </style>
     </head>
 <body class="m-flex"> 
@@ -1015,19 +964,6 @@ window.addEventListener('load', function() {
         }
         // --- END: 搜索按钮的 JS 逻辑 ---
         // --- END: New Comment Logic ---
-		// ========== START: Highlight.js 初始化 ==========
-		if (typeof hljs !== 'undefined') {
-			
-			// 1. 初始化复制按钮 (必须在 highlightAll 之前注册)
-			hljs.addPlugin(new CopyButtonPlugin());
-
-			// 2. 初始化高亮 (现在执行)
-			hljs.highlightAll();
-			
-			// 3. 初始化行号 (必须在 highlightAll 之后)
-			hljs.initLineNumbersOnLoad();
-		}
-		// ========== END: Highlight.js 初始化 ==========
         const swiper = new Swiper('.swiper', {
             autoHeight: true,
             loop: true,
