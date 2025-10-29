@@ -16,6 +16,7 @@
 	<script src="{{ &OPT.theme_github_path }}xyrj/admin/files/bootstrap.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/admin/files/bootstrap-select.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/admin/files/defaults-zh_CN.min.js"></script>
+	<script src="{{ &OPT.theme_github_path }}xyrj/admin/files/Sortable.min.js"></script>
 	<style>
 		.pagination-controls {
 			display: flex;
@@ -57,6 +58,27 @@
 			border: none;
 			background: none;
 		}
+		/* --- START: Sortable.js 拖动样式 --- */
+		.sortable-handle {
+			cursor: move; /* 鼠标手势改为“移动” */
+			padding-right: 8px;
+			padding-left: 5px;
+			color: #999;
+		}
+		.sortable-ghost {
+			opacity: 0.4;
+			background-color: #c8ebfb;
+			border-color: #b4e0fb;
+		}
+		.sortable-chosen {
+			opacity: 0.9 !important;
+			background-color: #f0f8ff;
+		}
+		.sortable-item {
+			padding-top: 2px;
+			padding-bottom: 2px;
+		}
+		/* --- END: Sortable.js 拖动样式 --- */
 	</style>
 </head>
 <body>
@@ -441,6 +463,9 @@
 						</form>
 					</div>
 					<div class="table-responsive">
+						<button type="button" class="btn btn-info btn-sm" onclick="saveCarouselOrder()" style="margin-bottom: 10px;">
+							<i class="fas fa-save"></i> 保存轮播图顺序
+						</button>
 						<table class="table table-striped table-sm">
 							<thead>
 								<tr>
@@ -742,6 +767,7 @@ tinymce.init({
                         footerLinks.forEach(link => {
                             const linkHtml = `
                                 <div class="input-group" style="margin-top: 5px;">
+									<span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span>
                                     <span class="input-group-addon">图标</span>
                                     <input type="text" class="form-control" placeholder="例: fas fa-link" value="${link.icon || ''}">
                                     <span class="input-group-addon">名称</span>
@@ -776,6 +802,26 @@ tinymce.init({
 			updateCategoryDropdown(initialCategories);
 			// (修改) 初始化时加载第一页
 			loadArticles(currentArticlePage, articlePageSize);
+			// --- START: 新增 - 初始化所有 Sortable.js 列表 ---
+			var commonSortableOptions = {
+				handle: '.sortable-handle',
+				animation: 150,
+				ghostClass: 'sortable-ghost',
+				chosenClass: 'sortable-chosen'
+			};
+
+			// 1. 分类设置
+			new Sortable($('#category-list')[0], commonSortableOptions);
+
+			// 2. 菜单设置 (调用我们之前定义的函数)
+			initMenuSortable($('#menu-list')[0]);
+
+			// 3. 页脚链接
+			new Sortable($('#footer-links-container')[0], commonSortableOptions);
+
+			// 4. 友情链接
+			new Sortable($('#links-container')[0], commonSortableOptions);
+			// --- END: 新增 - 初始化所有 Sortable.js 列表 ---
 		}
 
 		function updateCategoryDropdown(categories) {
@@ -1021,7 +1067,7 @@ tinymce.init({
 		list.empty();
 		if (categories && categories.length > 0) {
 			$.each(categories, function(index, category) {
-				var categoryHtml = `<div class="form-group category-item"><div class="input-group"><span class="input-group-addon">名称</span><input type="text" class="form-control" value="${category.name || ''}" placeholder="分类名称 (必填)"><span class="input-group-addon">图标</span><input type="text" class="form-control" value="${category.icon || ''}" placeholder="例: fas fa-home"><div class="input-group-btn"><button class="btn btn-danger" type="button" onclick="removeCategory(this)"><i class="fas fa-trash"></i></button></div></div></div>`;
+				var categoryHtml = `<div class="form-group category-item"><div class="input-group"><span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span><span class="input-group-addon">名称</span><input type="text" class="form-control" value="${category.name || ''}" placeholder="分类名称 (必填)"><span class="input-group-addon">图标</span><input type="text" class="form-control" value="${category.icon || ''}" placeholder="例: fas fa-home"><div class="input-group-btn"><button class="btn btn-danger" type="button" onclick="removeCategory(this)"><i class="fas fa-trash"></i></button></div></div></div>`;
 				list.append(categoryHtml);
 			});
 		}
@@ -1029,7 +1075,7 @@ tinymce.init({
 
 	function addCategory() {
 		var list = $('#category-list');
-		var categoryHtml = `<div class="form-group category-item"><div class="input-group"><span class="input-group-addon">名称</span><input type="text" class="form-control" value="" placeholder="分类名称 (必填)"><span class="input-group-addon">图标</span><input type="text" class="form-control" value="" placeholder="例: fas fa-home"><div class="input-group-btn"><button class="btn btn-danger" type="button" onclick="removeCategory(this)"><i class="fas fa-trash"></i></button></div></div></div>`;
+		var categoryHtml = `<div class="form-group category-item"><div class="input-group"><span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span><span class="input-group-addon">名称</span><input type="text" class="form-control" value="" placeholder="分类名称 (必填)"><span class="input-group-addon">图标</span><input type="text" class="form-control" value="" placeholder="例: fas fa-home"><div class="input-group-btn"><button class="btn btn-danger" type="button" onclick="removeCategory(this)"><i class="fas fa-trash"></i></button></div></div></div>`;
 		list.append(categoryHtml);
 	}
 
@@ -1047,6 +1093,7 @@ tinymce.init({
 				var menuHtml = `
 					<div class="form-group menu-item" data-level="${currentLevel}">
 						<div class="input-group">
+							<span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span>
 							<span class="input-group-addon">名称</span><input type="text" class="form-control" value="${menu.name || ''}" placeholder="菜单名称">
 							<span class="input-group-addon">链接</span><input type="text" class="form-control" value="${menu.url || ''}" placeholder="URL">
 							<span class="input-group-addon">图标</span><input type="text" class="form-control" value="${menu.icon || ''}" placeholder="例: fas fa-home">
@@ -1062,6 +1109,7 @@ tinymce.init({
 				if (menu.children && menu.children.length > 0) {
 					var newContainer = containerEl.children('.menu-item').last().find('.sub-menu-container');
 					renderMenu(menu.children, newContainer);
+					initMenuSortable(newContainer[0]); // (新增) 初始化子容器的拖动
 				}
 			});
 		}
@@ -1072,6 +1120,7 @@ tinymce.init({
 		var menuHtml = `
 			<div class="form-group menu-item" data-level="${level}">
 				<div class="input-group">
+					<span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span>
 					<span class="input-group-addon">名称</span><input type="text" class="form-control" value="" placeholder="菜单名称">
 					<span class="input-group-addon">链接</span><input type="text" class="form-control" value="" placeholder="URL">
 					<span class="input-group-addon">图标</span><input type="text" class="form-control" value="" placeholder="例: fas fa-home">
@@ -1085,6 +1134,9 @@ tinymce.init({
 
 		var container = (level === 1) ? $(element) : $(element).closest('.menu-item').children('.sub-menu-container');
         container.append(menuHtml);
+		// (新增) 初始化这个新添加项的子容器
+		var newContainerEl = container.children('.menu-item').last().find('.sub-menu-container')[0];
+		initMenuSortable(newContainerEl);
 	}
 
 	function removeMenuItem(button) {
@@ -1110,7 +1162,32 @@ tinymce.init({
 		});
 		return menus;
 	}
-
+	// --- START: 新增 - 初始化嵌套菜单拖动 (Sortable.js) ---
+	function initMenuSortable(containerElement) {
+		if (!containerElement) return;
+		
+		new Sortable(containerElement, {
+			group: 'menu-group', // 允许在同组列表间拖动
+			handle: '.sortable-handle', // 指定拖动手柄
+			animation: 150,
+			ghostClass: 'sortable-ghost', // 拖动占位符的样式
+			chosenClass: 'sortable-chosen', // 选中项的样式
+			onEnd: function (evt) {
+				// 拖动结束后，更新菜单项的级别 (data-level)
+				var level = $(evt.item).parents('.menu-item').length + 1;
+				$(evt.item).data('level', level);
+				
+				// (重要) 检查级别，如果超过3级，则隐藏 "添加子菜单" 按钮
+				var $addButton = $(evt.item).find('.btn-info').first();
+				if (level >= 3) {
+					$addButton.hide();
+				} else {
+					$addButton.show();
+				}
+			}
+		});
+	}
+	// --- END: 新增 - 初始化嵌套菜单拖动 ---
 	function saveCategoryMenuSettings() {
 		var categories = [];
 		$('#category-list .category-item').each(function() {
@@ -1193,7 +1270,8 @@ function handleLinkInput(input) {
 
 		const linkHtml = `
 			<div class="form-group link-item">
-				<div class="input-group" > <span class="input-group-addon" style="border-left-width: 1px;">图片URL</span>
+				<div class="input-group" style="display: flex;"> <span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span>
+					<span class="input-group-addon">图片URL</span>
 					<input type="url" class="form-control link-img-url" value="${imgVal}" placeholder="图片URL (与文字二选一)" oninput="handleLinkInput(this)" ${imgReadonly} style="min-width: 200px; flex: 1 1 auto;">
 					<span class="input-group-addon">文字</span>
 					<input type="text" class="form-control link-text" value="${textVal}" placeholder="文字 (与图片二选一)" oninput="handleLinkInput(this)" ${textReadonly} style="min-width: 150px; flex: 1 1 auto;">
@@ -1217,6 +1295,7 @@ function handleLinkInput(input) {
 		const linksContainer = $('#footer-links-container');
 		const linkHtml = `
 			<div class="input-group" style="margin-top: 5px;">
+				<span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span>
 				<span class="input-group-addon">图标</span>
 				<input type="text" class="form-control" placeholder="例: fas fa-link">
 				<span class="input-group-addon">名称</span>
@@ -1507,8 +1586,25 @@ function loadComments() {
 		$.getJSON("/api/carousel", function(slides) {
 			var tbody = $('#carousel-list').empty();
 			$.each(slides, function(i, slide) {
-				var row = `<tr id="slide-${slide.id}"><td><img src="${slide.imageUrl}" alt="预览" style="max-width: 150px; height: auto;"></td><td>${slide.imageUrl}</td><td>${slide.linkUrl}</td><td><button class="btn btn-danger btn-sm" onclick="deleteCarousel('${slide.id}')">删除</button></td></tr>`;
+				// (修改) 添加 "sortable-handle"
+				var row = `<tr id="slide-${slide.id}" class="sortable-item">
+							<td style="vertical-align: middle;">
+								<span class="sortable-handle" style="padding-right: 10px;"><i class="fas fa-grip-vertical"></i></span>
+								<img src="${slide.imageUrl}" alt="预览" style="max-width: 150px; height: auto;">
+							</td>
+							<td style="vertical-align: middle;">${slide.imageUrl}</td>
+							<td style="vertical-align: middle;">${slide.linkUrl}</td>
+							<td style="vertical-align: middle;"><button class="btn btn-danger btn-sm" onclick="deleteCarousel('${slide.id}')">删除</button></td>
+						   </tr>`;
 				tbody.append(row);
+			});
+
+			// (新增) 在加载列表后初始化拖动排序
+			new Sortable(tbody[0], {
+				handle: '.sortable-handle', // 指定拖动手柄
+				animation: 150,
+				ghostClass: 'sortable-ghost',
+				chosenClass: 'sortable-chosen'
 			});
 		});
     }
@@ -1536,7 +1632,44 @@ function loadComments() {
             });
         }
     }
-    
+    // --- START: 新增 - 保存轮播图顺序 (Sortable.js) ---
+	function saveCarouselOrder() {
+		if (!confirm("确定要保存轮播图的新顺序吗？")) { return; }
+		
+		var slidesInOrder = [];
+		// 按照 DOM 顺序读取表格行
+		$('#carousel-list tr.sortable-item').each(function() {
+			var $row = $(this);
+			var id = $row.attr('id').replace('slide-', '');
+			var cells = $row.find('td');
+			
+			// 从表格中重新构建对象
+			slidesInOrder.push({
+				id: id,
+				// (修改) 从第二个 td (索引1) 获取 imageUrl
+				imageUrl: $(cells[1]).text(), 
+				// (修改) 从第三个 td (索引2) 获取 linkUrl
+				linkUrl: $(cells[2]).text()  
+			});
+		});
+
+		// (重要!) 此功能需要您在 worker.js 中添加一个新的 API 终结点
+		// (例如: /api/carousel/setAll) 来接收整个数组并覆盖 KV
+		$.ajax({
+			url: "/api/carousel/setAll", // (注意: 这是您需要创建的新 API)
+			type: 'POST', 
+			contentType: "application/json",
+            data: JSON.stringify(slidesInOrder),
+            success: function() {
+                alert('顺序保存成功！');
+				loadCarousel(); // 重新加载以确认
+            },
+            error: function() { 
+				alert('顺序保存失败！\n请确保您已在 worker.js 中实现了 /api/carousel/setAll 终结点。');
+			}
+        });
+	}
+	// --- END: 新增 - 保存轮播图顺序 ---
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       if(e.target.hash == "#comments-manager"){ loadComments(); }
       if(e.target.hash == "#carousel-manager"){ loadCarousel(); }
