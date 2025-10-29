@@ -701,28 +701,6 @@ tinymce.init({
             { title: '两端对齐', format: 'alignjustify' }
         ]}
     ],
-	/* --- START: 自动为代码块添加 line-numbers 和 data-line --- */
-		/*setup: function(editor) {
-		    editor.on('NodeChange', function(e) {
-		        // 检查节点是否为 <pre> 且 包含 "language-" 类
-		        // (这是 codesample 插件插入的标签)
-		        if (e.element.nodeName === 'PRE' && e.element.className.indexOf('language-') > -1) {
-		
-		            // 1. 自动添加 'line-numbers' 类 (如果不存在)
-		            if (!e.element.classList.contains('line-numbers')) {
-		                e.element.classList.add('line-numbers');
-		            }
-		
-		            // 2. 自动添加 'data-line' 属性 (如果不存在)
-		            // 这会添加一个空属性 data-line=""
-		            // 您之后可以手动在"源代码"视图中为其填入行号
-		            if (!e.element.hasAttribute('data-line')) {
-		                e.element.setAttribute('data-line', ''); 
-		            }
-		        }
-		    });
-		}*/
-		/* --- END: 自动为代码块添加 line-numbers 和 data-line --- */
 });
 			$('#createDate').val(new Date().toISOString().slice(0, 16));
 			
