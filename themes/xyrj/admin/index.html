@@ -702,7 +702,7 @@ tinymce.init({
         ]}
     ],
 	/* --- START: 自动为代码块添加 line-numbers 和 data-line --- */
-		setup: function(editor) {
+		/*setup: function(editor) {
 		    editor.on('NodeChange', function(e) {
 		        // 检查节点是否为 <pre> 且 包含 "language-" 类
 		        // (这是 codesample 插件插入的标签)
@@ -721,7 +721,7 @@ tinymce.init({
 		            }
 		        }
 		    });
-		}
+		}*/
 		/* --- END: 自动为代码块添加 line-numbers 和 data-line --- */
 });
 			$('#createDate').val(new Date().toISOString().slice(0, 16));
