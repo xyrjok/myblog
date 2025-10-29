@@ -329,25 +329,22 @@
 							<textarea class="form-control" id="site_footer_copyright" rows="3" placeholder="例如：© 2025 Your Blog. All Rights Reserved."></textarea>
 						</div>
 						<hr/>
-						<div class="form-group">
+<div class="form-group">
 							<label>友情链接</label>
-							<div class="panel panel-default">
-								<div class="panel-heading">图片链接</div>
-								<div class="panel-body" id="image-links-container">
-									</div>
-								<div class="panel-footer">
-									<button type="button" class="btn btn-success btn-sm" onclick="addLink('image')">
-										<i class="fas fa-plus"></i> 添加图片链接
-									</button>
-								</div>
+							<div class="alert alert-info" style="font-size: 13px;">
+								<b>使用说明:</b><br>
+								- <b>图片URL</b> 和 <b>文字</b> 互斥，请二选一填写。填写一个，另一个将自动禁用并清空。<br>
+								- <b>链接URL</b> 为必填项。<br>
+								- <b>悬停文字</b> 为鼠标悬停时显示的提示文字（可选）。
 							</div>
+							
 							<div class="panel panel-default">
-								<div class="panel-heading">文字链接</div>
-								<div class="panel-body" id="text-links-container">
+								<div class="panel-heading">链接列表</div>
+								<div class="panel-body" id="links-container">
 									</div>
 								<div class="panel-footer">
-									<button type="button" class="btn btn-success btn-sm" onclick="addLink('text')">
-										<i class="fas fa-plus"></i> 添加文字链接
+									<button type="button" class="btn btn-success btn-sm" onclick="addLink()">
+										<i class="fas fa-plus"></i> 添加链接
 									</button>
 								</div>
 							</div>
@@ -772,11 +769,7 @@ tinymce.init({
 
 			if (initialLink && Array.isArray(initialLink)) {
                 initialLink.forEach(function(link) {
-                    if (link.type === 'image' || link.img) {
-                        addLink('image', link);
-                    } else {
-                        addLink('text', link);
-                    }
+                    addLink(link); // 直接调用新的 addLink
                 });
             }
 			
@@ -1144,42 +1137,77 @@ tinymce.init({
 		});
 	}
 
-	function addLink(type, data = {}) {
-        const containerId = type === 'image' ? '#image-links-container' : '#text-links-container';
-        const container = $(containerId);
-        let linkHtml = '';
+function handleLinkInput(input) {
+		var $item = $(input).closest('.link-item');
+		var $imgInput = $item.find('.link-img-url');
+		var $textInput = $item.find('.link-text');
 
-        if (type === 'image') {
-            linkHtml = `
-                <div class="form-group link-item" data-type="image">
-                    <div class="input-group">
-                        <span class="input-group-addon">图片URL</span>
-                        <input type="url" class="form-control" value="${data.img || ''}" placeholder="https://example.com/image.png">
-                        <span class="input-group-addon">链接URL</span>
-                        <input type="url" class="form-control" value="${data.url || ''}" placeholder="https://example.com/link">
-						<span class="input-group-addon">悬停文字</span>
-                        <input type="text" class="form-control" value="${data.name || ''}" placeholder="可选, 鼠标悬停时显示">
-                        <div class="input-group-btn">
-                            <button class="btn btn-danger" type="button" onclick="removeLink(this)"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                </div>`;
-        } else { // text
-            linkHtml = `
-                <div class="form-group link-item" data-type="text">
-                    <div class="input-group">
-                        <span class="input-group-addon">文字</span>
-                        <input type="text" class="form-control" value="${data.name || ''}" placeholder="我的博客">
-                        <span class="input-group-addon">链接URL</span>
-                        <input type="url" class="form-control" value="${data.url || ''}" placeholder="https://example.com/link">
-                        <div class="input-group-btn">
-                            <button class="btn btn-danger" type="button" onclick="removeLink(this)"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                </div>`;
-        }
-        container.append(linkHtml);
-    }
+		if ($(input).hasClass('link-img-url')) {
+			// 如果图片URL有内容
+			if ($(input).val().trim() !== '') {
+				$textInput.prop('readonly', true).val(''); // 禁用并清空文字输入框
+			} else {
+				// 如果图片URL被清空
+				$textInput.prop('readonly', false); // 解锁文字输入框
+			}
+		} else if ($(input).hasClass('link-text')) {
+			// 如果文字有内容
+			if ($(input).val().trim() !== '') {
+				$imgInput.prop('readonly', true).val(''); // 禁用并清空图片URL输入框
+			} else {
+				// 如果文字被清空
+				$imgInput.prop('readonly', false); // 解锁图片URL输入框
+			}
+		}
+	}
+	
+	function addLink(data = {}) {
+		const container = $('#links-container');
+		let imgVal, textVal, urlVal, hoverVal;
+
+		// 检查是新数据结构 (有 'hover' 字段) 还是旧数据
+		if (data.hover !== undefined) {
+			// 新结构
+			imgVal = data.img || '';
+			textVal = data.name || ''; // 'name' 是显示文字
+			urlVal = data.url || '';
+			hoverVal = data.hover || '';
+		} 
+		// 处理旧数据结构
+		else if (data.type === 'image') {
+			imgVal = data.img || '';
+			textVal = ''; // 旧图片链接没有显示文字字段
+			urlVal = data.url || '';
+			hoverVal = data.name || ''; // 旧 'name' 是悬停文字
+		} else { 
+			// 旧文字链接或默认空
+			imgVal = data.img || ''; // 允许旧数据可能有img
+			textVal = data.name || ''; // 'name' 是显示文字
+			urlVal = data.url || '';
+			hoverVal = ''; // 旧文字链接没有悬停文字字段
+		}
+
+		// 根据加载的数据设置只读状态
+		let imgReadonly = textVal ? 'readonly' : '';
+		let textReadonly = imgVal ? 'readonly' : '';
+
+		const linkHtml = `
+			<div class="form-group link-item">
+				<div class="input-group" style="display: flex;"> <span class="input-group-addon" style="border-left-width: 1px;">图片URL</span>
+					<input type="url" class="form-control link-img-url" value="${imgVal}" placeholder="图片URL (与文字二选一)" oninput="handleLinkInput(this)" ${imgReadonly} style="min-width: 200px; flex: 1 1 auto;">
+					<span class="input-group-addon">文字</span>
+					<input type="text" class="form-control link-text" value="${textVal}" placeholder="文字 (与图片二选一)" oninput="handleLinkInput(this)" ${textReadonly} style="min-width: 150px; flex: 1 1 auto;">
+					<span class="input-group-addon">链接URL</span>
+					<input type="url" class="form-control" value="${urlVal}" placeholder="https://example.com/link" style="min-width: 200px; flex: 1 1 auto;">
+					<span class="input-group-addon">悬停文字</span>
+					<input type="text" class="form-control" value="${hoverVal}" placeholder="可选, 鼠标悬停时显示" style="min-width: 150px; flex: 1 1 auto;">
+					<div class="input-group-btn">
+						<button class="btn btn-danger" type="button" onclick="removeLink(this)"><i class="fas fa-trash"></i></button>
+					</div>
+				</div>
+			</div>`;
+		container.append(linkHtml);
+	}
 
     function removeLink(button) {
         $(button).closest('.link-item').remove();
@@ -1208,24 +1236,24 @@ tinymce.init({
 
 	function saveSiteSettings(){
 		var links = [];
-        $('.link-item').each(function() {
-            var type = $(this).data('type');
-            var inputs = $(this).find('input');
-            if (type === 'image') {
-                var imgUrl = inputs.eq(0).val();
-                var linkUrl = inputs.eq(1).val();
-				var nameText = inputs.eq(2).val();
-                if (imgUrl && linkUrl) {
-                    links.push({ type: 'image', img: imgUrl, url: linkUrl, name: nameText });
-                }
-            } else { 
-                var nameText = inputs.eq(0).val();
-                var linkUrl = inputs.eq(1).val();
-                if (nameText && linkUrl) {
-                    links.push({ type: 'text', name: nameText, url: linkUrl });
-                }
-            }
-        });
+		$('#links-container .link-item').each(function() {
+			var $inputs = $(this).find('input');
+			var imgUrl = $inputs.eq(0).val().trim();
+			var nameText = $inputs.eq(1).val().trim();
+			var linkUrl = $inputs.eq(2).val().trim();
+			var hoverText = $inputs.eq(3).val().trim();
+
+			// 必须有链接URL，并且图片URL或文字至少有一个
+			if (linkUrl && (imgUrl || nameText)) { 
+				links.push({
+					img: imgUrl,
+					name: nameText,    // 保存为显示文字
+					url: linkUrl,
+					hover: hoverText,  // 保存为悬停文字
+                    type: imgUrl ? 'image' : 'text' // 保持type字段以兼容旧逻辑
+				});
+			}
+		});
 
 		const footerLinks = [];
 		$('#footer-links-container .input-group').each(function() {
