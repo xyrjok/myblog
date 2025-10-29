@@ -1656,7 +1656,7 @@ function loadComments() {
 		// (重要!) 此功能需要您在 worker.js 中添加一个新的 API 终结点
 		// (例如: /api/carousel/setAll) 来接收整个数组并覆盖 KV
 		$.ajax({
-			url: "/api/carousel/setAll", // (注意: 这是您需要创建的新 API)
+			url: "/admin/api/carousel/setAll", // (注意: 这是您需要创建的新 API)
 			type: 'POST', 
 			contentType: "application/json",
             data: JSON.stringify(slidesInOrder),
@@ -1665,7 +1665,7 @@ function loadComments() {
 				loadCarousel(); // 重新加载以确认
             },
             error: function() { 
-				alert('顺序保存失败！\n请确保您已在 worker.js 中实现了 /api/carousel/setAll 终结点。');
+				alert('顺序保存失败！\n请确保您已在 worker.js 中实现了 /admin/api/carousel/setAll 终结点。');
 			}
         });
 	}
