@@ -185,6 +185,7 @@
 			font-size: 90% !important; 
 			font-weight: 500;
 			line-height: 1.5;
+			font-family: Consolas, 'Courier New', monospace;
 		}
 		
 		/* 2. 确保 pre 标签是相对定位 (为复制按钮定位) */
@@ -206,11 +207,11 @@
 			position: absolute;
 			top: 8px;
 			right: 8px;
-			opacity: 0; /* 默认隐藏 */
+			opacity: 1; /* 默认隐藏 */
 			transition: opacity 0.3s;
 		}
-		pre:hover .hljs-copy-wrapper {
-			opacity: 0; /* 鼠标悬停时显示 */
+		/* pre:hover .hljs-copy-wrapper {
+			opacity: 0; 鼠标悬停时显示 */
 		}
 		.hljs-copy-button {
 			background: #555;
