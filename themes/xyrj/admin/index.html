@@ -1193,7 +1193,7 @@ function handleLinkInput(input) {
 
 		const linkHtml = `
 			<div class="form-group link-item">
-				<div class="input-group" style="display: flex;"> <span class="input-group-addon" style="border-left-width: 1px;">图片URL</span>
+				<div class="input-group" > <span class="input-group-addon" style="border-left-width: 1px;">图片URL</span>
 					<input type="url" class="form-control link-img-url" value="${imgVal}" placeholder="图片URL (与文字二选一)" oninput="handleLinkInput(this)" ${imgReadonly} style="min-width: 200px; flex: 1 1 auto;">
 					<span class="input-group-addon">文字</span>
 					<input type="text" class="form-control link-text" value="${textVal}" placeholder="文字 (与图片二选一)" oninput="handleLinkInput(this)" ${textReadonly} style="min-width: 150px; flex: 1 1 auto;">
