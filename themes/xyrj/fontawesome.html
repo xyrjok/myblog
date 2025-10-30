@@ -46281,10 +46281,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
-            
             iconGroups.forEach(group => {
-                const iconName = group.dataset.iconName.toLowerCase();
-                if (iconName.includes(query)) {
+                // 获取标题元素
+                const titleElement = group.querySelector('.icon-item-group-title');
+                
+                // 检查标题元素的文本内容（现在包含中文和英文）
+                const fullTitleText = titleElement ? titleElement.textContent.toLowerCase() : '';
+
+                // 如果完整的标题文本包含搜索词，则显示
+                if (fullTitleText.includes(query)) {
                     group.style.display = 'block';
                 } else {
                     group.style.display = 'none';
