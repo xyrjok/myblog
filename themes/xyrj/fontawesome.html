@@ -146,7 +146,103 @@
 			display: block;
 			animation: fadeIn .3s;
 		}
-		
+		/* 搜索框样式 */
+		#icon-search-input {
+			width: 100%;
+			padding: 12px;
+			font-size: 16px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			box-sizing: border-box;
+			margin-bottom: 25px;
+		}
+
+		/* 网格布局 */
+		#icon-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+			gap: 15px;
+		}
+
+		.icon-item-group {
+			border: 1px solid #eee;
+			border-radius: 5px;
+			transition: all 0.3s ease;
+			background: #fff;
+		}
+		.icon-item-group:hover {
+			box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+			transform: translateY(-2px);
+		}
+
+		.icon-item-group-title {
+			padding: 10px 15px;
+			font-size: 16px;
+			font-weight: 600;
+			border-bottom: 1px solid #eee;
+			background: #fdfdfd;
+			color: #333;
+			border-radius: 5px 5px 0 0;
+		}
+
+		/* 图标变体 flex 布局 */
+		.icon-variants {
+			display: flex;
+			flex-wrap: wrap;
+			padding: 10px;
+			justify-content: center;
+		}
+
+		/* 单个图标（可点击） */
+		.icon-variant {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 70px;
+			height: 70px;
+			margin: 5px;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.2s ease;
+		}
+		.icon-variant:hover {
+			background-color: #f5f5f5;
+		}
+		.icon-variant i {
+			font-size: 24px;
+			color: #555;
+			margin-bottom: 8px;
+		}
+		.icon-variant span {
+			font-size: 12px;
+			color: #888;
+			background: #eee;
+			padding: 2px 4px;
+			border-radius: 3px;
+		}
+
+		/* 复制成功提示框 */
+		#copy-notification {
+			position: fixed;
+			bottom: 30px;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: #333;
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 5px;
+			font-size: 14px;
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 0.3s, visibility 0.3s;
+			z-index: 9999;
+		}
+		#copy-notification.show {
+			opacity: 1;
+			visibility: visible;
+		}
+		/* --- END: 新增图标库样式 --- */
     </style>
     </head>
 <body class="m-flex"> 
@@ -46148,5 +46244,58 @@ window.addEventListener('load', function() {
         });
     });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('icon-search-input');
+    const iconGrid = document.getElementById('icon-grid');
+    const iconGroups = iconGrid.querySelectorAll('.icon-item-group');
+    const notification = document.getElementById('copy-notification');
+    let notificationTimer;
+
+    // 功能 1: 搜索过滤
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            
+            iconGroups.forEach(group => {
+                const iconName = group.dataset.iconName.toLowerCase();
+                if (iconName.includes(query)) {
+                    group.style.display = 'block';
+                } else {
+                    group.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // 功能 2: 点击复制
+    if (iconGrid) {
+        iconGrid.addEventListener('click', function(e) {
+            const variant = e.target.closest('.icon-variant');
+            if (!variant) return;
+
+            const className = variant.dataset.className;
+            if (className) {
+                navigator.clipboard.writeText(className).then(() => {
+                    // 显示提示
+                    notification.classList.add('show');
+                    
+                    // 清除上一个计时器（如果存在）
+                    clearTimeout(notificationTimer);
+                    
+                    // 2秒后自动隐藏
+                    notificationTimer = setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 1500);
+                }).catch(err => {
+                    console.error('复制失败: ', err);
+                    alert('复制失败，请手动复制: ' + className);
+                });
+            }
+        });
+    }
+});
+</script>
+	<div id="copy-notification">已复制!</div>
 </body>
 </html>
