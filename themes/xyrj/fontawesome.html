@@ -143,14 +143,31 @@
 			animation: fadeIn .3s;
 		}
 		/* 搜索框样式 */
+		.search-wrapper {
+			position: relative;
+			margin-bottom: 15px; /* 移到 wrapper 上 */
+		}
+		
 		#icon-search-input {
 			width: 100%;
-			padding: 8px 10px; /* 减小内边距 */
-			font-size: 14px; /* 减小字体 */
+			padding: 8px 30px 8px 10px; /* 右侧留出空间给 'x' */
+			font-size: 14px;
 			border: 1px solid #ddd;
 			border-radius: 4px;
 			box-sizing: border-box;
-			margin-bottom: 15px; /* 减小外边距 */
+		}
+		
+		#clear-search-btn {
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #aaa;
+			cursor: pointer;
+			display: none; /* 默认隐藏 */
+		}
+		#clear-search-btn:hover {
+			color: #333;
 		}
 		
 		/* 网格布局 */
@@ -227,7 +244,7 @@
 		/* 复制成功提示框 */
 		#copy-notification {
 			position: fixed;
-			bottom: 20px; /* 位置更高 */
+			top: 60px; /* 位置更高 */
 			left: 50%;
 			transform: translateX(-50%);
 			background-color: rgba(0, 0, 0, 0.75); /* 背景更透明 */
@@ -346,7 +363,10 @@
    <div class="page-header">
     <h1>图标展示</h1>
    </div>
-   <input type="text" id="icon-search-input" placeholder="搜索图标 (例如: home)..." style="margin-bottom: 20px;" />
+   <div class="search-wrapper">
+		<input type="text" id="icon-search-input" placeholder="搜索图标 (例如: home)..." />
+		<i class="fas fa-times-circle" id="clear-search-btn"></i>
+   </div>
    <div id="icon-grid">
     <div class="icon-item-group" data-icon-name="500px">
      <div class="icon-item-group-title">
@@ -46254,6 +46274,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const iconGroups = iconGrid.querySelectorAll('.icon-item-group');
     const notification = document.getElementById('copy-notification');
     let notificationTimer;
+	const clearButton = document.getElementById('clear-search-btn');
 	// --- START: 新增图标名称翻译 ---
     // 确保 translations 变量已从外部文件加载，翻译字典 "translations" 现在从 fa-translations.js 文件加载
     if (typeof translations !== 'undefined') {
@@ -46281,6 +46302,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
+			// --- START: 新增清除按钮显示/隐藏逻辑 ---
+            if (query.length > 0) {
+                clearButton.style.display = 'block';
+            } else {
+                clearButton.style.display = 'none';
+            }
+            // --- END: 新增逻辑 ---
             iconGroups.forEach(group => {
                 // 获取标题元素
                 const titleElement = group.querySelector('.icon-item-group-title');
@@ -46296,7 +46324,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-    }
+    // --- START: 新增清除按钮点击事件 ---
+        if (clearButton) {
+            clearButton.addEventListener('click', function() {
+                // 1. 清空输入框
+                searchInput.value = '';
+                
+                // 2. 隐藏清除按钮
+                clearButton.style.display = 'none';
+                
+                // 3. 手动触发 input 事件，以便重新过滤列表（显示所有图标）
+                const event = new Event('input', { bubbles: true });
+                searchInput.dispatchEvent(event);
+                
+                // 4. (可选) 让搜索框重新获得焦点
+                searchInput.focus();
+            });
+        }
+        // --- END: 新增点击事件 ---
+
+    } // <--- 注意是在这个 'if (searchInput)' 块的内部，但在 'if (iconGrid)' 之前
 
     // 功能 2: 点击复制
     if (iconGrid) {
