@@ -45849,413 +45849,197 @@ window.addEventListener('load', function() {
             }
         });
     </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchToggle = document.getElementById('search-toggle');
-        const searchBox = document.getElementById('search-box');
-        const closeSearchBtn = document.getElementById('close-search-btn');
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchToggle = document.getElementById('search-toggle');
+            const searchBox = document.getElementById('search-box');
+            const closeSearchBtn = document.getElementById('close-search-btn');
 
-        if (searchToggle && searchBox) {
-            searchToggle.addEventListener('click', function(event) {
-                event.stopPropagation();
-                searchBox.classList.toggle('visible');
+            if (searchToggle && searchBox) {
+                searchToggle.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    searchBox.classList.toggle('visible');
+                });
+                
+                searchBox.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+            }
+
+            if (closeSearchBtn) {
+                closeSearchBtn.addEventListener('click', function() {
+                    searchBox.classList.remove('visible');
+                });
+            }
+            
+            document.addEventListener('click', function() {
+                if (searchBox && searchBox.classList.contains('visible')) {
+                    searchBox.classList.remove('visible');
+                }
+            });
+
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+            const body = document.querySelector('body');
+            const overlay = document.getElementById('overlay');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+
+            const openMenu = function() { body.classList.add('nav-open'); };
+            const closeMenu = function() { body.classList.remove('nav-open'); };
+            
+            if (menuToggle) { menuToggle.addEventListener('click', function(event) { event.stopPropagation(); openMenu(); }); }
+            if (overlay) { overlay.addEventListener('click', closeMenu); }
+            if (closeMenuBtn) { closeMenuBtn.addEventListener('click', closeMenu); }
+            mainNav.addEventListener('click', function(event){ event.stopPropagation(); });
+
+            const submenuToggles = document.querySelectorAll('.main-nav .submenu-toggle');
+            submenuToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const subMenu = this.nextElementSibling;
+                    if (subMenu && subMenu.classList.contains('sub-menu')) {
+                        subMenu.classList.toggle('open');
+                    }
+                });
             });
             
-            searchBox.addEventListener('click', function(event) {
-                event.stopPropagation();
-            });
-        }
+            // --- START: Cleaned Comment Logic (Sidebar Only) ---
 
-        if (closeSearchBtn) {
-            closeSearchBtn.addEventListener('click', function() {
-                searchBox.classList.remove('visible');
-            });
-        }
-        
-        document.addEventListener('click', function() {
-            if (searchBox && searchBox.classList.contains('visible')) {
-                searchBox.classList.remove('visible');
-            }
-        });
-
-        const menuToggle = document.getElementById('mobile-menu-toggle');
-        const mainNav = document.getElementById('main-nav');
-        const body = document.querySelector('body');
-        const overlay = document.getElementById('overlay');
-        const closeMenuBtn = document.getElementById('close-menu-btn');
-
-        const openMenu = function() { body.classList.add('nav-open'); };
-        const closeMenu = function() { body.classList.remove('nav-open'); };
-        
-        if (menuToggle) { menuToggle.addEventListener('click', function(event) { event.stopPropagation(); openMenu(); }); }
-        if (overlay) { overlay.addEventListener('click', closeMenu); }
-        if (closeMenuBtn) { closeMenuBtn.addEventListener('click', closeMenu); }
-        mainNav.addEventListener('click', function(event){ event.stopPropagation(); });
-
-        const submenuToggles = document.querySelectorAll('.main-nav .submenu-toggle');
-        submenuToggles.forEach(toggle => {
-            toggle.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const subMenu = this.nextElementSibling;
-                if (subMenu && subMenu.classList.contains('sub-menu')) {
-                    subMenu.classList.toggle('open');
-                }
-            });
-        });
-        // --- START: New Comment Logic ---
-        const articleId = '{{ &articleSingle.id }}'; // 从Mustache模板获取文章ID
-        const commentForm = document.getElementById('comment-form');
-        const commentList = document.getElementById('comment-list');
-        const commentContentInput = document.getElementById('comment-content');
-        
-        // --- START: New Captcha/Contact Elements ---
-        const contactTypeEl = document.getElementById('contact-type');
-        const contactValueEl = document.getElementById('contact-value');
-        const captchaQuestionEl = document.getElementById('captcha-question');
-        const captchaInputEl = document.getElementById('captcha-input');
-        const captchaAnswerEl = document.getElementById('captcha-answer');
-        // --- END: New Captcha/Contact Elements ---
-
-
-        // --- START: New Captcha Function ---
-        function generateCaptcha() {
-            const num1 = Math.floor(Math.random() * 10) + 1; // 1-10
-            const num2 = Math.floor(Math.random() * 10) + 1; // 1-10
-            const answer = num1 + num2;
-
-            if(captchaQuestionEl) {
-                captchaQuestionEl.textContent = `${num1} + ${num2}`;
-            }
-            if(captchaAnswerEl) {
-                captchaAnswerEl.value = answer.toString();
-            }
-        }
-        // --- END: New Captcha Function ---
-		function renderSidebarComments(comments) {
-            // 1. 找到侧边栏的 ul 列表
-            const sidebarList = document.getElementById('widget-recent-comments-list');
-            if (!sidebarList) return; // 如果此页面没有侧边栏模块，则退出
-
-            // 2. 清空 "正在加载..."
-            sidebarList.innerHTML = '';
-
-            // 3. 检查是否有评论
-            if (!comments || comments.length === 0) {
-                sidebarList.innerHTML = '<li>暂无评论</li>';
-                return;
-            }
-
-            // 4. 只截取最新的 5 条评论
-            const recentComments = comments.slice(0, 5);
-
-            // 5. 遍历并生成 HTML
-            recentComments.forEach(comment => {
-                const li = document.createElement('li');
-                li.style.borderBottom = '1px solid #eee'; 
-                li.style.padding = '10px 0';
-
-                // --- START: 新增跳转链接 ---
-                // 1. 创建 <a> 标签
-                const link = document.createElement('a');
-                
-                // 2. 构造 URL。
-                // comment.articleSlug 是文章ID
-                // comment.id 是评论的唯一ID
-                // article.html 中的评论列表项 <li> ID 格式为 "comment-..."
-                // 最终 URL: /article/ARTICLE_ID/#comment-COMMENT_ID
-                link.href = `/article/${comment.articleSlug}/#comment-${comment.id}`;
-
-                // 3. 添加样式，使其看起来像普通文本
-                link.style.textDecoration = 'none';
-                link.style.color = 'inherit'; // 继承父元素的颜色
-                link.style.display = 'block'; // 使其成为块级元素以便点击
-                // --- END: 新增跳转链接 ---
-
-                // --- 评论内容 ---
-                const contentP = document.createElement('p');
-                contentP.style.marginBottom = '5px';
-                contentP.textContent = comment.content;
-                
-                // --- 评论元信息 (联系方式) ---
-                const metaSpan = document.createElement('span');
-                metaSpan.style.fontSize = '12px';
-                metaSpan.style.color = '#888';
-
-                if (comment.contact && comment.contact.value) {
-                    let typeLabel = '联系';
-                    switch(comment.contact.type) {
-                        case 'email': typeLabel = '邮箱'; break;
-                        case 'QQ': typeLabel = 'QQ'; break;
-                        case 'wechat': typeLabel = '微信'; break;
-                        case 'telegram': typeLabel = 'Telegram'; break;
-                    }
-                    metaSpan.textContent = `[${typeLabel}: ${comment.contact.value}]`;
-                } else {
-                    metaSpan.textContent = '[匿名]';
-                }
-
-                // --- 修改 Appending 逻辑 ---
-                // 将内容和元信息添加到 <a> 标签中
-                link.appendChild(contentP);
-                link.appendChild(metaSpan);
-                
-                // 将 <a> 标签添加到 <li> 中
-                li.appendChild(link);
-                
-                // 将 <li> 添加到列表中
-                sidebarList.appendChild(li);
-            });
-            
-            // 移除最后一条评论的底部分隔线
-            if(sidebarList.lastChild) {
-                sidebarList.lastChild.style.borderBottom = 'none';
-            }
-        }
-        // --- END: 新增函数 ---
-
-        // 1. 渲染评论列表的函数
-        function renderComments(comments) {
-            commentList.innerHTML = ''; // 清空列表
-            if (comments.length === 0) {
-                commentList.innerHTML = '<li class="comment-item">暂无评论</li>';
-                return;
-            }
-
-            comments.forEach(comment => {
-                const li = document.createElement('li');
-                li.className = 'comment-item';
-                li.id = `comment-${comment.id}`;
-
-                // --- START: Safer Rendering ---
-                const commentBody = document.createElement('div');
-                commentBody.className = 'comment-body';
-                
-                const commentContent = document.createElement('p');
-                commentContent.textContent = comment.content; // Safe
-                commentBody.appendChild(commentContent);
-
-                const commentMeta = document.createElement('div');
-                commentMeta.className = 'comment-meta';
-                
-                const commentDate = document.createElement('span');
-                commentDate.className = 'comment-date';
-                commentDate.textContent = new Date(comment.timestamp).toLocaleString();
-                commentMeta.appendChild(commentDate);
-
-                // --- START: Display Contact Info (If exists) ---
-                if (comment.contact && comment.contact.value) {
-                    let typeLabel = '联系方式';
-                    switch(comment.contact.type) {
-                        case 'email': typeLabel = '邮箱'; break;
-                        case 'QQ': typeLabel = 'QQ'; break;
-                        case 'wechat': typeLabel = '微信'; break;
-                        case 'telegram': typeLabel = 'Telegram'; break;
-                    }
-                    
-                    const contactSpan = document.createElement('span');
-                    contactSpan.className = 'comment-contact';
-                    
-                    // Create text nodes to be safe
-                    contactSpan.appendChild(document.createTextNode(` [${typeLabel}]: `));
-                    contactSpan.appendChild(document.createTextNode(comment.contact.value)); // Safe
-                    
-                    commentMeta.appendChild(contactSpan);
-                }
-                // --- END: Display Contact Info ---
-                
-                li.appendChild(commentBody);
-                li.appendChild(commentMeta);
-                commentList.appendChild(li);
-                // --- END: Safer Rendering ---
-            });
-        }
-
-        // 2. 获取评论的函数
-			async function fetchComments() {
-            try {
-                // 根据 index_plus.js，我们只能获取所有评论
-                const response = await fetch('/api/comments_all');
-                if (!response.ok) throw new Error('获取评论失败');
-                
-                const allComments = await response.json();
-                
-                // --- START: 新增的调用 ---
-                // 用所有评论去渲染侧边栏 (allComments 已经由服务器排好序并打码)
-                renderSidebarComments(allComments);
-				//if (window.stickySidebarInstance) {
-                //window.stickySidebarInstance.updateSticky(); // 手动更新库的状态
-            //}
-                // --- END: 新增的调用 ---
-
-                // 在客户端筛选出当前文章的评论
-                const articleComments = allComments.filter(comment => comment.articleSlug === articleId);
-                
-                renderComments(articleComments);
-            } catch (error) {
-                console.error('获取评论时出错:', error);
-                commentList.innerHTML = '<li class="comment-item">加载评论失败</li>';
-                
-                // --- START: 新增的错误处理 ---
-                // 侧边栏也要显示失败
+            // 1. 渲染侧边栏评论的函数
+            function renderSidebarComments(comments) {
+                // 1. 找到侧边栏的 ul 列表
                 const sidebarList = document.getElementById('widget-recent-comments-list');
-                if (sidebarList) {
-                    sidebarList.innerHTML = '<li>加载失败</li>';
-                }
-                // --- END: 新增的错误处理 ---
-            }
-        }
+                if (!sidebarList) return; // 如果此页面没有侧边栏模块，则退出
 
-        // 3. 处理评论表单提交
-        if (commentForm) {
-            commentForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const content = commentContentInput.value.trim();
+                // 2. 清空 "正在加载..."
+                sidebarList.innerHTML = '';
 
-                // --- START: New Validation ---
-                const captchaAnswer = captchaAnswerEl.value;
-                const captchaInput = captchaInputEl.value.trim();
-
-                if (captchaInput !== captchaAnswer) {
-                    alert('验证码不正确!');
-                    generateCaptcha(); // 刷新验证码
-                    captchaInputEl.value = ''; // 清空输入
-                    return;
-                }
-                // --- END: New Validation ---
-
-                if (!content) {
-                    alert('评论内容不能为空');
+                // 3. 检查是否有评论
+                if (!comments || comments.length === 0) {
+                    sidebarList.innerHTML = '<li>暂无评论</li>';
                     return;
                 }
 
-                // --- START: Get Contact Info ---
-                const contactType = contactTypeEl.value;
-                const contactValue = contactValueEl.value.trim();
-                // --- END: Get Contact Info ---
+                // 4. 只截取最新的 5 条评论
+                const recentComments = comments.slice(0, 5);
 
-
-                const newComment = {
-                    content: content,
-                    timestamp: Date.now(),
-                    contact: {} // 创建一个对象用于存储联系信息
-                };
-
-                // 仅当用户填写了联系方式时才添加
-                if (contactValue) {
-                    newComment.contact = {
-                        type: contactType,
-                        value: contactValue
-                    };
-                }
-
-                try {
-                    // 使用 index_plus.js 中定义的 POST 接口
-                    const response = await fetch(`/api/comments/${articleId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(newComment)
-                    });
-
-                    if (!response.ok) throw new Error('提交评论失败');
-
-                    const savedComment = await response.json();
-                    
-                    // 乐观更新UI：将新评论添加到列表顶部
-                    if (commentList.querySelector('.comment-item')?.textContent === '暂无评论' || commentList.querySelector('.comment-item')?.textContent === '正在加载评论...') {
-                        commentList.innerHTML = ''; // 清空 "暂无评论"
-                    }
-
-                    // --- START: Safer Optimistic Update ---
+                // 5. 遍历并生成 HTML
+                recentComments.forEach(comment => {
                     const li = document.createElement('li');
-                    li.className = 'comment-item';
-                    li.id = `comment-${savedComment.id}`;
+                    li.style.borderBottom = '1px solid #eee'; 
+                    li.style.padding = '10px 0';
 
-                    const commentBody = document.createElement('div');
-                    commentBody.className = 'comment-body';
+                    // --- START: 新增跳转链接 ---
+                    // 1. 创建 <a> 标签
+                    const link = document.createElement('a');
                     
-                    const commentContent = document.createElement('p');
-                    commentContent.textContent = savedComment.content; // Safe
-                    commentBody.appendChild(commentContent);
+                    // 2. 构造 URL。
+                    // comment.articleSlug 是文章ID
+                    // comment.id 是评论的唯一ID
+                    // article.html 中的评论列表项 <li> ID 格式为 "comment-..."
+                    // 最终 URL: /article/ARTICLE_ID/#comment-COMMENT_ID
+                    link.href = `/article/${comment.articleSlug}/#comment-${comment.id}`;
 
-                    const commentMeta = document.createElement('div');
-                    commentMeta.className = 'comment-meta';
+                    // 3. 添加样式，使其看起来像普通文本
+                    link.style.textDecoration = 'none';
+                    link.style.color = 'inherit'; // 继承父元素的颜色
+                    link.style.display = 'block'; // 使其成为块级元素以便点击
+                    // --- END: 新增跳转链接 ---
+
+                    // --- 评论内容 ---
+                    const contentP = document.createElement('p');
+                    contentP.style.marginBottom = '5px';
+                    contentP.textContent = comment.content;
                     
-                    const commentDate = document.createElement('span');
-                    commentDate.className = 'comment-date';
-                    commentDate.textContent = new Date(savedComment.timestamp).toLocaleString();
-                    commentMeta.appendChild(commentDate);
+                    // --- 评论元信息 (联系方式) ---
+                    const metaSpan = document.createElement('span');
+                    metaSpan.style.fontSize = '12px';
+                    metaSpan.style.color = '#888';
 
-                    if (savedComment.contact && savedComment.contact.value) {
-                        let typeLabel = '联系方式';
-                        switch(savedComment.contact.type) {
+                    if (comment.contact && comment.contact.value) {
+                        let typeLabel = '联系';
+                        switch(comment.contact.type) {
                             case 'email': typeLabel = '邮箱'; break;
-                            case 'qq': typeLabel = 'QQ'; break;
+                            case 'QQ': typeLabel = 'QQ'; break;
                             case 'wechat': typeLabel = '微信'; break;
                             case 'telegram': typeLabel = 'Telegram'; break;
                         }
-                        
-                        const contactSpan = document.createElement('span');
-                        contactSpan.className = 'comment-contact';
-                        
-                        contactSpan.appendChild(document.createTextNode(` [${typeLabel}]: `));
-                        contactSpan.appendChild(document.createTextNode(savedComment.contact.value)); // Safe
-                        
-                        commentMeta.appendChild(contactSpan);
+                        metaSpan.textContent = `[${typeLabel}: ${comment.contact.value}]`;
+                    } else {
+                        metaSpan.textContent = '[匿名]';
                     }
+
+                    // --- 修改 Appending 逻辑 ---
+                    // 将内容和元信息添加到 <a> 标签中
+                    link.appendChild(contentP);
+                    link.appendChild(metaSpan);
                     
-                    li.appendChild(commentBody);
-                    li.appendChild(commentMeta);
-                    commentList.prepend(li); // 添加到列表开头
-                    // --- END: Safer Optimistic Update ---
+                    // 将 <a> 标签添加到 <li> 中
+                    li.appendChild(link);
+                    
+                    // 将 <li> 添加到列表中
+                    sidebarList.appendChild(li);
+                });
+                
+                // 移除最后一条评论的底部分隔线
+                if(sidebarList.lastChild) {
+                    sidebarList.lastChild.style.borderBottom = 'none';
+                }
+            }
 
-
-                    // --- START: Clear inputs and regenerate captcha ---
-                    commentContentInput.value = ''; // 清空评论框
-                    contactValueEl.value = '';    // 清空联系方式
-                    captchaInputEl.value = '';    // 清空验证码
-                    generateCaptcha();            // 重新生成验证码
-                    // --- END: Clear inputs ---
+            // 2. 获取评论的函数 (精简版)
+            async function fetchComments() {
+                try {
+                    // 根据 index_plus.js，我们只能获取所有评论
+                    const response = await fetch('/api/comments_all');
+                    if (!response.ok) throw new Error('获取评论失败');
+                    
+                    const allComments = await response.json();
+                    
+                    // 仅渲染侧边栏
+                    renderSidebarComments(allComments);
 
                 } catch (error) {
-                    console.error('提交评论时出错:', error);
-                    alert('评论提交失败');
-                    generateCaptcha(); // 出错时也刷新验证码
+                    console.error('获取评论时出错:', error);
+                    
+                    // 侧边栏也要显示失败
+                    const sidebarList = document.getElementById('widget-recent-comments-list');
+                    if (sidebarList) {
+                        sidebarList.innerHTML = '<li>加载失败</li>';
+                    }
                 }
-            });
-        }
+            }
 
-        // 4. 页面加载时立即获取评论和生成验证码
-        fetchComments();
-        generateCaptcha(); // --- ADDED: 初始生成验证码 ---
-		// --- START: 在这里添加搜索按钮的 JS 逻辑 ---
-        const searchButton = document.querySelector('.search-button');
-        const searchInput = document.querySelector('.search-input');
+            // 3. 页面加载时立即获取评论
+            fetchComments();
+            
+            // --- START: 在这里添加搜索按钮的 JS 逻辑 ---
+            const searchButton = document.querySelector('.search-button');
+            const searchInput = document.querySelector('.search-input');
 
-        if(searchButton && searchInput) {
-            const performSearch = () => {
-                const query = searchInput.value.trim();
-                if (query) {
-                    // 重定向到搜索结果页 (这个 URL 稍后需要在 index_plus.js 中实现)
-                    window.location.href = '/search/' + encodeURIComponent(query) + '/';
-                }
-            };
+            if(searchButton && searchInput) {
+                const performSearch = () => {
+                    const query = searchInput.value.trim();
+                    if (query) {
+                        // 重定向到搜索结果页 (这个 URL 稍后需要在 index_plus.js 中实现)
+                        window.location.href = '/search/' + encodeURIComponent(query) + '/';
+                    }
+                };
 
-            // 点击按钮时搜索
-            searchButton.addEventListener('click', performSearch);
+                // 点击按钮时搜索
+                searchButton.addEventListener('click', performSearch);
 
-            // 在输入框按回车键时搜索
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-        }
-        // --- END: 搜索按钮的 JS 逻辑 ---
-        // --- END: New Comment Logic ---
-    });
-</script>
+                // 在输入框按回车键时搜索
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            // --- END: 搜索按钮的 JS 逻辑 ---
+            // --- END: Cleaned Comment Logic ---
+        });
+    </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('icon-search-input');
