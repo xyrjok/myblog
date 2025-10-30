@@ -144,8 +144,7 @@
 		}
 		.page-header {
 			position: relative;
-			align-items: center;
-			justify-content: center;
+			text-align: center;
 			margin: 15px 0 15px 0; /* 移到 wrapper 上 */
 		}
 		/* 搜索框样式 */
@@ -250,7 +249,7 @@
 		/* 复制成功提示框 */
 		#copy-notification {
 			position: fixed;
-			top: 180px; /* 位置更高 */
+			top: 280px; /* 位置更高 */
 			left: 50%;
 			transform: translateX(-50%);
 			background-color: rgba(0, 0, 0, 0.75); /* 背景更透明 */
@@ -367,7 +366,7 @@
 				<article class="post-article">
 				<div id="icons-page" class="xyrj-page is-active">
    <div class="page-header">
-    <h2>图标展示</h2>
+    <h2>Font Awesome图标展示</h2>
    </div>
    <div class="search-wrapper">
 		<input type="text" id="icon-search-input" placeholder="搜索图标 (例如: home)..." />
@@ -46255,22 +46254,6 @@ window.addEventListener('load', function() {
         }
         // --- END: 搜索按钮的 JS 逻辑 ---
         // --- END: New Comment Logic ---
-        const swiper = new Swiper('.swiper', {
-            autoHeight: true,
-            loop: true,
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
     });
 </script>
 <script>
