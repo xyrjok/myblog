@@ -142,10 +142,16 @@
 			display: block;
 			animation: fadeIn .3s;
 		}
+		.page-header {
+			position: relative;
+			align-items: center;
+			justify-content: center;
+			margin: 15px 0 15px 0; /* 移到 wrapper 上 */
+		}
 		/* 搜索框样式 */
 		.search-wrapper {
 			position: relative;
-			margin-bottom: 15px; /* 移到 wrapper 上 */
+			margin: 15px 0 15px 0; /* 移到 wrapper 上 */
 		}
 		
 		#icon-search-input {
@@ -244,7 +250,7 @@
 		/* 复制成功提示框 */
 		#copy-notification {
 			position: fixed;
-			top: 60px; /* 位置更高 */
+			top: 180px; /* 位置更高 */
 			left: 50%;
 			transform: translateX(-50%);
 			background-color: rgba(0, 0, 0, 0.75); /* 背景更透明 */
@@ -361,7 +367,7 @@
 				<article class="post-article">
 				<div id="icons-page" class="xyrj-page is-active">
    <div class="page-header">
-    <h1>图标展示</h1>
+    <h2>图标展示</h2>
    </div>
    <div class="search-wrapper">
 		<input type="text" id="icon-search-input" placeholder="搜索图标 (例如: home)..." />
