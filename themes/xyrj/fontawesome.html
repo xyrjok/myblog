@@ -149,99 +149,105 @@
 		/* 搜索框样式 */
 		#icon-search-input {
 			width: 100%;
-			padding: 12px;
-			font-size: 16px;
+			padding: 8px 10px; /* 减小内边距 */
+			font-size: 14px; /* 减小字体 */
 			border: 1px solid #ddd;
 			border-radius: 4px;
 			box-sizing: border-box;
-			margin-bottom: 25px;
+			margin-bottom: 15px; /* 减小外边距 */
 		}
-
+		
 		/* 网格布局 */
 		#icon-grid {
 			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-			gap: 15px;
+			/* 调整列宽以适应更多图标，并减少间距 */
+			grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+			gap: 10px; /* 减小网格间距 */
 		}
-
+		
 		.icon-item-group {
 			border: 1px solid #eee;
 			border-radius: 5px;
-			transition: all 0.3s ease;
+			transition: all 0.2s ease; /* 动画更快 */
 			background: #fff;
+			overflow: hidden; /* 防止内容溢出 */
 		}
 		.icon-item-group:hover {
-			box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-			transform: translateY(-2px);
+			box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* 阴影更轻 */
+			transform: translateY(-1px); /* 悬停效果更轻 */
 		}
-
+		
 		.icon-item-group-title {
-			padding: 10px 15px;
-			font-size: 16px;
-			font-weight: 600;
+			padding: 8px 10px; /* 减小内边距 */
+			font-size: 14px; /* 减小字体 */
+			font-weight: 500; /* 字体更细 */
 			border-bottom: 1px solid #eee;
-			background: #fdfdfd;
-			color: #333;
+			background: #fcfcfc; /* 背景更浅 */
+			color: #444; /* 颜色略深 */
 			border-radius: 5px 5px 0 0;
+			white-space: nowrap; /* 防止标题换行 */
+			overflow: hidden; /* 隐藏溢出文字 */
+			text-overflow: ellipsis; /* 显示省略号 */
 		}
-
+		
 		/* 图标变体 flex 布局 */
 		.icon-variants {
 			display: flex;
 			flex-wrap: wrap;
-			padding: 10px;
+			padding: 5px; /* 减小内边距 */
 			justify-content: center;
 		}
-
+		
 		/* 单个图标（可点击） */
 		.icon-variant {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			width: 70px;
-			height: 70px;
-			margin: 5px;
+			width: 60px; /* 减小宽度 */
+			height: 60px; /* 减小高度 */
+			margin: 3px; /* 减小外边距 */
 			border-radius: 4px;
 			cursor: pointer;
 			transition: background-color 0.2s ease;
 		}
 		.icon-variant:hover {
-			background-color: #f5f5f5;
+			background-color: #f0f0f0; /* 悬停背景更浅 */
 		}
 		.icon-variant i {
-			font-size: 24px;
-			color: #555;
-			margin-bottom: 8px;
+			font-size: 20px; /* 减小图标大小 */
+			color: #666; /* 颜色更浅 */
+			margin-bottom: 5px; /* 减小外边距 */
 		}
 		.icon-variant span {
-			font-size: 12px;
-			color: #888;
-			background: #eee;
-			padding: 2px 4px;
+			font-size: 10px; /* 减小标签字体 */
+			color: #777; /* 标签颜色更浅 */
+			background: #e9e9e9; /* 标签背景更浅 */
+			padding: 1px 3px; /* 减小内边距 */
 			border-radius: 3px;
 		}
-
+		
 		/* 复制成功提示框 */
 		#copy-notification {
 			position: fixed;
-			bottom: 30px;
+			bottom: 20px; /* 位置更高 */
 			left: 50%;
 			transform: translateX(-50%);
-			background-color: #333;
+			background-color: rgba(0, 0, 0, 0.75); /* 背景更透明 */
 			color: #fff;
-			padding: 10px 20px;
-			border-radius: 5px;
-			font-size: 14px;
+			padding: 8px 15px; /* 减小内边距 */
+			border-radius: 4px; /* 圆角更小 */
+			font-size: 13px; /* 字体更小 */
 			opacity: 0;
 			visibility: hidden;
-			transition: opacity 0.3s, visibility 0.3s;
+			transition: opacity 0.2s, visibility 0.2s; /* 动画更快 */
 			z-index: 9999;
 		}
 		#copy-notification.show {
 			opacity: 1;
 			visibility: visible;
 		}
+
 		/* --- END: 新增图标库样式 --- */
     </style>
     </head>
