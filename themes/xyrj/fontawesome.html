@@ -45796,6 +45796,7 @@
     
     <script src="{{ &OPT.theme_github_path }}xyrj/files/swiper.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/files/sticky-sidebar.min.js"></script>
+	<script src="{{ &OPT.theme_github_path }}xyrj/files/fa-translations.js"></script>
 	<script>
 window.addEventListener('load', function() {
     const sidebarElement = document.querySelector('#desktop-sidebar-wrapper');
@@ -46257,7 +46258,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const iconGroups = iconGrid.querySelectorAll('.icon-item-group');
     const notification = document.getElementById('copy-notification');
     let notificationTimer;
+	// --- START: 新增图标名称翻译 ---
+    // 确保 translations 变量已从外部文件加载，翻译字典 "translations" 现在从 fa-translations.js 文件加载
+    if (typeof translations !== 'undefined') {
+        // 遍历所有 .icon-item-group 元素
+        iconGroups.forEach(group => {
+            const titleElement = group.querySelector('.icon-item-group-title');
+            const originalName = group.dataset.iconName; // 从 data-icon-name 获取英文名
 
+            if (titleElement && originalName) {
+                const translatedName = translations[originalName];
+                
+                if (translatedName) {
+                    // 如果在字典中找到了翻译
+                    titleElement.textContent = `${translatedName} / ${originalName}`;
+                } else {
+                    // 如果没找到翻译，保留原样
+                    titleElement.textContent = originalName;
+                }
+            }
+        });
+    }
+    // --- END: 新增图标名称翻译 ---
+	
     // 功能 1: 搜索过滤
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
