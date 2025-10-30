@@ -9,15 +9,11 @@
 	<meta name="keywords" content="{{ &title }}" />
    	<meta name="keywords" content="{{ &OPT.siteKeywords }}" />
     <meta name="description" content="{{ &OPT.siteDescription }}" />
-
-    <link rel="stylesheet" href="{{ &OPT.theme_github_path }}xyrj/files/swiper.min.css"/>
     <link rel='stylesheet' href='{{ &OPT.theme_github_path }}xyrj/files/fonts/fontawesome5pro-all.min.css'>
     <link rel='stylesheet' href='{{ &OPT.theme_github_path }}xyrj/files/style.css'>
     <link rel='stylesheet' href='{{ &OPT.theme_github_path }}xyrj/files/noto+serif.css' type='text/css' media='all' />
 	<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="/atom.xml">
 	<link rel="shortcut icon" href="{{& OPT.theme_github_path}}xyrj/files/xyrj.png" type="image/x-icon">
-	<link rel="stylesheet" href="{{ &OPT.theme_github_path }}xyrj/files/prism-okaidia.min.css" />
-	<script src="{{ &OPT.theme_github_path }}xyrj/files/prism.combined.min.js"></script>
 	{{& OPT.codeBeforHead}}
     <style>
         .breadcrumb a {
@@ -193,9 +189,10 @@
 		/* 图标变体 flex 布局 */
 		.icon-variants {
 			display: flex;
-			flex-wrap: wrap;
-			padding: 5px; /* 减小内边距 */
-			justify-content: center;
+		    flex-wrap: nowrap;
+		    padding: 5px;
+		    justify-content: center;
+		    flex-direction: row;
 		}
 		
 		/* 单个图标（可点击） */
@@ -45794,7 +45791,6 @@
     
     <div class="overlay" id="overlay"></div>
     
-    <script src="{{ &OPT.theme_github_path }}xyrj/files/swiper.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/files/sticky-sidebar.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/files/fa-translations.js"></script>
 	<script>
