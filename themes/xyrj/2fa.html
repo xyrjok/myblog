@@ -232,23 +232,49 @@
 </header>
     <div id="wrap" class="container">
 		<div class="main-layout">
-			<div class="login-container">
-				<h3 class="login-title">两步验证</h3>
-				<form id="login-form">
-					<div class="form-group">
-						<input type="text" class="form-control" name="code" placeholder="验证码" required>
+		<div class="row sticky-parent">
+			<aside class="col-12 col-md-12 col-lg-2">
+				<div class="sidebar box sticky-column" style="">
+					<ul class="nav">
+						<li class="nav__item"><a class="active" href="https://2fa.run"><i class="icon-key"></i>2FA工具</a></li>
+						<li class="nav__item"><a href="note.html"><i class="icon-clipboard"></i>文本处理</a></li>
+						<li class="nav__item"><a href="work.html"><i class="icon-instagram1"></i>图片处理</a></li>
+						<li class="nav__item"><a href="money.html"><i class="icon-activity"></i>汇率换算</a></li>
+						<li class="nav__item"><a href="more.html"><i class="icon-more-horizontal"></i>更多工具</a></li>
+					</ul>
+				</div>
+			</aside>
+			<div class="col-12 col-md-12 col-lg-10">
+				<div class="box box-content">
+					<div class="pb-0 pb-sm-2">
+						<h1 class="title-2fa">2FA验证</h1>
+						<p class="title-p">双重验证码/二步验证码获取工具（相当于谷歌身份验证器的网页版），使用时任选1种方式输入密钥获取即可。</p>
 					</div>
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-block">验证</button>
+					<hr>
+					<div class="class-2fa">
+						<div class="div-2fa"><input id="secret-input-js" class="input-2fa" type="text" placeholder="点击此处输入密钥" autocomplete="on"></div>
+						<div class="div-2fa"><button id="btn-js" class="btn-get">点击获取验证码</button><span class="message-class">JS实现</span></div>
+						<div class="div-2fa" id="key-output-js">双重密钥为: <span id="key_js"></span></div>
+						<div class="div-2fa" id="code-output-js">当前验证码: <span id="code_js" style="color: rgb(50, 174, 77);"></span></div>
+						<div class="div-2fa">剩余的时间: <span id="timer_js">13</span> 秒 <button class="btn-qr" onclick="showModalJS()">生成二维码</button></div>
 					</div>
-					<div class="form-group">
-						<a href="javascript:;" id="use-recovery-btn" class="btn btn-default btn-block">使用备用码</a>
-					</div>
-					<div class="form-group">
-						<a href="/admin/login" class="btn btn-default btn-block">取消</a>
-					</div>
-				</form>
+					<hr>
+					
+					
+					
+					
+					<h3 class="title title--h5">2FA工具说明</h3>
+					<p class="tip-p"><strong>新手提示</strong>：必须在倒计时结束前输入验证码登录或验证，否则会失效显示错误。测试功能时必须输入正确编码的密钥，不要随便输入1串字符测试获取功能。目前点击获取验证码的按钮后会自动复制验证码到剪切板，直接去粘贴即可。如果想要验证生成的验证码是否正确，点击生成二维码的按钮，使用谷歌验证器APP扫描添加检查。<br><strong>更多方式</strong>：还可以将密钥加在网址（https://2fa.run/2fa/）后面，示例：，这样访问也可查询验证码。这样的格式发给新手使用，最合适不过。
+						<br><strong>最近维护</strong>：2023年10月22日
+					</p>
+				</div>
+				<footer class="footer">©2025 在线工具</footer>
 			</div>
+		</div>
+		</div>
+
+	<script src="httpsax/2fa-cf.js"></script>
+	<script src="httpsax/2fa-js.js"></script>
 		</div>
         <div class="friend-links">
              <h3 class="widget-title">友情链接</h3>
