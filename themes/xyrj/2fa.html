@@ -16,7 +16,39 @@
 	<link rel="shortcut icon" href="{{& OPT.theme_github_path}}xyrj/files/xyrj.png" type="image/x-icon">
 	{{& OPT.codeBeforHead}}
     <style>
-    
+   /* --- START: Horizontal Tool Navigation Styles --- */
+        /* 针对我们新添加的 .nav-tools-h 列表 */
+        .nav-tools-h {
+            display: flex;         /* 1. 使用 Flex 布局实现横向排列 */
+            flex-wrap: wrap;       /* 2. 在小屏幕上允许换行 */
+            list-style: none;      /* 3. 移除列表项的圆点 */
+            padding: 0 0 10px 0;   /* 4. 底部留出内边距 */
+            margin: 0 -5px 20px -5px; /* 5. 底部留出外边距，左右的负外边距用于对齐 */
+            border-bottom: 1px solid #eee; /* 6. 添加底部分隔线，如图所示 */
+        }
+        .nav-tools-h .nav__item {
+            margin: 5px 5px;       /* 7. 为每个菜单项添加一些间距 */
+        }
+        .nav-tools-h .nav__item a {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #555;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        /* 鼠标悬停效果 */
+        .nav-tools-h .nav__item a:hover {
+            background-color: #f5f5f5;
+            color: #111;
+        }
+        /* 当前激活的菜单项样式 */
+        .nav-tools-h .nav__item a.active {
+            background-color: #eee;
+            color: #111;
+            font-weight: 600;
+        }
+        /* --- END: Horizontal Tool Navigation Styles --- */ 
     </style>
     </head>
 <body class="m-flex"> 
@@ -112,20 +144,16 @@
 </header>
     <div id="wrap" class="container">
 		<div class="main-layout">
-		<div class="row sticky-parent">
-			<aside class="col-12 col-md-12 col-lg-2">
-				<div class="sidebar box sticky-column" style="">
-					<ul class="nav">
+		<div class="row"> <div class="col-12 col-md-12"> <div class="box box-content">
+
+					<ul class="nav-tools-h">
 						<li class="nav__item"><a class="active" href="https://2fa.run"><i class="icon-key"></i>2FA工具</a></li>
 						<li class="nav__item"><a href="note.html"><i class="icon-clipboard"></i>文本处理</a></li>
 						<li class="nav__item"><a href="work.html"><i class="icon-instagram1"></i>图片处理</a></li>
 						<li class="nav__item"><a href="money.html"><i class="icon-activity"></i>汇率换算</a></li>
 						<li class="nav__item"><a href="more.html"><i class="icon-more-horizontal"></i>更多工具</a></li>
 					</ul>
-				</div>
-			</aside>
-			<div class="col-12 col-md-12 col-lg-10">
-				<div class="box box-content">
+
 					<div class="pb-0 pb-sm-2">
 						<h1 class="title-2fa">2FA验证</h1>
 						<p class="title-p">双重验证码/二步验证码获取工具（相当于谷歌身份验证器的网页版），使用时任选1种方式输入密钥获取即可。</p>
