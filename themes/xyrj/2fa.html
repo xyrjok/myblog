@@ -347,27 +347,6 @@
     <script src="{{ &OPT.theme_github_path }}xyrj/tools/otpauth.umd.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/tools/qrcode.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/files/sticky-sidebar.min.js"></script>
-	<script>
-window.addEventListener('load', function() {
-    const sidebarElement = document.querySelector('#desktop-sidebar-wrapper');
-    
-    if (window.innerWidth >= 992 && sidebarElement) {
-        // Check if the sidebar is already initialized and destroy it before re-initializing
-        if (this.state && this.state.desktopSidebar) {
-            this.state.desktopSidebar.destroy();
-        }
-
-        // Initialize StickySidebar
-        this.state = this.state || {}; // Ensure 'this.state' is defined
-        this.state.desktopSidebar = new StickySidebar('#desktop-sidebar-wrapper', {
-            topSpacing: 80,
-            bottomSpacing: 20,
-            containerSelector: '.main-layout',
-            innerWrapperSelector: '.sidebar-inner-wrapper'
-        });
-    }
-});
-	</script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const topButton = document.querySelector('.j-top');
