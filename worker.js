@@ -92,6 +92,56 @@ async function handleRequest({ request, env, ctx }) {
 			return await renderHTML(request, await getSearchData(request, key, page, env), theme + "/index.html", 200, env, ctx);
 		}
 		// --- END: 搜索路由 ---
+		// --- START: 新增 fontawesome.html 路由 ---
+		else if (pathname === "/fontawesome.html" || pathname === "/fontawesome" || pathname === "/fontawesome/") {
+			// --- START: 复制的小工具数据获取逻辑 ---
+			let data = {};
+			data["title"] = "Font Awesome 图标"; // 设置页面标题
+
+			data["widgetCategoryList"] = JSON.parse(await env.XYRJ_CONFIG.get("WidgetCategory") || "[]");
+			data["widgetLinkList"] = JSON.parse(await env.XYRJ_CONFIG.get("WidgetLink") || "[]");
+			
+			// 获取文章索引
+			let articleIndex = JSON.parse(await env.XYRJ_BLOG.get("article_index") || "[]");
+			// 过滤掉隐藏的文章
+			articleIndex = articleIndex.filter(item => !item.isHidden);
+			
+			// 排序（置顶 > 日期）
+			articleIndex.sort((a, b) => {
+				if (a.isPinned && !b.isPinned) return -1;
+				if (!a.isPinned && b.isPinned) return 1;
+				return new Date(b.createDate) - new Date(a.createDate);
+			});
+
+			// 提取最近文章
+			let widgetRecentlyList = articleIndex.slice(0, 5);
+			for (const item of widgetRecentlyList) {
+				item.url = `/article/${item.id}/${item.link}`;
+				item.isPasswordProtected = item.hasPassword;
+				item.createDate10 = item.createDate.substring(0, 10);
+			}
+			data["widgetRecentlyList"] = widgetRecentlyList;
+			
+			// 提取所有标签
+			const allTags = new Set();
+			articleIndex.forEach(article => {
+				if (article.tags && typeof article.tags === 'string') {
+					article.tags.split(',').forEach(tag => {
+						const trimmedTag = tag.trim();
+						if (trimmedTag) {
+							allTags.add(trimmedTag);
+						}
+					});
+				}
+			});
+			data["widgetTagList"] = Array.from(allTags).map(tag => {
+				return { name: tag, url: `/tags/${encodeURIComponent(tag)}/` };
+			});
+			// --- END: 复制的小工具数据获取逻辑 ---
+			// 确保使用 renderHTML 来渲染模板
+			return await renderHTML(request, data, theme + "/fontawesome.html", 200, env, ctx);
+		}
+		// --- END: 新增路由 ---
 		else if (pathname.startsWith("/admin")) {
 			if (pathname === "/admin" || pathname === "/admin/" || pathname.endsWith("/admin/index.html")) {
 				let data = {};
