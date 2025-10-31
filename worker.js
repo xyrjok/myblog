@@ -142,6 +142,16 @@ async function handleRequest({ request, env, ctx }) {
 			return await renderHTML(request, data, theme + "/fontawesome.html", 200, env, ctx);
 		}
 		// --- END: 新增路由 ---
+		// --- START: 新增 2fa.html 路由 ---
+		else if (pathname === "/2fa.html" || pathname === "/2fa" || pathname === "/2fa/") {
+			// --- START: 复制的小工具数据获取逻辑 (为 2fa.html 提供 data) ---
+			let data = {}; // <--- 关键修复：定义 data
+			data["title"] = "两步验证"; // <--- 修改1: 设置页面标题
+			data["widgetLinkList"] = JSON.parse(await env.XYRJ_CONFIG.get("WidgetLink") || "[]");
+			// 确保使用 renderHTML 来渲染模板
+			return await renderHTML(request, data, theme + "/2fa.html", 200, env, ctx); // <--- 修改2: 渲染 2fa.html
+		}
+		// --- END: 新增2fa.html路由 ---
 		else if (pathname.startsWith("/admin")) {
 			if (pathname === "/admin" || pathname === "/admin/" || pathname.endsWith("/admin/index.html")) {
 				let data = {};
