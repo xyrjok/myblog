@@ -376,66 +376,6 @@ window.addEventListener('load', function() {
             // --- END: 搜索按钮的 JS 逻辑 ---
             // --- END: Cleaned Comment Logic ---
 			// --- START: 2FA Verification Logic ---
-        function showMessage(msg, isError = false) {
-            const messageEl = document.getElementById('message-output');
-            if (messageEl) {
-                messageEl.textContent = msg;
-                messageEl.className = isError ? 'verification-message error' : 'verification-message success';
-            }
-        }
-
-        // 允许回车键提交
-        function enterSubmit(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                verifyToken();
-            }
-        }
-
-        async function verifyToken() {
-            const tokenInput = document.getElementById('token-input');
-            const token = tokenInput.value.trim();
-            
-            if (!token) {
-                showMessage('Please enter a token.', true);
-                return;
-            }
-
-            const button = document.getElementById('verify-button');
-            button.disabled = true;
-            button.textContent = 'Verifying...';
-
-            try {
-                // 假设你的 worker.js 中有一个 /admin/2fa-verify 路由用于验证
-                // 你需要根据 worker.js 的实际设置修改这个 URL
-                const response = await fetch('/admin/2fa-verify', { 
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ token: token })
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    showMessage('Verification successful! Redirecting...', false);
-                    // 验证成功后，worker 应该已经设置了最终的 auth cookie
-                    // 我们重定向到 admin 页面
-                    window.location.href = result.redirect || '/admin';
-                } else {
-                    throw new Error(result.message || 'Invalid token.');
-                }
-
-            } catch (err) {
-                console.error('Verification error:', err);
-                showMessage(err.message || 'Invalid token. Please try again.', true);
-                button.disabled = false;
-                button.textContent = 'Submit';
-                tokenInput.value = ''; // 清空输入
-            }
-        }
-        // --- END: 2FA Verification Logic ---
         });
     </script>
 	<div id="copy-notification">已复制!</div>
