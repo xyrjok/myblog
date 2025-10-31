@@ -231,7 +231,24 @@
     </div>
 </header>
     <div id="wrap" class="container">
-        <div class="main-layout">
+		<div class="main-layout">
+			<div class="login-container">
+				<h3 class="login-title">两步验证</h3>
+				<form id="login-form">
+					<div class="form-group">
+						<input type="text" class="form-control" name="code" placeholder="验证码" required>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-block">验证</button>
+					</div>
+					<div class="form-group">
+						<a href="javascript:;" id="use-recovery-btn" class="btn btn-default btn-block">使用备用码</a>
+					</div>
+					<div class="form-group">
+						<a href="/admin/login" class="btn btn-default btn-block">取消</a>
+					</div>
+				</form>
+			</div>
 		</div>
         <div class="friend-links">
              <h3 class="widget-title">友情链接</h3>
