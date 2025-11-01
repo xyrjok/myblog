@@ -231,6 +231,9 @@
 		    background-repeat: no-repeat;
 		    box-sizing: border-box;
 		}
+		#notification-container { position: fixed; top: 20px; right: 20px; z-index: 9999;}
+		.notification { background-color: #030303bf; color: #fff; padding: 15px; border-radius: 4px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); opacity: 0; transform: translateX(100%); transition: opacity 0.5s, transform 0.5s;}
+		.notification.show { opacity: 1; transform: translateX(0);}
     </style>
     </head>
 <body class="m-flex"> 
