@@ -148,20 +148,12 @@
 			background-image: linear-gradient(142.17deg, #009688 6.66%, #00d708de 91.48%);
 			box-shadow: inset -0.25rem -0.25rem 0.3125rem rgba(0, 0, 0, 0.1), inset 0.25rem 0.25rem 0.3125rem rgba(255, 255, 255, 0.23);
 			border-radius: 0.35rem;
-			border: 1px solid transparent;
-			transition: all 0.3s ease;
+			border: 0;
 			color: #fff;
 			cursor: pointer;
 			/*font-size: 1rem;*/
 			font-weight: 600;
 			padding: 0.50rem 0.88rem;
-		}
-		.btn-get:hover {
-			background-image: none;
-			background-color: #fff;
-			border: 1px solid #009688; /* 绿框 */
-			color: #000; /* 黑字 */
-            box-shadow: none;
 		}
 
 		.div-2fa>span {
@@ -174,9 +166,8 @@
 
 		.btn-qr {
 			float: right;
-			border: 1px solid transparent;
+			border: 0;
 			background-image: linear-gradient(142.17deg, #009688 6.66%, #00d708de 91.48%);
-			transition: all 0.3s ease;
 			box-shadow: inset -0.25rem -0.25rem 0.3125rem rgba(0, 0, 0, 0.1), inset 0.25rem 0.25rem 0.3125rem rgba(255, 255, 255, 0.23);
 			border-radius: 0.25rem;
 			color: #fff;
@@ -185,12 +176,10 @@
 		    font-weight: 600;
 		    padding: 0.30rem 0.80rem;
 		}
-		.btn-qr:hover {
-			background-image: none;
-			background-color: #fff;
-			border: 1px solid #009688; /* 绿框 */
-			color: #000; /* 黑字 */
-            box-shadow: none;
+		.btn-get:hover, .btn-qr:hover {
+			background: none;
+			color: #000;
+			box-shadow: inset 0px 0px 1px 1px rgb(50 174 77);
 		}
 
 		.xyrj-footer {
