@@ -1042,7 +1042,9 @@
           $("#btn-del-keys").on("click", function() {
             if (confirm("确定要清除所有本地记录的2FA密钥吗？此操作不可恢复！")) {
               try {
-        0         STORAGE.removeItem('keyAll');
+                  // --- START: 修正错误行 ---
+                STORAGE.removeItem('keyAll'); // 移除了多余的 '0'
+                  // --- END: 修正错误行 ---
                 $('#2fa_keys').val('');
                 showNotification("本地记录已清除。");
               } catch (e) {
@@ -1059,7 +1061,9 @@
           });
         
         // 点击 Modal 外部区域
-    4     $('#myModal').on('click', function(event) {
+          // --- START: 修正错误行 ---
+          $('#myModal').on('click', function(event) { // 移除了多余的 '4'
+          // --- END: 修正错误行 ---
             if (event.target == this) {
               $(this).css('display', 'none');
             }
