@@ -104,8 +104,7 @@
 			transition: box-shadow .3s ease-in-out;
 		}
         
-        /* --- START: 布局修复 --- */
-        /* 添加这个 clearfix 规则来防止 .xyrjbox-content 高度塌陷 */
+        /* --- START: 布局修复 (来自上一轮) --- */
         .xyrjbox-content::after {
             content: "";
             display: table;
@@ -245,36 +244,29 @@
 		.notification { background-color: #030303bf; color: #fff; padding: 15px; border-radius: 4px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); opacity: 0; transform: translateX(100%); transition: opacity 0.5s, transform 0.5s;}
 		.notification.show { opacity: 1; transform: translateX(0);}
 
-        /* --- START: 新增样式 --- */
-        /* 用于隐藏和显示工具面板 */
+        /* --- START: 原始新增样式 --- */
         .tool-panel {
-            display: none; /* 默认隐藏 */
+            display: none;
             width: 100%;
-            float: left; /* 保持和 .class-2fa 行为一致 */
+            float: left;
         }
         .tool-panel.active {
-            display: block; /* 显示激活的面板 */
+            display: block;
         }
-
-        /* 二维码生成器特定样式 */
         .qr-settings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
             width: 100%;
-            float: left;
+            /* float: left; (不再需要，因为父级不是 float) */
             margin-top: 1rem;
         }
-        
-        /* 保持原有的 .div-2fa 风格用于表单 */
         .div-2fa select.input-2fa {
-            /* 模拟 input-2fa 的外观 */
             height: calc(1.5em + 1.75rem + 2px); 
             padding: 0.875rem 1.375rem 0.8125rem;
         }
-
         #qr-code-output {
-            width: 276px; /* 256px + 10px padding * 2 */
+            width: 276px;
             height: 276px;
             padding: 10px;
             border: 1px solid #ddd;
@@ -285,12 +277,6 @@
             justify-content: center;
             background-color: #F7F9FA;
         }
-        #qr-code-output img,
-        #qr-code-output canvas {
-            max-width: 100%;
-            height: auto;
-        }
-        
         .title-p, .placeholder-p {
             font-size: 1rem;
             color: #5E6E80;
@@ -299,7 +285,46 @@
             width: 100%;
             float: left;
         }
-        /* --- END: 新增样式 --- */
+        /* --- END: 原始新增样式 --- */
+
+        /* --- START: 布局修改 - QR 双列布局 --- */
+        .qr-layout-wrapper::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .qr-settings-column {
+            float: left;
+            width: 60%;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+        .qr-display-column {
+            float: right;
+            width: 40%;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+        /* 响应式：在小屏幕上堆叠 */
+        @media (max-width: 992px) { /* 调整断点以匹配布局 */
+            .qr-settings-column,
+            .qr-display-column {
+                float: none;
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .qr-display-column {
+                margin-top: 2rem; /* 堆叠时增加间距 */
+            }
+            #qr-code-output {
+                width: 100%; /* 占满可用宽度 */
+                max-width: 276px; /* 但最大不超过276px */
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        /* --- END: 布局修改 --- */
     </style>
     </head>
 <body class="m-flex"> 
@@ -441,70 +466,75 @@
                                         <p class="title-p">输入文本或URL，点击按钮即可在下方生成对应的QR码。</p>
                                     </div>
                                     <hr>
-                                    <div class="class-2fa">
-                                        <div class="div-2fa">
-                                            <label for="qr-text-input" style="font-weight: 600; margin-bottom: 5px;">URL或其他文本:</label>
-                                            <textarea id="qr-text-input" placeholder="输入URL或其他文本" style="height: 100px !important;"></textarea>
-                                        </div>
-                                        
-                                        <h3 class="title title--h5" style="margin-top: 1.5rem;">二维码设置</h3>
-                                        <div class="qr-settings-grid">
-                                            <div class="div-2fa">
-                                                <label for="qr-output-format" style="font-weight: 600; margin-bottom: 5px;">输出格式:</label>
-                                                <select id="qr-output-format" class="input-2fa" disabled>
-                                                    <option>SVG</option>
-                                                    <option>PNG</option>
-                                                    <option>JPG</option>
-                                                </select>
-                                                <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
-                                            </div>
-                                            <div class="div-2fa">
-                                                <label for="qr-correct-level" style="font-weight: 600; margin-bottom: 5px;">纠错级别:</label>
-                                                <select id="qr-correct-level" class="input-2fa">
-                                                    <option value="L">L (Low, 7%)</option>
-                                                    <option value="M">M (Medium, 15%)</option>
-                                                    <option value="Q">Q (Quartile, 25%)</option>
-                                                    <option value="H" selected>H (High, 30%)</option>
-                                                </select>
-                                            </div>
-                                            <div class="div-2fa">
-                                                <label for="qr-type" style="font-weight: 600; margin-bottom: 5px;">类型:</label>
-                                                <select id="qr-type" class="input-2fa" disabled>
-                                                    <option>Default</option>
-                                                    <option>Swiss</option>
-                                                </select>
-                                                <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
-                                            </div>
-                                            <div class="div-2fa">
-                                                <label for="qr-margin" style="font-weight: 600; margin-bottom: 5px;">边缘 (Margin):</label>
-                                                <input type="number" id="qr-margin" class="input-2fa" value="4" disabled>
-                                                <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
-                                            </div>
-                                            <div class="div-2fa">
-                                                <label for="qr-cell-size" style="font-weight: 600; margin-bottom: 5px;">原胞大小:</label>
-                                                <input type="number" id="qr-cell-size" class="input-2fa" value="10" disabled>
-                                                <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="class-2fa" style="margin-top: 1rem;">
-                                        <button id="generate-qr-btn" class="btn-get">生成QR码</button>
-                                    </div>
 
-                                    <div class="class-2fa" style="margin-top: 1rem;">
-                                        <h3 class="title title--h5">QR码</h3>
-                                        <div id="qr-code-output">
+                                    <div class="qr-layout-wrapper">
+                                        
+                                        <div class="qr-settings-column">
+                                            <div class="div-2fa">
+                                                <label for="qr-text-input" style="font-weight: 600; margin-bottom: 5px;">URL或其他文本:</label>
+                                                <textarea id="qr-text-input" placeholder="输入URL或其他文本" style="height: 100px !important;"></textarea>
                                             </div>
+                                            
+                                            <h3 class="title title--h5" style="margin-top: 1.5rem;">二维码设置</h3>
+                                            <div class="qr-settings-grid">
+                                                <div class="div-2fa">
+                                                    <label for="qr-output-format" style="font-weight: 600; margin-bottom: 5px;">输出格式:</label>
+                                                    <select id="qr-output-format" class="input-2fa" disabled>
+                                                        <option>SVG</option>
+                                                        <option>PNG</option>
+                                                        <option>JPG</option>
+                                                    </select>
+                                                    <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
+                                                </div>
+                                                <div class="div-2fa">
+                                                    <label for="qr-correct-level" style="font-weight: 600; margin-bottom: 5px;">纠错级别:</label>
+                                                    <select id="qr-correct-level" class="input-2fa">
+                                                        <option value="L">L (Low, 7%)</option>
+                                                        <option value="M">M (Medium, 15%)</option>
+                                                        <option value="Q">Q (Quartile, 25%)</option>
+                                                        <option value="H" selected>H (High, 30%)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="div-2fa">
+                                                    <label for="qr-type" style="font-weight: 600; margin-bottom: 5px;">类型:</label>
+                                                    <select id="qr-type" class="input-2fa" disabled>
+                                                        <option>Default</option>
+                                                        <option>Swiss</option>
+                                                    </select>
+                                                    <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
+                                                </div>
+                                                <div class="div-2fa">
+                                                    <label for="qr-margin" style="font-weight: 600; margin-bottom: 5px;">边缘 (Margin):</label>
+                                                    <input type="number" id="qr-margin" class="input-2fa" value="4" disabled>
+                                                    <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
+                                                </div>
+                                                <div class="div-2fa">
+                                                    <label for="qr-cell-size" style="font-weight: 600; margin-bottom: 5px;">原胞大小:</label>
+                                                    <input type="number" id="qr-cell-size" class="input-2fa" value="10" disabled>
+                                                    <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="div-2fa" style="margin-top: 1rem;">
+                                                <button id="generate-qr-btn" class="btn-get">生成QR码</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="qr-display-column">
+                                            <h3 class="title title--h5" style="margin-top: 0;">QR码</h3>
+                                            <div id="qr-code-output">
+                                                </div>
+                                        </div>
+
                                     </div>
-                                </div>
+                                    </div>
                                 <div id="tool-content-text" class="tool-panel">
                                     <div class="xyrj-2fa">
                                         <h1 class="title-2fa">文本处理</h1>
                                         <p class="placeholder-p" style="font-size: 1.2rem; text-align: center; margin-top: 3rem;">
                                             <i class="fas fa-pencil-ruler" style="margin-right: 10px;"></i>功能开发中...
                                         </p>
-                                        </div>
+                                    </div>
                                 </div>
                                 <div id="tool-content-datetime" class="tool-panel">
                                     <div class="xyrj-2fa">
@@ -1043,39 +1073,39 @@
           });
 		  // --- START: 新添加的事件绑定 ---
   
-          // 绑定 "生成二维码" 按钮
-          $("#btn-qr-js").on("click", function() {
-            openQRFor('#secret-input-js');
-          });
+  	  // 绑定 "生成二维码" 按钮
+  	  $("#btn-qr-js").on("click", function() {
+  	  	  openQRFor('#secret-input-js');
+  	  });
   
-          // 绑定 "清除本地记录" 按钮
-          $("#btn-del-keys").on("click", function() {
-            if (confirm("确定要清除所有本地记录的2FA密钥吗？此操作不可恢复！")) {
-              try {
-                STORAGE.removeItem('keyAll'); 
-                $('#2fa_keys').val('');
-                showNotification("本地记录已清除。");
-              } catch (e) {
-                showNotification("清除失败！", true);
-              }
-            }
-          }); 
-          // --- END: 新添加的事件绑定 ---
+  	  // 绑定 "清除本地记录" 按钮
+  	  $("#btn-del-keys").on("click", function() {
+  	  	  if (confirm("确定要清除所有本地记录的2FA密钥吗？此操作不可恢复！")) {
+  	  	  	  try {
+  	  	  	  	  STORAGE.removeItem('keyAll'); 
+  	  	  	  	  $('#2fa_keys').val('');
+  	  	  	  	  showNotification("本地记录已清除。");
+  	  	  	  } catch (e) {
+  	  	  	  	  showNotification("清除失败！", true);
+  	  	  	  }
+  	  	  }
+  	  }); 
+  	  // --- END: 新添加的事件绑定 ---
 
 		// --- START: Modal 关闭事件 ---    
-          // 点击 'x' 按钮
-          $('#myModal .close').on('click', function() {
-            $('#myModal').css('display', 'none');
-  nbsp;       });
+  	  // 点击 'x' 按钮
+  	  $('#myModal .close').on('click', function() {
+  	  	  $('#myModal').css('display', 'none');
+  	  });
   
-        // 点击 Modal 外部区域
-          $('#myModal').on('click', function(event) { 
-            if (event.target == this) {
-              $(this).css('display', 'none');
-            }
-          });
-          
-          // --- END: Modal 关闭事件 ---
+    	  // 点击 Modal 外部区域
+  	  $('#myModal').on('click', function(event) { 
+  	  	  if (event.target == this) {
+  	  	  	  $(this).css('display', 'none');
+  	  	  }
+  	  });
+  	    
+  	  // --- END: Modal 关闭事件 ---
         })(); // 正确关闭 IIFE
         
 	</script>
