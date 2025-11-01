@@ -342,12 +342,12 @@
 										<div class="div-2fa"><button id="btn-js" class="btn-get">点击获取验证码</button><span class="message-class">JS实现</span></div>
 										<div class="div-2fa" id="key-output-js">双重密钥为: <span id="key_js"></span></div>
 										<div class="div-2fa" id="code-output-js">当前验证码: <span id="code_js" style="color: rgb(50, 174, 77);"></span></div>
-										<div class="div-2fa">剩余的时间: <span id="timer_js">28</span> 秒 <button class="btn-qr" onclick="showModalJS()">生成二维码</button></div>
+										<div class="div-2fa">剩余的时间: <span id="timer_js"></span> 秒 <button class="btn-qr" id="btn-qr-js">生成二维码</button></div>
 									</div>
 									<hr>
 									<div class="class-2fa">
 										<textarea id="2fa_keys" placeholder="这里记录了获取过验证码的2FA密钥，你也可以备注任何信息到此处，但是要注意本区域内容是保存在浏览器缓存中的，清除浏览器cookie或点击下方清除按钮将丢失内容，请谨慎操作并保存自己的数据信息！" style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 120px; outline: none; cursor: grab;"></textarea>
-										<button class="btn-qr del_2fakeys" onclick="delText()">清除本地记录的2FA密钥</button>
+										<button class="btn-qr del_2fakeys" id="btn-del-keys">清除本地记录的2FA密钥</button>
 									</div>
 									<hr>
 									<h3 class="title title--h5">2FA工具说明</h3>
@@ -803,42 +803,41 @@
             copyText(code);
             refreshCount = 0;
           });
-        
-          // --- 添加缺失的函数 ---
-        
-          // 连接 "生成二维码" 按钮
-          function showModalJS() {
-            openQRFor('#secret-input-js');
-          }
-        
-          // 连接 "清除本地记录" 按钮
-          function delText() {
-            if (confirm("确定要清除所有本地记录的2FA密钥吗？此操作不可恢复！")) {
-              try {
-                STORAGE.removeItem('keyAll');
-                $('#2fa_keys').val('');
-                showNotification("本地记录已清除。");
-              } catch (e) {
-                showNotification("清除失败！", true);
-              }
-            }
-          }
-        
-          // 为 Modal 添加关闭事件
-          $(document).on('click', '#myModal .close', function() {
-            document.getElementById("myModal").style.display = "none";
-          });
-        
-          // 点击 Modal 外部区域关闭
-          window.onclick = function(event) {
-            const modal = document.getElementById("myModal");
-            if (event.target == modal) {
-              modal.style.display = "none";
-            }
-          }
-        
-          // --- 结束添加 ---
-        
+		  // --- START: 新添加的事件绑定 ---
+          
+          // 绑定 "生成二维码" 按钮
+          $("#btn-qr-js").on("click", function() {
+            openQRFor('#secret-input-js');
+          });
+        
+          // 绑定 "清除本地记录" 按钮
+          $("#btn-del-keys").on("click", function() {
+            if (confirm("确定要清除所有本地记录的2FA密钥吗？此操作不可恢复！")) {
+              try {
+                STORAGE.removeItem('keyAll');
+                $('#2fa_keys').val('');
+                showNotification("本地记录已清除。");
+              } catch (e) {
+                showNotification("清除失败！", true);
+              }
+            }
+          });      
+          // --- END: 新添加的事件绑定 ---
+
+		// --- START: Modal 关闭事件 ---    
+          // 点击 'x' 按钮
+          $('#myModal .close').on('click', function() {
+            $('#myModal').css('display', 'none');
+          });
+        
+  M       // 点击 Modal 外部区域
+          $('#myModal').on('click', function(event) {
+            if (event.target == this) {
+              $(this).css('display', 'none');
+            }
+          });
+          
+          // --- END: Modal 关闭事件 ---
         })(); // 正确关闭 IIFE
         
 	</script>
