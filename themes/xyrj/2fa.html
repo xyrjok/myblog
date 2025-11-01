@@ -103,6 +103,16 @@
 			position: relative;
 			transition: box-shadow .3s ease-in-out;
 		}
+        
+        /* --- START: 布局修复 --- */
+        /* 添加这个 clearfix 规则来防止 .xyrjbox-content 高度塌陷 */
+        .xyrjbox-content::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        /* --- END: 布局修复 --- */
+
 
 		.title-2fa {
 			position: relative;
@@ -513,8 +523,8 @@
                                     </div>
                                 </div>
                                 </div>
-                            <div  class="xyrj-footer">©2025 在线工具</div>
-                            </div>			
+							<div  class="xyrj-footer">©2025 在线工具</div>
+				</div>			
 		</div>
         <div class="friend-links">
              <h3 class="widget-title">友情链接</h3>
@@ -1042,16 +1052,14 @@
           $("#btn-del-keys").on("click", function() {
             if (confirm("确定要清除所有本地记录的2FA密钥吗？此操作不可恢复！")) {
               try {
-                  // --- START: 修正错误行 (已移除 '0') ---
                 STORAGE.removeItem('keyAll'); 
-                  // --- END: 修正错误行 ---
                 $('#2fa_keys').val('');
                 showNotification("本地记录已清除。");
               } catch (e) {
                 showNotification("清除失败！", true);
               }
             }
-          });      
+    _http_agent: 
           // --- END: 新添加的事件绑定 ---
 
 		// --- START: Modal 关闭事件 ---    
@@ -1061,9 +1069,7 @@
           });
   
         // 点击 Modal 外部区域
-          // --- START: 修正错误行 (已移除 '4') ---
           $('#myModal').on('click', function(event) { 
-          // --- END: 修正错误行 ---
             if (event.target == this) {
               $(this).css('display', 'none');
             }
