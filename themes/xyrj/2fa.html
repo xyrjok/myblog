@@ -234,6 +234,62 @@
 		#notification-container { position: fixed; top: 20px; right: 20px; z-index: 9999;}
 		.notification { background-color: #030303bf; color: #fff; padding: 15px; border-radius: 4px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); opacity: 0; transform: translateX(100%); transition: opacity 0.5s, transform 0.5s;}
 		.notification.show { opacity: 1; transform: translateX(0);}
+
+        /* --- START: 新增样式 --- */
+        /* 用于隐藏和显示工具面板 */
+        .tool-panel {
+            display: none; /* 默认隐藏 */
+            width: 100%;
+            float: left; /* 保持和 .class-2fa 行为一致 */
+        }
+        .tool-panel.active {
+            display: block; /* 显示激活的面板 */
+        }
+
+        /* 二维码生成器特定样式 */
+        .qr-settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+            float: left;
+            margin-top: 1rem;
+        }
+        
+        /* 保持原有的 .div-2fa 风格用于表单 */
+        .div-2fa select.input-2fa {
+            /* 模拟 input-2fa 的外观 */
+            height: calc(1.5em + 1.75rem + 2px); 
+            padding: 0.875rem 1.375rem 0.8125rem;
+        }
+
+        #qr-code-output {
+            width: 276px; /* 256px + 10px padding * 2 */
+            height: 276px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #F7F9FA;
+        }
+        #qr-code-output img,
+        #qr-code-output canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .title-p, .placeholder-p {
+            font-size: 1rem;
+            color: #5E6E80;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            width: 100%;
+            float: left;
+        }
+        /* --- END: 新增样式 --- */
     </style>
     </head>
 <body class="m-flex"> 
@@ -333,18 +389,19 @@
 							<div class="xyojbk-content">
 									<div class="sidebar-inner-wrapper">
 											<ul class="xyrj-nav">
-												<li class="nav__item"><a class="active" ><i class="fas fa-key-skeleton" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>2FA工具</a></li>
-												<li class="nav__item"><a><i class="far fa-qrcode" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>生成二维码</a></li>
-												<li class="nav__item"><a><i class="fas fa-file-alt" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>文本处理</a></li>
-												<li class="nav__item"><a><i class="fas fa-calendar-alt" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>日期时间</a></li>
-												<li class="nav__item"><a><i class="fas fa-ellipsis-h" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>更多工具</a></li>
-											</ul>
+												<li class="nav__item"><a class="active" href="#" data-tool="2fa"><i class="fas fa-key-skeleton" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>2FA工具</a></li>
+												<li class="nav__item"><a href="#" data-tool="qr"><i class="far fa-qrcode" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>生成二维码</a></li>
+												<li class="nav__item"><a href="#" data-tool="text"><i class="fas fa-file-alt" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>文本处理</a></li>
+												<li class="nav__item"><a href="#" data-tool="datetime"><i class="fas fa-calendar-alt" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>日期时间</a></li>
+												<li class="nav__item"><a href="#" data-tool="more"><i class="fas fa-ellipsis-h" style="display: block; font-size: 2.0rem; margin-top: 0.25rem; margin-bottom: 0.5rem;"></i>更多工具</a></li>
+											    </ul>
 									</div>
 							</div>		
 					</aside>
 
 					<div class="xyrj-right">
 							<div class="xyrjbox-content">
+                                <div id="tool-content-2fa" class="tool-panel active">
 									<div class="xyrj-2fa">
 										<h1 class="title-2fa">2FA验证</h1>
 										<p class="title-p">双重验证码/二步验证码获取工具（相当于谷歌身份验证器的网页版），使用时输入密钥获取即可。</p>
@@ -367,7 +424,95 @@
 									<p class="tip-p"><strong>新手提示</strong>：必须在倒计时结束前输入验证码登录或验证，否则会失效显示错误。测试功能时必须输入正确编码的密钥，不要随便输入1串字符测试获取功能。目前点击获取验证码的按钮后会自动复制验证码到剪切板，直接去粘贴即可。如果想要验证生成的验证码是否正确，点击生成二维码的按钮，使用谷歌验证器APP扫描添加检查。<br><strong>更多方式</strong>：还可以将密钥加在网址后面，示例：，这样访问也可查询验证码。这样的格式发给新手使用，最合适不过。
 										<br><strong>最近维护</strong>：2025年10月22日
 									</p>
-							</div>
+                                </div>
+                                <div id="tool-content-qr" class="tool-panel">
+                                    <div class="xyrj-2fa">
+                                        <h1 class="title-2fa">生成二维码</h1>
+                                        <p class="title-p">输入文本或URL，点击按钮即可在下方生成对应的QR码。</p>
+                                    </div>
+                                    <hr>
+                                    <div class="class-2fa">
+                                        <div class="div-2fa">
+                                            <label for="qr-text-input" style="font-weight: 600; margin-bottom: 5px;">URL或其他文本:</label>
+                                            <textarea id="qr-text-input" placeholder="输入URL或其他文本" style="height: 100px !important;"></textarea>
+                                        </div>
+                                        
+                                        <h3 class="title title--h5" style="margin-top: 1.5rem;">二维码设置</h3>
+                                        <div class="qr-settings-grid">
+                                            <div class="div-2fa">
+                                                <label for="qr-output-format" style="font-weight: 600; margin-bottom: 5px;">输出格式:</label>
+                                                <select id="qr-output-format" class="input-2fa" disabled>
+                                                    <option>SVG</option>
+                                                    <option>PNG</option>
+                                                    <option>JPG</option>
+                                                </select>
+                                                <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
+                                            </div>
+                                            <div class="div-2fa">
+                                                <label for="qr-correct-level" style="font-weight: 600; margin-bottom: 5px;">纠错级别:</label>
+                                                <select id="qr-correct-level" class="input-2fa">
+                                                    <option value="L">L (Low, 7%)</option>
+                                                    <option value="M">M (Medium, 15%)</option>
+                                                    <option value="Q">Q (Quartile, 25%)</option>
+                                                    <option value="H" selected>H (High, 30%)</option>
+                                                </select>
+                                            </div>
+                                            <div class="div-2fa">
+                                                <label for="qr-type" style="font-weight: 600; margin-bottom: 5px;">类型:</label>
+                                                <select id="qr-type" class="input-2fa" disabled>
+                                                    <option>Default</option>
+                                                    <option>Swiss</option>
+                                                </select>
+                                                <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
+                                            </div>
+                                            <div class="div-2fa">
+                                                <label for="qr-margin" style="font-weight: 600; margin-bottom: 5px;">边缘 (Margin):</label>
+                                                <input type="number" id="qr-margin" class="input-2fa" value="4" disabled>
+                                                <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
+                                            </div>
+                                            <div class="div-2fa">
+                                                <label for="qr-cell-size" style="font-weight: 600; margin-bottom: 5px;">原胞大小:</label>
+                                                <input type="number" id="qr-cell-size" class="input-2fa" value="10" disabled>
+                                                <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="class-2fa" style="margin-top: 1rem;">
+                                        <button id="generate-qr-btn" class="btn-get">生成QR码</button>
+                                    </div>
+
+                                    <div class="class-2fa" style="margin-top: 1rem;">
+                                        <h3 class="title title--h5">QR码</h3>
+                                        <div id="qr-code-output">
+                                            </div>
+                                    </div>
+                                </div>
+                                <div id="tool-content-text" class="tool-panel">
+                                    <div class="xyrj-2fa">
+                                        <h1 class="title-2fa">文本处理</h1>
+                                        <p class="placeholder-p" style="font-size: 1.2rem; text-align: center; margin-top: 3rem;">
+                                            <i class="fas fa-pencil-ruler" style="margin-right: 10px;"></i>功能开发中...
+                                        </p>
+                                        </div>
+                                </div>
+                                <div id="tool-content-datetime" class="tool-panel">
+                                    <div class="xyrj-2fa">
+                                        <h1 class="title-2fa">日期时间</h1>
+                                        <p class="placeholder-p" style="font-size: 1.2rem; text-align: center; margin-top: 3rem;">
+                                            <i class="fas fa-clock" style="margin-right: 10px;"></i>功能开发中...
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="tool-content-more" class="tool-panel">
+                                    <div class="xyrj-2fa">
+                                        <h1 class="title-2fa">更多工具</h1>
+                                        <p class="placeholder-p" style="font-size: 1.2rem; text-align: center; margin-top: 3rem;">
+                                            <i class="fas fa-tools" style="margin-right: 10px;"></i>功能开发中...
+                                        </p>
+                                    </div>
+                                </div>
+                                </div>
 								<div  class="xyrj-footer">©2025 在线工具</div >
 				</div>			
 		</div>
@@ -681,6 +826,7 @@
             STORAGE.setItem('keyAll', finalText);
           }
         
+          // --- START: 修改 - 2FA 定时器控制 ---
           function scheduleSecondTick() {
             if (timerSecondHandle) clearTimeout(timerSecondHandle);
             const t = nowMs();
@@ -696,6 +842,25 @@
             const delay = Math.max(0, nextWindowBoundaryMs - t);
             timerWindowHandle = setTimeout(onWindowBoundary, delay);
           }
+
+          function stop2FATimers() {
+            if (timerSecondHandle) clearTimeout(timerSecondHandle);
+            if (timerWindowHandle) clearTimeout(timerWindowHandle);
+            timerSecondHandle = null;
+            timerWindowHandle = null;
+          }
+
+          function start2FATimers() {
+              stop2FATimers(); // 先停止任何可能在运行的定时器
+              const t = nowMs();
+              const { secondsLeftDisplay } = getTickInfo(t);
+              $('#timer').text(secondsLeftDisplay);
+              $('#timer_js').text(secondsLeftDisplay);
+              
+              scheduleSecondTick();
+              scheduleWindowTick();
+          }
+          // --- END: 修改 - 2FA 定时器控制 ---
         
           function onSecondTick() {
             const t = nowMs();
@@ -711,13 +876,13 @@
         
             // 到边界：刷新验证码
             const s1 = filterAndValidateSecret($('#secret-input-js').val());
-            const s2 = filterAndValidateSecret($('#secret-input').val());
+            const s2 = filterAndValidateSecret($('#secret-input').val()); // s2 相关的PHP逻辑已在原HTML中删除，但保留检查
         
             if (refreshCount < MAX_REFRESH_COUNT) {
               if (s1) updateJSCode(s1, t, { silent: true });
               else { $("#key_js").text(""); $("#code_js").text(""); }
         
-              if (s2) updatePHPCode(t, { silent: true });
+              if (s2) { /* updatePHPCode(t, { silent: true }); */ } // 原PHP逻辑位置
               else { $("#key").text(""); $("#code").text(""); }
         
               if (s1 || s2) refreshCount++;
@@ -742,20 +907,11 @@
             return code;
           }
         
+          /* // 原 updatePHPCode 函数 (在此模板中已无用)
           function updatePHPCode(tsMs, opts = {}) {
-            const secret = $("#secret-input").val();
-            if (!secret) return;
-            $.get('/app/2fa.php', { secret }, function (data) {
-              if (data && data.success) {
-                $("#key").text(data.key);
-                $("#code").text(data.newCode).css("color", "rgb(50 174 77)");
-                STORAGE.setItem("key02", data.key);
-                if (!opts.silent) showNotification("已成功获取验证码哦~");
-              } else {
-                showNotification(data && data.message ? data.message : "获取失败");
-              }
-            }, 'json');
+             ...
           }
+          */
         
           function generateQRCode(secretInput) {
             const lastSeven = secretInput.slice(-7);
@@ -785,21 +941,80 @@
             $("input, textarea").prop('disabled', true);
         
             $("#secret-input-js").val(STORAGE.getItem("key01") || "");
-            $("#secret-input").val(STORAGE.getItem("key02") || "");
+            // $("#secret-input").val(STORAGE.getItem("key02") || ""); // 原PHP输入框
             $("#2fa_keys").val(STORAGE.getItem("keyAll") || "");
         
             await syncServerClock();
         
             setTimeout(() => { $("input, textarea").prop('disabled', false); }, 300);
         
-            const t = nowMs();
-            const { secondsLeftDisplay } = getTickInfo(t);
-            $('#timer').text(secondsLeftDisplay);
-            $('#timer_js').text(secondsLeftDisplay);
-        
-            scheduleSecondTick();
-            scheduleWindowTick();
-          });
+            // --- START: 修改 - 调用启动函数 ---
+            start2FATimers();
+            // --- END: 修改 - 调用启动函数 ---
+          
+            // --- START: 新增 - 导航切换逻辑 ---
+            $('.xyrj-nav li a').on('click', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var tool = $this.data('tool');
+
+                if ($this.hasClass('active') || !tool) {
+                    return; // 如果点击了已激活的或没有 data-tool 的，则不操作
+                }
+
+                // 1. 更新导航样式
+                $('.xyrj-nav li a').removeClass('active');
+                $this.addClass('active');
+
+                // 2. 切换内容面板
+                $('.tool-panel').removeClass('active').hide();
+                $('#tool-content-' + tool).addClass('active').show();
+
+                // 3. 控制 2FA 定时器
+                if (tool === '2fa') {
+                    start2FATimers();
+                } else {
+                    stop2FATimers();
+                }
+            });
+            // --- END: 新增 - 导航切换逻辑 ---
+
+            // --- START: 新增 - QR 生成器按钮逻辑 ---
+            $('#generate-qr-btn').on('click', function() {
+                var text = $('#qr-text-input').val();
+                if (!text) {
+                    showNotification('请输入URL或其他文本');
+                    return;
+                }
+                
+                var level = $('#qr-correct-level').val();
+                var correctionLevelMap = {
+                    'L': QRCode.CorrectLevel.L,
+                    'M': QRCode.CorrectLevel.M,
+                    'Q': QRCode.CorrectLevel.Q,
+                    'H': QRCode.CorrectLevel.H
+                };
+
+                var $output = $('#qr-code-output');
+                $output.empty(); // 清空上一个
+                
+                try {
+                    // 在 #qr-code-output 元素内生成二维码
+                    new QRCode(document.getElementById("qr-code-output"), {
+                        text: text,
+                        width: 256, // 固定大小
+                        height: 256,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : correctionLevelMap[level]
+                    });
+                } catch (e) {
+                    showNotification('生成QR码失败: ' + e.message);
+                }
+            });
+            // --- END: 新增 - QR 生成器按钮逻辑 ---
+
+          }); // $(document).ready 结束
         
           $(".input-2fa").on("click", function() {
             this.select();
@@ -827,7 +1042,7 @@
           $("#btn-del-keys").on("click", function() {
             if (confirm("确定要清除所有本地记录的2FA密钥吗？此操作不可恢复！")) {
               try {
-                STORAGE.removeItem('keyAll');
+        0         STORAGE.removeItem('keyAll');
                 $('#2fa_keys').val('');
                 showNotification("本地记录已清除。");
               } catch (e) {
@@ -844,7 +1059,7 @@
           });
         
         // 点击 Modal 外部区域
-          $('#myModal').on('click', function(event) {
+    4     $('#myModal').on('click', function(event) {
             if (event.target == this) {
               $(this).css('display', 'none');
             }
