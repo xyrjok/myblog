@@ -376,6 +376,16 @@
             </div>
         </div>
     </div>
+	
+	<div id="notification-container" style="position: fixed; top: 80px; right: 20px; z-index: 9999;"></div>
+    
+    <div id="myModal" style="display: none; position: fixed; z-index: 9998; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+      <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 300px; text-align: center; border-radius: 8px; position: relative;">
+        <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; position: absolute; top: 5px; right: 15px; cursor: pointer;">&times;</span>
+        <h3 style="margin-top: 10px; font-family: 'Poppins', sans-serif; color: #3B4B5E;">Scan QR Code</h3>
+        <div id="qrcode" style="width: 256px; height: 256px; margin: 20px auto;"></div>
+      </div>
+    </div>
 
 	<footer class="footer">
 		<div class="container">
@@ -393,7 +403,7 @@
             <i class="fal fa-arrow-up action-item-icon"></i>
         </div>
     </div>
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ &OPT.theme_github_path }}xyrj/tools/otpauth.umd.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/tools/qrcode.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/files/sticky-sidebar.min.js"></script>
@@ -794,7 +804,43 @@
             refreshCount = 0;
           });
         
-          $("#btn-php").on("click", function() {
-            let secret = $('#secret-input').val…</script>
+          // --- 添加缺失的函数 ---
+        
+          // 连接 "生成二维码" 按钮
+          function showModalJS() {
+            openQRFor('#secret-input-js');
+          }
+        
+          // 连接 "清除本地记录" 按钮
+          function delText() {
+            if (confirm("确定要清除所有本地记录的2FA密钥吗？此操作不可恢复！")) {
+              try {
+                STORAGE.removeItem('keyAll');
+                $('#2fa_keys').val('');
+                showNotification("本地记录已清除。");
+              } catch (e) {
+                showNotification("清除失败！", true);
+              }
+            }
+          }
+        
+          // 为 Modal 添加关闭事件
+          $(document).on('click', '#myModal .close', function() {
+            document.getElementById("myModal").style.display = "none";
+          });
+        
+          // 点击 Modal 外部区域关闭
+          window.onclick = function(event) {
+            const modal = document.getElementById("myModal");
+            if (event.target == modal) {
+              modal.style.display = "none";
+            }
+          }
+        
+          // --- 结束添加 ---
+        
+        })(); // 正确关闭 IIFE
+        
+	</script>
 </body>
 </html>
