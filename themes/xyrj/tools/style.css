@@ -6,13 +6,6 @@
     margin-right: -15px;
     margin-left: -15px;
 }
-@mixin make-xy($size, $columns: $grid-columns) {
-  flex: 0 0 percentage($size / $columns);
-  // Add a `max-width` to ensure content within each column does not blow out
-  // the width of the column. Applies to IE10+ and Firefox. Chrome and Safari
-  // do not appear to require this.
-  max-width: percentage($size / $columns);
-}
 .xy-oj {
     position: relative;
     width: 100%;
@@ -21,7 +14,7 @@
 }
 .box {
     background-color: #fff;
-    border-radius: 20px;
+    border-radius: 8px;
     box-shadow: 0px 20px 40px rgba(103, 118, 128, 0.03);
     padding: 1.875rem;
     position: relative;
@@ -38,14 +31,6 @@
         -ms-flex: 0 0 83.333333%;
         flex: 0 0 83.333333%;
         max-width: 83.333333%;
-    }
-}
-
-@media (min-width: 768px) {
-    .xy-bk {
-        -ms-flex: 0 0 100%;
-        flex: 0 0 100%;
-        max-width: 100%;
     }
 }
 
@@ -401,12 +386,12 @@ button, input, optgroup, select, textarea {
 }
 /* --- END: 新增样式 for API Image --- */
 .title-p, .placeholder-p {
-    font-size: 1rem;
-    color: #5E6E80;
-    margin-top: 0.5rem;
-    /*margin-bottom: 1rem;*/
-    width: 100%;
+	color: #5E6E80;
+	width: 100%;
     float: left;
+    /*font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;*/
 }
 /* --- END: 原始新增样式 --- */
 
