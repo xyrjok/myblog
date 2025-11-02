@@ -421,7 +421,7 @@ button, input, optgroup, select, textarea {
     margin-bottom: 0.5rem;
     display: flex;
     flex-wrap: wrap; /* 允许按钮换行 */
-    gap: 10px; /* 按钮之间的间距 */
+    /*gap: 10px;  按钮之间的间距 */
 }
 /* 继承 .btn-get 样式，但用于更小的按钮 */
 .btn-get-sm {
@@ -432,6 +432,7 @@ button, input, optgroup, select, textarea {
     color: #fff;
     cursor: pointer;
     font-weight: 600;
+	margin: 0 5px 5px 0;
     padding: 0.40rem 0.75rem; /* 稍微小一点的 padding */
     font-size: 0.88rem; /* 字体大小与 .div-2fa 一致 */
 }
