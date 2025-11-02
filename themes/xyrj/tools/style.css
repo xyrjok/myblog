@@ -55,7 +55,7 @@
     transition: all 0s;
 }
 
-.nav__item [class^="icon-"] {
+.nav__item a i {
     display: block;
     font-size: 2.25rem;
     margin-top: 0.25rem;
@@ -410,3 +410,24 @@ button, input, optgroup, select, textarea {
     cursor: pointer;
 }
 /* --- END: 为单选框添加新样式 --- */
+
+@media only screen and (max-width: 1200px) {
+  .xyojbk-content {
+      padding: 1.5rem;
+  }
+
+  .nav__item {
+      height: 5.125rem;
+  }
+
+  .nav__item a {
+      border-radius: 1rem;
+      font-size: 0.75rem;
+  }
+
+  .nav__item a i {
+      font-size: 1.75rem;
+      margin-bottom: 0.25rem;
+  }
+}
+
