@@ -604,13 +604,32 @@
                                                         <option value="swiss">Swiss</option>
                                                     </select>
                                                 </div>
+                                                
                                                 <div class="div-2fa">
                                                     <label for="qr-margin" style="font-weight: 600; margin-bottom: 5px;">边缘 (Margin):</label>
-                                                    <input type="number" id="qr-margin" class="input-2fa" value="4">
+                                                    <select id="qr-margin" class="input-2fa">
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4" selected>4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
                                                 </div>
+                                                
                                                 <div class="div-2fa">
-                                                    <label for="qr-size" style="font-weight: 600; margin-bottom: 5px;">大小 (px):</label>
-                                                    <input type="number" id="qr-size" class="input-2fa" value="256">
+                                                    <label for="qr-size" style="font-weight: 600; margin-bottom: 5px;">原胞大小:</label>
+                                                    <select id="qr-size" class="input-2fa">
+                                                        <option value="auto" selected>自动</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -1171,8 +1190,8 @@
                 const output = $('#qr-output-format').val();
                 const errorLevel = $('#qr-correct-level').val();
                 const type = $('#qr-type').val();
-                const margin = $('#qr-margin').val();
-                const size = $('#qr-size').val();
+                const margin = $('#qr-margin').val(); // Correctly reads from the new select
+                const size = $('#qr-size').val();     // Correctly reads from the new select
                 const $outputImg = $('#qr-code-output-img'); // Get the jQuery object for the img
 
                 if (!text) {
