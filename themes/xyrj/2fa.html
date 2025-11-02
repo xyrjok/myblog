@@ -325,6 +325,17 @@
             }
         }
         /* --- END: 布局修改 --- */
+
+        /* --- START: 文本工具按钮样式 --- */
+        .text-tool-buttons {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap; /* 允许按钮换行 */
+            gap: 10px; /* 按钮之间的间距 */
+        }
+        /* --- END: 文本工具按钮样式 --- */
+
     </style>
     </head>
 <body class="m-flex"> 
@@ -531,9 +542,29 @@
                                 <div id="tool-content-text" class="tool-panel">
                                     <div class="xyrj-2fa">
                                         <h1 class="title-2fa">文本处理</h1>
-                                        <p class="placeholder-p" style="font-size: 1.2rem; text-align: center; margin-top: 3rem;">
-                                            <i class="fas fa-pencil-ruler" style="margin-right: 10px;"></i>功能开发中...
-                                        </p>
+                                        <p class="title-p">提供常用的文本处理功能，如大小写转换、去重、排序等。</p>
+                                    </div>
+                                    <hr>
+                                    <div class="class-2fa">
+                                        <label for="text-input" style="font-weight: 600; margin-bottom: 5px;">输入文本:</label>
+                                        <textarea id="text-input" placeholder="在此处粘贴或输入文本..." style="height: 150px !important;"></textarea>
+                                    </div>
+                                    <div class="class-2fa text-tool-buttons">
+                                        <button id="text-btn-upper" class="btn-get">转大写</button>
+                                        <button id="text-btn-lower" class="btn-get">转小写</button>
+                                        <button id="text-btn-capitalize" class="btn-get">首字母大写</button>
+                                        <button id="text-btn-clear" class="btn-get del_2fakeys" style="background-image: none !important;">清空</button>
+                                        <button id="text-btn-copy" class="btn-get">复制结果</button>
+                                    </div>
+                                    <div class="class-2fa text-tool-buttons">
+                                        <button id="text-btn-remove-empty" class="btn-get">去除空行</button>
+                                        <button id="text-btn-deduplicate" class="btn-get">行去重</button>
+                                        <button id="text-btn-sort-asc" class="btn-get">行排序(升序)</button>
+                                        <button id="text-btn-sort-desc" class="btn-get">行排序(降序)</button>
+                                    </div>
+                                    <div class="class-2fa" style="margin-top: 0.5rem;">
+                                        <label for="text-output" style="font-weight: 600; margin-bottom: 5px;">处理结果:</label>
+                                        <textarea id="text-output" readonly placeholder="处理结果将显示在这里..." style="height: 150px !important; background-color: #f1f3f4;"></textarea>
                                     </div>
                                 </div>
                                 <div id="tool-content-datetime" class="tool-panel">
@@ -826,6 +857,10 @@
           }
         
           async function copyText(str) {
+            if (!str) {
+                showNotification("内容为空，无需复制。");
+                return;
+            }
             try {
               if (navigator.clipboard && window.isSecureContext) {
                 await navigator.clipboard.writeText(str);
@@ -838,6 +873,7 @@
                 document.body.removeChild(input);
                 if (!ok) throw new Error('execCommand copy failed');
               }
+              showNotification("已复制到剪切板！");
             } catch {
               showNotification("无法自动复制，请手动操作！");
             }
@@ -947,12 +983,6 @@
             return code;
           }
         
-          /* // 原 updatePHPCode 函数 (在此模板中已无用)
-          function updatePHPCode(tsMs, opts = {}) {
-             ...
-          }
-          */
-        
           function generateQRCode(secretInput) {
             const lastSeven = secretInput.slice(-7);
             const label  = 'Handy tool';
@@ -981,7 +1011,6 @@
             $("input, textarea").prop('disabled', true);
         
             $("#secret-input-js").val(STORAGE.getItem("key01") || "");
-            // $("#secret-input").val(STORAGE.getItem("key02") || ""); // 原PHP输入框
             $("#2fa_keys").val(STORAGE.getItem("keyAll") || "");
         
             await syncServerClock();
@@ -992,34 +1021,31 @@
             start2FATimers();
             // --- END: 修改 - 调用启动函数 ---
           
-            // --- START: 新增 - 导航切换逻辑 ---
+            // --- START: 导航切换逻辑 ---
             $('.xyrj-nav li a').on('click', function(e) {
                 e.preventDefault();
                 var $this = $(this);
                 var tool = $this.data('tool');
 
                 if ($this.hasClass('active') || !tool) {
-                    return; // 如果点击了已激活的或没有 data-tool 的，则不操作
+                    return; 
                 }
 
-                // 1. 更新导航样式
                 $('.xyrj-nav li a').removeClass('active');
                 $this.addClass('active');
 
-                // 2. 切换内容面板
                 $('.tool-panel').removeClass('active').hide();
                 $('#tool-content-' + tool).addClass('active').show();
 
-                // 3. 控制 2FA 定时器
                 if (tool === '2fa') {
                     start2FATimers();
                 } else {
                     stop2FATimers();
                 }
             });
-            // --- END: 新增 - 导航切换逻辑 ---
+            // --- END: 导航切换逻辑 ---
 
-            // --- START: 新增 - QR 生成器按钮逻辑 ---
+            // --- START: QR 生成器按钮逻辑 ---
             $('#generate-qr-btn').on('click', function() {
                 var text = $('#qr-text-input').val();
                 if (!text) {
@@ -1039,10 +1065,9 @@
                 $output.empty(); // 清空上一个
                 
                 try {
-                    // 在 #qr-code-output 元素内生成二维码
                     new QRCode(document.getElementById("qr-code-output"), {
                         text: text,
-                        width: 256, // 固定大小
+                        width: 256,
                         height: 256,
                         colorDark : "#000000",
                         colorLight : "#ffffff",
@@ -1052,7 +1077,59 @@
                     showNotification('生成QR码失败: ' + e.message);
                 }
             });
-            // --- END: 新增 - QR 生成器按钮逻辑 ---
+            // --- END: QR 生成器按钮逻辑 ---
+            
+            // --- START: 文本处理工具逻辑 ---
+            const $textIn = $('#text-input');
+            const $textOut = $('#text-output');
+
+            $('#text-btn-upper').on('click', function() {
+                $textOut.val($textIn.val().toUpperCase());
+            });
+
+            $('#text-btn-lower').on('click', function() {
+                $textOut.val($textIn.val().toLowerCase());
+            });
+
+            $('#text-btn-capitalize').on('click', function() {
+                // 将整个文本的第一个字母转为大写
+                const text = $textIn.val();
+                $textOut.val(text.charAt(0).toUpperCase() + text.slice(1));
+            });
+            
+            $('#text-btn-clear').on('click', function() {
+                $textIn.val('');
+                $textOut.val('');
+            });
+            
+            $('#text-btn-copy').on('click', function() {
+                copyText($textOut.val());
+            });
+
+            $('#text-btn-remove-empty').on('click', function() {
+                const lines = $textIn.val().split('\n');
+                $textOut.val(lines.filter(line => line.trim() !== '').join('\n'));
+            });
+
+            $('#text-btn-deduplicate').on('click', function() {
+                const lines = $textIn.val().split('\n');
+                const uniqueLines = [...new Set(lines)];
+                $textOut.val(uniqueLines.join('\n'));
+            });
+
+            $('#text-btn-sort-asc').on('click', function() {
+                const lines = $textIn.val().split('\n');
+                // 过滤掉空行再排序
+                $textOut.val(lines.filter(line => line.trim() !== '').sort().join('\n'));
+            });
+
+            $('#text-btn-sort-desc').on('click', function() {
+                const lines = $textIn.val().split('\n');
+                // 过滤掉空行再排序
+                $textOut.val(lines.filter(line => line.trim() !== '').sort().reverse().join('\n'));
+            });
+            // --- END: 文本处理工具逻辑 ---
+
 
           }); // $(document).ready 结束
         
