@@ -181,3 +181,324 @@ dl, ol, ul {
         margin-top: 0.375rem;
     }
 }
+
+
+.xyrj-right {
+    -ms-flex: 0 0 83.333333%;
+    flex: 0 0 83.333333%;
+    max-width: 83.333333%;
+}
+
+.xyrjbox-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.875rem;
+    position: relative;
+    transition: box-shadow .3s ease-in-out;
+}
+
+.xyrjbox-content::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+.title-2fa {
+    position: relative;
+    color: #3B4B5E;
+    font-size: 1.5rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+}
+
+.class-2fa, hr {
+    float: left;
+    width: 100%;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+.div-2fa {
+    margin-bottom: 0.65rem;
+    font-size: 0.88rem;
+}
+
+.input-2fa {
+    background-color: #F7F9FA;
+    border: 0px;
+    border-radius: 0.55rem;
+    box-shadow: none;
+    color: #5E6E80;
+    padding: 0.875rem 1.375rem 0.8125rem;
+    outline: none !important;
+    position: relative;
+    width: 100%;
+    box-shadow: inset 0px 0px 1px 1px rgb(50 174 77);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.btn-get {
+    background-image: linear-gradient(142.17deg, #009688 6.66%, #00d708de 91.48%);
+    box-shadow: inset -0.25rem -0.25rem 0.3125rem rgba(0, 0, 0, 0.1), inset 0.25rem 0.25rem 0.3125rem rgba(255, 255, 255, 0.23);
+    border-radius: 0.35rem;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    /*font-size: 1rem;*/
+    font-weight: 600;
+    padding: 0.50rem 0.88rem;
+}
+
+.div-2fa>span {
+    margin-left: 0.55rem;
+    font-weight: 600;
+}
+.message-class {
+    font-weight: 300 !important;
+}
+
+.btn-qr {
+    float: right;
+    border: 0;
+    background-image: linear-gradient(142.17deg, #009688 6.66%, #00d708de 91.48%);
+    box-shadow: inset -0.25rem -0.25rem 0.3125rem rgba(0, 0, 0, 0.1), inset 0.25rem 0.25rem 0.3125rem rgba(255, 255, 255, 0.23);
+    border-radius: 0.25rem;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.30rem 0.80rem;
+}
+.btn-get:hover, .btn-qr:hover {
+    background: none;
+    color: #000;
+    box-shadow: inset 0px 0px 1px 1px rgb(50 174 77);
+}
+
+.xyrj-footer {
+    color: #8D99A6;
+    font-size: 0.875rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.del_2fakeys {
+    background-image: linear-gradient(142.17deg, #ff6767 6.66%, #ae4c1ade 91.48%) !important;
+}
+.del_2fakeys:hover {
+    box-shadow: inset 0px 0px 1px 1px rgb(249 78 78);
+    background-image: none !important;
+    color: red;
+}
+
+button:not(:disabled) {
+    cursor: pointer;
+}
+textarea {
+    background-color: #F7F9FA;
+    border: 0px;
+    border-radius: 0.55rem;
+    padding: 2px 4px;
+    box-shadow: none;
+    color: #5E6E80;
+    width: 100%;
+    height: 120px !important;
+    box-shadow: inset 0px 0px 1px 1px rgb(50 174 77);
+    outline: none !important;
+}
+textarea {
+    overflow: auto;
+    resize: vertical;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+* {
+    word-break: break-all;
+}
+*, ::before, ::after {
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+}
+#notification-container { position: fixed; top: 20px; right: 20px; z-index: 9999;}
+.notification { background-color: #030303bf; color: #fff; padding: 15px; border-radius: 4px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); opacity: 0; transform: translateX(100%); transition: opacity 0.5s, transform 0.5s;}
+.notification.show { opacity: 1; transform: translateX(0);}
+
+/* --- START: 原始新增样式 --- */
+.tool-panel {
+    display: none;
+    width: 100%;
+    float: left;
+}
+.tool-panel.active {
+    display: block;
+}
+.qr-settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    width: 100%;
+    /* float: left; (不再需要，因为父级不是 float) */
+    margin-top: 1rem;
+}
+.div-2fa select.input-2fa {
+    height: calc(1.5em + 1.75rem + 2px); 
+    padding: 0.875rem 1.375rem 0.8125rem;
+}
+#qr-code-output {
+    width: 276px;
+    height: 276px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F7F9FA;
+}
+/* --- START: 新增样式 for API Image --- */
+#qr-code-output-img {
+    max-width: 100%;
+    height: auto;
+    display: none; /* 初始隐藏 */
+}
+/* --- END: 新增样式 for API Image --- */
+.title-p, .placeholder-p {
+    font-size: 1rem;
+    color: #5E6E80;
+    margin-top: 0.5rem;
+    /*margin-bottom: 1rem;*/
+    width: 100%;
+    float: left;
+}
+/* --- END: 原始新增样式 --- */
+
+/* --- START: 布局修改 - QR 双列布局 --- */
+.qr-layout-wrapper::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.qr-settings-column {
+    float: left;
+    width: 60%;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+.qr-display-column {
+    float: right;
+    width: 40%;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+/* --- END: 布局修改 --- */
+
+/* --- START: 文本工具按钮样式 --- */
+.text-tool-buttons {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-wrap: wrap; /* 允许按钮换行 */
+    gap: 10px; /* 按钮之间的间距 */
+}
+/* 继承 .btn-get 样式，但用于更小的按钮 */
+.btn-get-sm {
+    background-image: linear-gradient(142.17deg, #009688 6.66%, #00d708de 91.48%);
+    box-shadow: inset -0.25rem -0.25rem 0.3125rem rgba(0, 0, 0, 0.1), inset 0.25rem 0.25rem 0.3125rem rgba(255, 255, 255, 0.23);
+    border-radius: 0.35rem;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.40rem 0.75rem; /* 稍微小一点的 padding */
+    font-size: 0.88rem; /* 字体大小与 .div-2fa 一致 */
+}
+.btn-get-sm:hover {
+    background: none;
+    color: #000;
+    box-shadow: inset 0px 0px 1px 1px rgb(50 174 77);
+}
+.del_2fakeys_sm {
+    background-image: linear-gradient(142.17deg, #ff6767 6.66%, #ae4c1ade 91.48%) !important;
+}
+.del_2fakeys_sm:hover {
+    box-shadow: inset 0px 0px 1px 1px rgb(249 78 78);
+    background-image: none !important;
+    color: red;
+}
+
+/* 自动复制设置的样式 */
+.div-2fa-flex {
+    margin-bottom: 0.65rem;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.div-2fa-flex label {
+    font-weight: 600;
+    margin: 0;
+}
+.div-2fa-flex select.input-2fa {
+    width: auto; /* 自动宽度 */
+    flex-grow: 1;
+    min-width: 100px;
+}
+/* --- END: 文本工具按钮样式 --- */
+
+/* --- START: 为单选框添加新样式 --- */
+.radio-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.radio-group input[type="radio"] {
+    /* 隐藏默认单选框 */
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.15em; /* 调整大小 */
+    height: 1.15em;
+    border: 2px solid #5E6E80;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    top: 2px; /* 微调垂直对齐 */
+}
+.radio-group input[type="radio"]:checked {
+    border-color: #0ba360;
+    background-color: #fff;
+}
+/* 创建内部圆点 */
+.radio-group input[type="radio"]:checked::after {
+    content: '';
+    display: block;
+    width: 0.65em; /* 圆点大小 */
+    height: 0.65em;
+    background-color: #0ba360;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.radio-group label {
+    font-weight: normal !important; /* 覆盖父级 .div-2fa 的加粗 */
+    margin: 0;
+    padding-right: 10px;
+    cursor: pointer;
+}
+/* --- END: 为单选框添加新样式 --- */
