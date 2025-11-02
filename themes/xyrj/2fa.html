@@ -326,8 +326,8 @@
 
         /* --- START: 文本工具按钮样式 --- */
         .text-tool-buttons {
-            margin-top: 0.4rem; /* 减小间距 */
-            margin-bottom: 0.4rem; /* 减小间距 */
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
             display: flex;
             flex-wrap: wrap; /* 允许按钮换行 */
             gap: 10px; /* 按钮之间的间距 */
@@ -420,18 +420,6 @@
             cursor: pointer;
         }
         /* --- END: 为单选框添加新样式 --- */
-        
-        /* --- START: 为合并行添加的新样式 --- */
-        .div-2fa-flex-between {
-            margin-bottom: 0.4rem; /* 紧凑的间距 */
-            font-size: 0.88rem;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap; /* 在小屏幕上换行 */
-            justify-content: space-between; /* 关键：左右对齐 */
-            gap: 20px; /* 元素组之间的间距 */
-        }
-        /* --- END: 为合并行添加的新样式 --- */
 
     </style>
     </head>
@@ -647,16 +635,6 @@
                                         <label for="text-io" style="font-weight: 600; margin-bottom: 5px;">输入 / 输出:</label>
                                         <textarea id="text-io" placeholder="在此处粘贴或输入文本..." style="height: 300px !important;"></textarea>
                                     </div>
-
-                                    <h3 class="title title--h5" style="margin-top: 1.5rem; float: left; width: 100%;">提示</h3>
-									<p class="tip-p" style="margin-bottom: 0;">
-                                        <strong>首字母大写</strong>: 仅在英文单词有空格的情况下才有效。<br>
-                                        <strong>句子首字母大写</strong>: 仅在". "后的第一个单词有效。<br>
-                                        <strong>"标题大小写"</strong>: 目前的全大写单词有过滤比较少、 大家可以反馈提交。
-                                    </p>
-                                    
-                                    <hr>
-                                    
                                     <div class="class-2fa text-tool-buttons">
                                         <button id="text-btn-upper" class="btn-get-sm">全大写 AB</button>
                                         <button id="text-btn-lower" class="btn-get-sm">全小写 ab</button>
@@ -682,16 +660,17 @@
                                         <button id="text-btn-underscore-to-dot" class="btn-get-sm">下划线→小数点</button>
                                         <button id="text-btn-dot-to-underscore" class="btn-get-sm">小数点→下划线</button>
                                     </div>
+                                    <div class="class-2fa text-tool-buttons">
+                                        <button id="text-btn-space-to-newline" class="btn-get-sm">空格→换行</button>
+                                        <button id="text-btn-newline-to-space" class="btn-get-sm">换行→空格</button>
+                                        <button id="text-btn-clear-lines" class="btn-get-sm">清除行号</button>
+                                        <button id="text-btn-clear-space" class="btn-get-sm">清除空格</button>
+                                        <button id="text-btn-clear-newline" class="btn-get-sm">清除换行</button>
+                                    </div>
 
-                                    <div class="class-2fa div-2fa-flex-between">
-                                        <div class="text-tool-buttons" style="margin: 0;"> <button id="text-btn-space-to-newline" class="btn-get-sm">空格→换行</button>
-                                            <button id="text-btn-newline-to-space" class="btn-get-sm">换行→空格</button>
-                                            <button id="text-btn-clear-lines" class="btn-get-sm">清除行号</button>
-                                            <button id="text-btn-clear-space" class="btn-get-sm">清除空格</button>
-                                            <button id="text-btn-clear-newline" class="btn-get-sm">清除换行</button>
-                                        </div>
-                                    
-                                        <div class="div-2fa-flex" style="margin: 0;"> <label>转换后自动复制结果:</label>
+                                    <div class="class-2fa" style="margin-top: 1rem;">
+                                        <div class="div-2fa-flex">
+                                            <label>转换后自动复制结果:</label>
                                             <div class="radio-group">
                                                 <input type="radio" id="auto-copy-no" name="auto-copy" value="no" checked>
                                                 <label for="auto-copy-no">否</label>
@@ -700,7 +679,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    </div>
+                                    <hr>
+                                    <h3 class="title title--h5">提示</h3>
+									<p class="tip-p">
+                                        <strong>首字母大写</strong>: 仅在英文单词有空格的情况下才有效。<br>
+                                        <strong>句子首字母大写</strong>: 仅在". "后的第一个单词有效。<br>
+                                        <strong>"标题大小写"</strong>: 目前的全大写单词有过滤比较少、 大家可以反馈提交。
+                                    </p>
+                                </div>
                                 <div id="tool-content-datetime" class="tool-panel">
                                     <div class="xyrj-2fa">
                                         <h1 class="title-2fa">日期时间</h1>
