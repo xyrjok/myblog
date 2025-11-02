@@ -751,6 +751,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ &OPT.theme_github_path }}xyrj/tools/otpauth.umd.min.js"></script>
+	<script src="{{ &OPT.theme_github_path }}xyrj/tools/qrcode.min.js"></script>
     <script src="{{ &OPT.theme_github_path }}xyrj/tools/pinyin-pro.js"></script>
     <script src="{{ &OPT.theme_github_path }}xyrj/files/sticky-sidebar.min.js"></script>
     <script>
@@ -1100,6 +1101,7 @@
             return code;
           }
         
+          // This function is for the 2FA Modal, and uses qrcode.min.js
           function generateQRCode(secretInput) {
             const lastSeven = secretInput.slice(-7);
             const label  = 'Handy tool';
@@ -1112,72 +1114,7 @@
             const uri = totp.toString();
             const qrContainer = document.getElementById('qrcode');
             while (qrContainer.firstChild) qrContainer.removeChild(qrContainer.firstChild);
-            
-            // This still uses qrcode.min.js, but it was not loaded.
-            // We need to load it back OR use the API for this modal too.
-            // For now, I will load it back, as fixing this modal is complex.
-            // Re-adding the script tag
-            
-            // --- Crap, the modal ALSO uses qrcode.min.js ---
-            // The user's 2FA "生成二维码" button (`#btn-qr-js`) calls `openQRFor()`
-            // `openQRFor()` calls `new QRCode(...)`
-            
-            // --- OK, NEW PLAN ---
-            // 1. Keep `qrcode.min.js` loaded. It's needed for the 2FA QR code modal.
-            // 2. The "Generate QR" tab will use the API.
-            // 3. The "2FA" tab will use the local `qrcode.min.js`.
-            // This is the simplest path. I will re-add the script tag I deleted.
-            
-            // My previous thought process was to *remove* qrcode.min.js. This is wrong.
-            // I will go back and add it. The user's new logic for the "Generate QR" tab
-            // doesn't conflict with the 2FA tab's logic.
-            
-            // ... (Re-simulating after re-adding qrcode.min.js) ...
-            
-            // OK, the `generateQRCode` for the 2FA modal will still work.
-            // My new code for the "Generate QR" tab is separate and uses the API.
-            // This is fine. I will proceed with the code block.
-            
-            // Wait, the user *just* used the file. I don't need to re-add the
-            // script tag to my *output*, I just need to *not delete it* from the
-            // original file.
-            
-            // Let's check the script block at the end...
-            // <script src="{{ &OPT.theme_github_path }}xyrj/tools/otpauth.umd.min.js"></script>
-            // <script src="{{ &OPT.theme_github_path }}xyrj/tools/qrcode.min.js"></script>
-            // <script src="{{ &OPT.theme_github_path }}xyrj/tools/pinyin-pro.js"></script>
-            
-            // Yes, the original file has `qrcode.min.js`.
-            // My new logic for the "Generate QR" tab (using the API) does not *break*
-            // the 2FA tab's modal, which uses `new QRCode(...)`.
-            
-            // I will NOT remove the script tag.
-            // I will just replace the *click handler* for `#generate-qr-btn`.
-            
-            // Re-running the thought...
-            
-            // 1. **Keep `qrcode.min.js`:** Do not delete the script tag. It's needed for the 2FA modal.
-            // 2. **Modify HTML:** Change `div#qr-code-output` to hold an `img#qr-code-output-img`. Enable all settings fields.
-            // 3. **Modify JS:** Replace *only* the `$('#generate-qr-btn').on('click', ...)` function body with the new API logic.
-            
-            // This is the correct, safe plan. The code I prepared in step 4 is still valid,
-            // I just need to make sure I present the *full* file which *includes* the
-            // qrcode.min.js script tag.
-            
-            // The user's code:
-            // App.handleGenerateQRCode = function() { ... }
-            // My integration:
-            // $('#generate-qr-btn').on('click', function() { ... (logic from user's code) ... });
-            
-            // This is what I will output.
-            
-            // Back to the `generateQRCode` function analysis:
-            // This function is for the 2FA modal (`#btn-qr-js`).
-            // It correctly uses `new QRCode(qrContainer, { text: uri });`
-            // This relies on `qrcode.min.js`.
-            // My changes *do not* touch this part of the code, so it's safe.
-            
-            // My logic is sound.
+            new QRCode(qrContainer, { text: uri });
           }
         
           function openQRFor(inputSelector) {
