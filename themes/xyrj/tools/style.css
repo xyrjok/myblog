@@ -206,26 +206,6 @@ dl, ol, ul {
     }
 }
 
-.xyrj-right {
-    -ms-flex: 0 0 83.333333%;
-    flex: 0 0 83.333333%;
-    max-width: 83.333333%;
-}
-
-.xyrjbox-content {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 1.875rem;
-    position: relative;
-    transition: box-shadow .3s ease-in-out;
-}
-
-.xyrjbox-content::after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 
 .title-2fa {
     position: relative;
