@@ -1,23 +1,39 @@
-.xyrj-main-layout {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: stretch;
-}
-
 .xyrj-left {
-    flex: 0 0 16.666667%;
-    max-width: 16.666667%;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+@media (min-width: 992px) {
+    .xyrj-left {
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+@media (min-width: 768px) {
+     .xyrj-left {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
 
-.xyojbk-content {
-    padding: 2rem;
-    background-color: #fff;
-    position: relative;
-    border-radius: 8px;
-    width: 90%;
-    padding-right: 35px;
-    padding-left: 35px;
+.xyrj-nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .xyrj-nav {
@@ -31,12 +47,19 @@
 }
 
 .nav__item {
+    user-select: none;
     display: block;
     height: 6.25rem;
     margin-bottom: 1rem;
     text-align: center;
     text-transform: uppercase;
     width: 100%;
+}
+
+.nav__item a.active {
+    background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+    box-shadow: inset -0.25rem -0.25rem 0.3125rem rgba(0, 0, 0, 0.1), inset 0.25rem 0.25rem 0.3125rem rgba(255, 255, 255, 0.23);
+    color: #fff;
 }
 
 .nav__item a {
@@ -57,20 +80,101 @@
 
 .nav__item a i {
     display: block;
-    font-size: 2.25rem;
-    margin-top: 0.25rem;
-    margin-bottom: 0.5rem;
+    font-size: 2.25rem;    
+    margin-top: 0.25rem;   
+    margin-bottom: 0.5rem;  
 }
 
-.nav__item a.active {
-    background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
-    box-shadow: inset -0.25rem -0.25rem 0.3125rem rgba(0, 0, 0, 0.1), inset 0.25rem 0.25rem 0.3125rem rgba(255, 255, 255, 0.23);
-    color: #fff;
+.nav__item a > * {
+    min-width: 0;
 }
 
-.nav__item a:hover {
-    color: #0ba360; /* 鼠标悬停时变绿色 */
+
+@media only screen and (max-width: 1200px) {
+    .sidebar-inner-wrapper {
+        padding: 1.5rem;
+    }
+
+    .nav__item {
+        height: 5.125rem;
+    }
+
+    .nav__item a {
+        border-radius: 1rem;
+        font-size: 0.75rem;
+    }
+
+    .nav__item a i {
+        font-size: 1.75rem;
+        margin-bottom: 0.25rem;
+    }
 }
+
+@media only screen and (max-width: 991px) {
+    .sidebar-inner-wrapper {
+        border-bottom: 1px solid #EBF0F2;
+        border-radius: 20px 20px 0 0;
+        padding: 1.875rem;
+    }
+
+    .xyrj-nav {
+        justify-content: space-between;
+    }
+
+    .nav__item {
+        margin-bottom: 0;
+        width: calc(20% - 1rem);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .nav__item {
+        width: calc(20% - .5rem);
+    }
+
+    .nav__item a {
+        font-size: 0.6875rem;
+    }
+
+    .nav__item a i {
+        font-size: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 580px) {
+    .sidebar-inner-wrapper {
+        border-bottom: 0;
+        border-radius: 0;
+        box-shadow: 0px 20px 40px rgba(103, 118, 128, 0.2);
+        padding: 0.5rem 0.9375rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+    }
+
+    .xyrj-nav {
+        justify-content: center;
+    }
+
+    .nav__item {
+        height: auto;
+        width: calc(20% - 0rem);
+    }
+
+    .nav__item a.active {
+        background-image: none;
+        box-shadow: none;
+        color: #039c80;
+    }
+
+    .nav__item a i {
+        font-size: 1.0625rem;
+        margin-top: 0.375rem;
+    }
+}
+
 
 .xyrj-right {
     -ms-flex: 0 0 83.333333%;
@@ -391,36 +495,4 @@ button, input, optgroup, select, textarea {
     cursor: pointer;
 }
 /* --- END: 为单选框添加新样式 --- */
-
-@media (min-width: 992px) {
-    .xyrj-left {
-        -ms-flex: 0 0 16.666667%;
-        flex: 0 0 16.666667%;
-        max-width: 16.666667%;
-        position: relative;
-        width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-}
-
-@media only screen and (max-width: 1200px) {
-  .xyojbk-content {
-      padding: 1.5rem;
-  }
-
-  .nav__item {
-      height: 5.125rem;
-  }
-
-  .nav__item a {
-      border-radius: 1rem;
-      font-size: 0.75rem;
-  }
-
-  .nav__item a i {
-      font-size: 1.75rem;
-      margin-bottom: 0.25rem;
-  }
-}
 
