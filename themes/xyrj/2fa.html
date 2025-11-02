@@ -104,13 +104,11 @@
 			transition: box-shadow .3s ease-in-out;
 		}
         
-        /* --- START: 布局修复 (来自上一轮) --- */
         .xyrjbox-content::after {
             content: "";
             display: table;
             clear: both;
         }
-        /* --- END: 布局修复 --- */
 
 
 		.title-2fa {
@@ -334,6 +332,50 @@
             flex-wrap: wrap; /* 允许按钮换行 */
             gap: 10px; /* 按钮之间的间距 */
         }
+        /* 继承 .btn-get 样式，但用于更小的按钮 */
+        .btn-get-sm {
+            background-image: linear-gradient(142.17deg, #009688 6.66%, #00d708de 91.48%);
+            box-shadow: inset -0.25rem -0.25rem 0.3125rem rgba(0, 0, 0, 0.1), inset 0.25rem 0.25rem 0.3125rem rgba(255, 255, 255, 0.23);
+            border-radius: 0.35rem;
+            border: 0;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 0.40rem 0.75rem; /* 稍微小一点的 padding */
+            font-size: 0.88rem; /* 字体大小与 .div-2fa 一致 */
+        }
+        .btn-get-sm:hover {
+			background: none;
+			color: #000;
+			box-shadow: inset 0px 0px 1px 1px rgb(50 174 77);
+		}
+        .del_2fakeys_sm {
+            background-image: linear-gradient(142.17deg, #ff6767 6.66%, #ae4c1ade 91.48%) !important;
+        }
+        .del_2fakeys_sm:hover {
+			box-shadow: inset 0px 0px 1px 1px rgb(249 78 78);
+			background-image: none !important;
+			color: red;
+		}
+
+        /* 自动复制设置的样式 */
+        .div-2fa-flex {
+            margin-bottom: 0.65rem;
+			font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .div-2fa-flex label {
+            font-weight: 600;
+            margin: 0;
+        }
+        .div-2fa-flex select.input-2fa {
+            width: auto; /* 自动宽度 */
+            flex-grow: 1;
+            min-width: 100px;
+        }
         /* --- END: 文本工具按钮样式 --- */
 
     </style>
@@ -549,23 +591,61 @@
                                         <label for="text-input" style="font-weight: 600; margin-bottom: 5px;">输入文本:</label>
                                         <textarea id="text-input" placeholder="在此处粘贴或输入文本..." style="height: 150px !important;"></textarea>
                                     </div>
+                                    
                                     <div class="class-2fa text-tool-buttons">
-                                        <button id="text-btn-upper" class="btn-get">转大写</button>
-                                        <button id="text-btn-lower" class="btn-get">转小写</button>
-                                        <button id="text-btn-capitalize" class="btn-get">首字母大写</button>
-                                        <button id="text-btn-clear" class="btn-get del_2fakeys" style="background-image: none !important;">清空</button>
-                                        <button id="text-btn-copy" class="btn-get">复制结果</button>
+                                        <button id="text-btn-upper" class="btn-get-sm">全大写 AB</button>
+                                        <button id="text-btn-lower" class="btn-get-sm">全小写 ab</button>
+                                        <button id="text-btn-cap-words" class="btn-get-sm">首字母大写 Aa Bb</button>
+                                        <button id="text-btn-lower-words" class="btn-get-sm">首字母小写 aA bB</button>
+                                        <button id="text-btn-cap-sentence" class="btn-get-sm">句子首字母大写</button>
+                                        <button id="text-btn-cap-title" class="btn-get-sm">标题大小写</button>
                                     </div>
                                     <div class="class-2fa text-tool-buttons">
-                                        <button id="text-btn-remove-empty" class="btn-get">去除空行</button>
-                                        <button id="text-btn-deduplicate" class="btn-get">行去重</button>
-                                        <button id="text-btn-sort-asc" class="btn-get">行排序(升序)</button>
-                                        <button id="text-btn-sort-desc" class="btn-get">行排序(降序)</button>
+                                        <button id="text-btn-pinyin" class="btn-get-sm">汉字转拼音</button>
+                                        <button id="text-btn-copy" class="btn-get-sm">复制</button>
+                                        <button id="text-btn-cut" class="btn-get-sm">剪切</button>
+                                        <button id="text-btn-clear" class="btn-get-sm del_2fakeys_sm" style="background-image: none !important;">清空</button>
                                     </div>
+                                    <div class="class-2fa text-tool-buttons">
+                                        <button id="text-btn-space-to-underscore" class="btn-get-sm">空格→下划线</button>
+                                        <button id="text-btn-to-camel" class="btn-get-sm">下划线&空格→驼峰</button>
+                                        <button id="text-btn-camel-to-underscore" class="btn-get-sm">驼峰→下划线</button>
+                                        <button id="text-btn-camel-to-space" class="btn-get-sm">驼峰→空格</button>
+                                        <button id="text-btn-space-to-hyphen" class="btn-get-sm">空格→中横线</button>
+                                        <button id="text-btn-hyphen-to-underscore" class="btn-get-sm">中横线→下划线</button>
+                                        <button id="text-btn-underscore-to-space" class="btn-get-sm">下划线→空格</button>
+                                        <button id="text-btn-underscore-to-dot" class="btn-get-sm">下划线→小数点</button>
+                                        <button id="text-btn-dot-to-underscore" class="btn-get-sm">小数点→下划线</button>
+                                    </div>
+                                    <div class="class-2fa text-tool-buttons">
+                                        <button id="text-btn-space-to-newline" class="btn-get-sm">空格→换行</button>
+                                        <button id="text-btn-newline-to-space" class="btn-get-sm">换行→空格</button>
+                                        <button id="text-btn-clear-lines" class="btn-get-sm">清除行号</button>
+                                        <button id="text-btn-clear-space" class="btn-get-sm">清除空格</button>
+                                        <button id="text-btn-clear-newline" class="btn-get-sm">清除换行</button>
+                                    </div>
+
+                                    <div class="class-2fa" style="margin-top: 1rem;">
+                                        <div class="div-2fa-flex">
+                                            <label for="text-auto-copy">转换后自动复制结果:</label>
+                                            <select id="text-auto-copy" class="input-2fa" style="height: auto; padding: 0.50rem 0.88rem;">
+                                                <option value="no">否</option>
+                                                <option value="yes">是</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="class-2fa" style="margin-top: 0.5rem;">
                                         <label for="text-output" style="font-weight: 600; margin-bottom: 5px;">处理结果:</label>
                                         <textarea id="text-output" readonly placeholder="处理结果将显示在这里..." style="height: 150px !important; background-color: #f1f3f4;"></textarea>
                                     </div>
+                                    <hr>
+                                    <h3 class="title title--h5">提示</h3>
+									<p class="tip-p">
+                                        <strong>首字母大写</strong>: 仅在英文单词有空格的情况下才有效。<br>
+                                        <strong>句子首字母大写</strong>: 仅在". "后的第一个单词有效。<br>
+                                        <strong>"标题大小写"</strong>: 目前的全大写单词有过滤比较少、 大家可以反馈提交。
+                                    </p>
                                 </div>
                                 <div id="tool-content-datetime" class="tool-panel">
                                     <div class="xyrj-2fa">
@@ -635,7 +715,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ &OPT.theme_github_path }}xyrj/tools/otpauth.umd.min.js"></script>
 	<script src="{{ &OPT.theme_github_path }}xyrj/tools/qrcode.min.js"></script>
-	<script src="{{ &OPT.theme_github_path }}xyrj/files/sticky-sidebar.min.js"></script>
+    <script src="{{ &OPT.theme_github_path }}xyrj/tools/pinyin-pro.js"></script>
+    <script src="{{ &OPT.theme_github_path }}xyrj/files/sticky-sidebar.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const topButton = document.querySelector('.j-top');
@@ -857,7 +938,7 @@
           }
         
           async function copyText(str) {
-            if (!str) {
+            if (str === null || str === undefined || str === "") {
                 showNotification("内容为空，无需复制。");
                 return;
             }
@@ -1083,51 +1164,89 @@
             const $textIn = $('#text-input');
             const $textOut = $('#text-output');
 
-            $('#text-btn-upper').on('click', function() {
-                $textOut.val($textIn.val().toUpperCase());
-            });
+            // 自动复制包装器
+            function processText(newText) {
+                $textOut.val(newText);
+                if ($('#text-auto-copy').val() === 'yes') {
+                    copyText(newText);
+                }
+            }
 
-            $('#text-btn-lower').on('click', function() {
-                $textOut.val($textIn.val().toLowerCase());
+            // 1. 大小写
+            $('#text-btn-upper').on('click', () => processText($textIn.val().toUpperCase()));
+            $('#text-btn-lower').on('click', () => processText($textIn.val().toLowerCase()));
+            $('#text-btn-cap-words').on('click', () => {
+                processText($textIn.val().toLowerCase().replace(/\b\w/g, char => char.toUpperCase()));
             });
-
-            $('#text-btn-capitalize').on('click', function() {
-                // 将整个文本的第一个字母转为大写
-                const text = $textIn.val();
-                $textOut.val(text.charAt(0).toUpperCase() + text.slice(1));
+            $('#text-btn-lower-words').on('click', () => {
+                 processText($textIn.val().replace(/\b\w/g, char => char.toLowerCase()));
+            });
+            $('#text-btn-cap-sentence').on('click', () => {
+                processText($textIn.val().toLowerCase().replace(/(^\w|\. \w)/g, char => char.toUpperCase()));
             });
             
-            $('#text-btn-clear').on('click', function() {
+            // 标题格
+            const smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|of|on|or|the|to|v|via|vs)$/i;
+            $('#text-btn-cap-title').on('click', () => {
+                let text = $textIn.val().toLowerCase();
+                text = text.replace(/\b\w+/g, (word, index) => {
+                    if (index === 0 || !smallWords.test(word)) {
+                        return word.charAt(0).toUpperCase() + word.slice(1);
+                    }
+                    return word;
+                });
+                processText(text);
+            });
+
+            // 2. 编辑
+            $('#text-btn-pinyin').on('click', () => {
+                if (typeof pinyinPro === 'undefined') {
+                    showNotification("错误：pinyin-pro.js 库未加载！");
+                    return;
+                }
+                const text = $textIn.val();
+                try {
+                    // 使用 pinyin-pro，不带声调，分隔
+                    const pinyinResult = pinyinPro.pinyin(text, { toneType: 'none', type: 'string' });
+                    processText(pinyinResult);
+                } catch (e) {
+                    showNotification("拼音转换失败: " + e.message);
+                }
+            });
+            $('#text-btn-copy').on('click', () => copyText($textOut.val()));
+            $('#text-btn-cut').on('click', () => {
+                copyText($textIn.val());
                 $textIn.val('');
                 $textOut.val('');
             });
+            $('#text-btn-clear').on('click', () => {
+                $textIn.val('');
+                $textOut.val('');
+            });
+
+            // 3. 替换
+            $('#text-btn-space-to-underscore').on('click', () => processText($textIn.val().replace(/ /g, '_')));
+            $('#text-btn-to-camel').on('click', () => {
+                processText($textIn.val().toLowerCase().replace(/[\s_]+(\w)/g, (match, char) => char.toUpperCase()));
+            });
+            $('#text-btn-camel-to-underscore').on('click', () => {
+                processText($textIn.val().replace(/([A-Z])/g, '_$1').toLowerCase());
+            });
+            $('#text-btn-camel-to-space').on('click', () => {
+                processText($textIn.val().replace(/([A-Z])/g, ' $1').toLowerCase());
+            });
+            $('#text-btn-space-to-hyphen').on('click', () => processText($textIn.val().replace(/ /g, '-')));
+            $('#text-btn-hyphen-to-underscore').on('click', () => processText($textIn.val().replace(/-/g, '_')));
+            $('#text-btn-underscore-to-space').on('click', () => processText($textIn.val().replace(/_/g, ' ')));
+            $('#text-btn-underscore-to-dot').on('click', () => processText($textIn.val().replace(/_/g, '.')));
+            $('#text-btn-dot-to-underscore').on('click', () => processText($textIn.val().replace(/\./g, '_')));
             
-            $('#text-btn-copy').on('click', function() {
-                copyText($textOut.val());
-            });
-
-            $('#text-btn-remove-empty').on('click', function() {
-                const lines = $textIn.val().split('\n');
-                $textOut.val(lines.filter(line => line.trim() !== '').join('\n'));
-            });
-
-            $('#text-btn-deduplicate').on('click', function() {
-                const lines = $textIn.val().split('\n');
-                const uniqueLines = [...new Set(lines)];
-                $textOut.val(uniqueLines.join('\n'));
-            });
-
-            $('#text-btn-sort-asc').on('click', function() {
-                const lines = $textIn.val().split('\n');
-                // 过滤掉空行再排序
-                $textOut.val(lines.filter(line => line.trim() !== '').sort().join('\n'));
-            });
-
-            $('#text-btn-sort-desc').on('click', function() {
-                const lines = $textIn.val().split('\n');
-                // 过滤掉空行再排序
-                $textOut.val(lines.filter(line => line.trim() !== '').sort().reverse().join('\n'));
-            });
+            // 4. 行和空格
+            $('#text-btn-space-to-newline').on('click', () => processText($textIn.val().replace(/ /g, '\n')));
+            $('#text-btn-newline-to-space').on('click', () => processText($textIn.val().replace(/\n/g, ' ').replace(/\s+/g, ' ')));
+            $('#text-btn-clear-lines').on('click', () => processText($textIn.val().replace(/^\s*\d+[\. \t]/gm, '')));
+            $('#text-btn-clear-space').on('click', () => processText($textIn.val().replace(/[ \t]/g, '')));
+            $('#text-btn-clear-newline').on('click', () => processText($textIn.val().replace(/\n/g, '')));
             // --- END: 文本处理工具逻辑 ---
 
 
