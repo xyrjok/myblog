@@ -6,19 +6,16 @@
 }
 
 .xy-oj {
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
-    max-width: 100%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 @media (min-width: 992px) {
-    .xy-bk {
+	 .xy-bk {
         -ms-flex: 0 0 16.666667%;
         flex: 0 0 16.666667%;
         max-width: 16.666667%;
-        position: relative;
-        width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
     }
 }
 @media (min-width: 768px) {
@@ -181,7 +178,6 @@ dl, ol, ul {
         margin-top: 0.375rem;
     }
 }
-
 
 .xyrj-right {
     -ms-flex: 0 0 83.333333%;
