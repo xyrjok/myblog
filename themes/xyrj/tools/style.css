@@ -11,6 +11,15 @@
     padding-right: 15px;
     padding-left: 15px;
 }
+.box {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 20px 40px rgba(103, 118, 128, 0.03);
+    padding: 1.875rem;
+    position: relative;
+    transition: box-shadow .3s 
+    ease-in-out;
+}
 @media (min-width: 992px) {
     .xy-bk {
         -ms-flex: 0 0 16.666667%;
@@ -96,7 +105,7 @@ dl, ol, ul {
 
 
 @media only screen and (max-width: 1200px) {
-    .sidebar-inner-wrapper {
+    .sidebar {
         padding: 1.5rem;
     }
 
@@ -116,7 +125,7 @@ dl, ol, ul {
 }
 
 @media only screen and (max-width: 991px) {
-    .sidebar-inner-wrapper {
+    .sidebar {
         border-bottom: 1px solid #EBF0F2;
         border-radius: 20px 20px 0 0;
         padding: 1.875rem;
@@ -147,7 +156,7 @@ dl, ol, ul {
 }
 
 @media only screen and (max-width: 580px) {
-    .sidebar-inner-wrapper {
+    .sidebar {
         border-bottom: 0;
         border-radius: 0;
         box-shadow: 0px 20px 40px rgba(103, 118, 128, 0.2);
@@ -157,6 +166,10 @@ dl, ol, ul {
         left: 0;
         width: 100%;
         z-index: 10;
+    }
+    
+    .box {
+        padding: 1rem;
     }
 
     .xyrj-nav {
