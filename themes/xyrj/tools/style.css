@@ -293,25 +293,6 @@ button, input, optgroup, select, textarea {
     padding-left: 20px;
     box-sizing: border-box;
 }
-/* 响应式：在小屏幕上堆叠 */
-@media (max-width: 992px) { /* 调整断点以匹配布局 */
-    .qr-settings-column,
-    .qr-display-column {
-        float: none;
-        width: 100%;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .qr-display-column {
-        margin-top: 2rem; /* 堆叠时增加间距 */
-    }
-    #qr-code-output {
-        width: 100%; /* 占满可用宽度 */
-        max-width: 276px; /* 但最大不超过276px */
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
 /* --- END: 布局修改 --- */
 
 /* --- START: 文本工具按钮样式 --- */
@@ -410,6 +391,14 @@ button, input, optgroup, select, textarea {
     cursor: pointer;
 }
 /* --- END: 为单选框添加新样式 --- */
+
+@media (min-width: 992px) {
+    .xyrj-left {
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
 
 @media only screen and (max-width: 1200px) {
   .xyojbk-content {
