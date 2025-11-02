@@ -12,14 +12,15 @@
     padding-left: 15px;
 }
 @media (min-width: 992px) {
-	 .xy-bk {
+    .xy-bk {
         -ms-flex: 0 0 16.666667%;
         flex: 0 0 16.666667%;
         max-width: 16.666667%;
     }
 }
+
 @media (min-width: 768px) {
-     .xy-jb {
+    .xy-jb {
         -ms-flex: 0 0 100%;
         flex: 0 0 100%;
         max-width: 100%;
