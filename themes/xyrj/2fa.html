@@ -576,11 +576,12 @@
                                             <div class="qr-settings-grid">
                                                 <div class="div-2fa">
                                                     <label for="qr-output-format" style="font-weight: 600; margin-bottom: 5px;">输出格式:</label>
-                                                    <select id="qr-output-format" class="input-2fa">
+                                                    <select id="qr-output-format" class="input-2fa" disabled>
                                                         <option>SVG</option>
                                                         <option>PNG</option>
                                                         <option>JPG</option>
                                                     </select>
+                                                    <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
                                                 </div>
                                                 <div class="div-2fa">
                                                     <label for="qr-correct-level" style="font-weight: 600; margin-bottom: 5px;">纠错级别:</label>
@@ -593,18 +594,19 @@
                                                 </div>
                                                 <div class="div-2fa">
                                                     <label for="qr-type" style="font-weight: 600; margin-bottom: 5px;">类型:</label>
-                                                    <select id="qr-type" class="input-2fa">
+                                                    <select id="qr-type" class="input-2fa" disabled>
                                                         <option>Default</option>
                                                         <option>Swiss</option>
                                                     </select>
+                                                    <small style="margin-top: 5px; display: block;">(功能暂未支持)</small>
                                                 </div>
                                                 <div class="div-2fa">
                                                     <label for="qr-margin" style="font-weight: 600; margin-bottom: 5px;">边缘 (Margin):</label>
                                                     <input type="number" id="qr-margin" class="input-2fa" value="4">
                                                 </div>
                                                 <div class="div-2fa">
-                                                    <label for="qr-cell-size" style="font-weight: 600; margin-bottom: 5px;">原胞大小:</label>
-                                                    <input type="number" id="qr-cell-size" class="input-2fa" value="10">
+                                                    <label for="qr-size" style="font-weight: 600; margin-bottom: 5px;">大小 (px):</label>
+                                                    <input type="number" id="qr-size" class="input-2fa" value="256">
                                                 </div>
                                             </div>
 
@@ -1156,7 +1158,7 @@
             });
             // --- END: 导航切换逻辑 ---
 
-            // --- START: QR 生成器按钮逻辑 ---
+            // --- START: QR 生成器按钮逻辑 (已修改) ---
             $('#generate-qr-btn').on('click', function() {
                 var text = $('#qr-text-input').val();
                 if (!text) {
@@ -1164,7 +1166,14 @@
                     return;
                 }
                 
+                // --- 读取所有设置 ---
                 var level = $('#qr-correct-level').val();
+                var size = parseInt($('#qr-size').val()) || 256; // 读取大小
+                var margin = parseInt($('#qr-margin').val());    // 读取边缘
+                if (isNaN(margin) || margin < 0) {
+                    margin = 4; // 设置一个合理的默认值
+                }
+
                 var correctionLevelMap = {
                     'L': QRCode.CorrectLevel.L,
                     'M': QRCode.CorrectLevel.M,
@@ -1176,10 +1185,12 @@
                 $output.empty(); // 清空上一个
                 
                 try {
+                    // --- 使用所有读取到的设置 ---
                     new QRCode(document.getElementById("qr-code-output"), {
                         text: text,
-                        width: 256,
-                        height: 256,
+                        width: size,
+                        height: size,
+                        margin: margin,
                         colorDark : "#000000",
                         colorLight : "#ffffff",
                         correctLevel : correctionLevelMap[level]
