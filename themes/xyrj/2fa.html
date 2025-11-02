@@ -378,6 +378,49 @@
         }
         /* --- END: 文本工具按钮样式 --- */
 
+        /* --- START: 为单选框添加新样式 --- */
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .radio-group input[type="radio"] {
+            /* 隐藏默认单选框 */
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.15em; /* 调整大小 */
+            height: 1.15em;
+            border: 2px solid #5E6E80;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            top: 2px; /* 微调垂直对齐 */
+        }
+        .radio-group input[type="radio"]:checked {
+            border-color: #0ba360;
+            background-color: #fff;
+        }
+        /* 创建内部圆点 */
+        .radio-group input[type="radio"]:checked::after {
+            content: '';
+            display: block;
+            width: 0.65em; /* 圆点大小 */
+            height: 0.65em;
+            background-color: #0ba360;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .radio-group label {
+            font-weight: normal !important; /* 覆盖父级 .div-2fa 的加粗 */
+            margin: 0;
+            padding-right: 10px;
+            cursor: pointer;
+        }
+        /* --- END: 为单选框添加新样式 --- */
+
     </style>
     </head>
 <body class="m-flex"> 
@@ -587,11 +630,11 @@
                                         <p class="title-p">提供常用的文本处理功能，如大小写转换、去重、排序等。</p>
                                     </div>
                                     <hr>
-                                    <div class="class-2fa">
-                                        <label for="text-input" style="font-weight: 600; margin-bottom: 5px;">输入文本:</label>
-                                        <textarea id="text-input" placeholder="在此处粘贴或输入文本..." style="height: 150px !important;"></textarea>
-                                    </div>
                                     
+                                    <div class="class-2fa">
+                                        <label for="text-io" style="font-weight: 600; margin-bottom: 5px;">输入 / 输出:</label>
+                                        <textarea id="text-io" placeholder="在此处粘贴或输入文本..." style="height: 300px !important;"></textarea>
+                                    </div>
                                     <div class="class-2fa text-tool-buttons">
                                         <button id="text-btn-upper" class="btn-get-sm">全大写 AB</button>
                                         <button id="text-btn-lower" class="btn-get-sm">全小写 ab</button>
@@ -627,17 +670,14 @@
 
                                     <div class="class-2fa" style="margin-top: 1rem;">
                                         <div class="div-2fa-flex">
-                                            <label for="text-auto-copy">转换后自动复制结果:</label>
-                                            <select id="text-auto-copy" class="input-2fa" style="height: auto; padding: 0.50rem 0.88rem;">
-                                                <option value="no">否</option>
-                                                <option value="yes">是</option>
-                                            </select>
+                                            <label>转换后自动复制结果:</label>
+                                            <div class="radio-group">
+                                                <input type="radio" id="auto-copy-no" name="auto-copy" value="no" checked>
+                                                <label for="auto-copy-no">否</label>
+                                                <input type="radio" id="auto-copy-yes" name="auto-copy" value="yes">
+                                                <label for="auto-copy-yes">是</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="class-2fa" style="margin-top: 0.5rem;">
-                                        <label for="text-output" style="font-weight: 600; margin-bottom: 5px;">处理结果:</label>
-                                        <textarea id="text-output" readonly placeholder="处理结果将显示在这里..." style="height: 150px !important; background-color: #f1f3f4;"></textarea>
                                     </div>
                                     <hr>
                                     <h3 class="title title--h5">提示</h3>
@@ -1160,35 +1200,34 @@
             });
             // --- END: QR 生成器按钮逻辑 ---
             
-            // --- START: 文本处理工具逻辑 ---
-            const $textIn = $('#text-input');
-            const $textOut = $('#text-output');
+            // --- START: 文本处理工具逻辑 (已修改) ---
+            const $textIO = $('#text-io');
 
             // 自动复制包装器
             function processText(newText) {
-                $textOut.val(newText);
-                if ($('#text-auto-copy').val() === 'yes') {
+                $textIO.val(newText);
+                if ($('input[name="auto-copy"]:checked').val() === 'yes') {
                     copyText(newText);
                 }
             }
 
             // 1. 大小写
-            $('#text-btn-upper').on('click', () => processText($textIn.val().toUpperCase()));
-            $('#text-btn-lower').on('click', () => processText($textIn.val().toLowerCase()));
+            $('#text-btn-upper').on('click', () => processText($textIO.val().toUpperCase()));
+            $('#text-btn-lower').on('click', () => processText($textIO.val().toLowerCase()));
             $('#text-btn-cap-words').on('click', () => {
-                processText($textIn.val().toLowerCase().replace(/\b\w/g, char => char.toUpperCase()));
+                processText($textIO.val().toLowerCase().replace(/\b\w/g, char => char.toUpperCase()));
             });
             $('#text-btn-lower-words').on('click', () => {
-                 processText($textIn.val().replace(/\b\w/g, char => char.toLowerCase()));
+                 processText($textIO.val().replace(/\b\w/g, char => char.toLowerCase()));
             });
             $('#text-btn-cap-sentence').on('click', () => {
-                processText($textIn.val().toLowerCase().replace(/(^\w|\. \w)/g, char => char.toUpperCase()));
+                processText($textIO.val().toLowerCase().replace(/(^\w|\. \w)/g, char => char.toUpperCase()));
             });
             
             // 标题格
             const smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|of|on|or|the|to|v|via|vs)$/i;
             $('#text-btn-cap-title').on('click', () => {
-                let text = $textIn.val().toLowerCase();
+                let text = $textIO.val().toLowerCase();
                 text = text.replace(/\b\w+/g, (word, index) => {
                     if (index === 0 || !smallWords.test(word)) {
                         return word.charAt(0).toUpperCase() + word.slice(1);
@@ -1204,7 +1243,7 @@
                     showNotification("错误：pinyin-pro.js 库未加载！");
                     return;
                 }
-                const text = $textIn.val();
+                const text = $textIO.val();
                 try {
                     // 使用 pinyin-pro，不带声调，分隔
                     const pinyinResult = pinyinPro.pinyin(text, { toneType: 'none', type: 'string' });
@@ -1213,40 +1252,38 @@
                     showNotification("拼音转换失败: " + e.message);
                 }
             });
-            $('#text-btn-copy').on('click', () => copyText($textOut.val()));
+            $('#text-btn-copy').on('click', () => copyText($textIO.val()));
             $('#text-btn-cut').on('click', () => {
-                copyText($textIn.val());
-                $textIn.val('');
-                $textOut.val('');
+                copyText($textIO.val());
+                $textIO.val('');
             });
             $('#text-btn-clear').on('click', () => {
-                $textIn.val('');
-                $textOut.val('');
+                $textIO.val('');
             });
 
             // 3. 替换
-            $('#text-btn-space-to-underscore').on('click', () => processText($textIn.val().replace(/ /g, '_')));
+            $('#text-btn-space-to-underscore').on('click', () => processText($textIO.val().replace(/ /g, '_')));
             $('#text-btn-to-camel').on('click', () => {
-                processText($textIn.val().toLowerCase().replace(/[\s_]+(\w)/g, (match, char) => char.toUpperCase()));
+                processText($textIO.val().toLowerCase().replace(/[\s_]+(\w)/g, (match, char) => char.toUpperCase()));
             });
             $('#text-btn-camel-to-underscore').on('click', () => {
-                processText($textIn.val().replace(/([A-Z])/g, '_$1').toLowerCase());
+                processText($textIO.val().replace(/([A-Z])/g, '_$1').toLowerCase());
             });
             $('#text-btn-camel-to-space').on('click', () => {
-                processText($textIn.val().replace(/([A-Z])/g, ' $1').toLowerCase());
+                processText($textIO.val().replace(/([A-Z])/g, ' $1').toLowerCase());
             });
-            $('#text-btn-space-to-hyphen').on('click', () => processText($textIn.val().replace(/ /g, '-')));
-            $('#text-btn-hyphen-to-underscore').on('click', () => processText($textIn.val().replace(/-/g, '_')));
-            $('#text-btn-underscore-to-space').on('click', () => processText($textIn.val().replace(/_/g, ' ')));
-            $('#text-btn-underscore-to-dot').on('click', () => processText($textIn.val().replace(/_/g, '.')));
-            $('#text-btn-dot-to-underscore').on('click', () => processText($textIn.val().replace(/\./g, '_')));
+            $('#text-btn-space-to-hyphen').on('click', () => processText($textIO.val().replace(/ /g, '-')));
+            $('#text-btn-hyphen-to-underscore').on('click', () => processText($textIO.val().replace(/-/g, '_')));
+            $('#text-btn-underscore-to-space').on('click', () => processText($textIO.val().replace(/_/g, ' ')));
+            $('#text-btn-underscore-to-dot').on('click', () => processText($textIO.val().replace(/_/g, '.')));
+            $('#text-btn-dot-to-underscore').on('click', () => processText($textIO.val().replace(/\./g, '_')));
             
             // 4. 行和空格
-            $('#text-btn-space-to-newline').on('click', () => processText($textIn.val().replace(/ /g, '\n')));
-            $('#text-btn-newline-to-space').on('click', () => processText($textIn.val().replace(/\n/g, ' ').replace(/\s+/g, ' ')));
-            $('#text-btn-clear-lines').on('click', () => processText($textIn.val().replace(/^\s*\d+[\. \t]/gm, '')));
-            $('#text-btn-clear-space').on('click', () => processText($textIn.val().replace(/[ \t]/g, '')));
-            $('#text-btn-clear-newline').on('click', () => processText($textIn.val().replace(/\n/g, '')));
+            $('#text-btn-space-to-newline').on('click', () => processText($textIO.val().replace(/ /g, '\n')));
+            $('#text-btn-newline-to-space').on('click', () => processText($textIO.val().replace(/\n/g, ' ').replace(/\s+/g, ' ')));
+            $('#text-btn-clear-lines').on('click', () => processText($textIO.val().replace(/^\s*\d+[\. \t]/gm, '')));
+            $('#text-btn-clear-space').on('click', () => processText($textIO.val().replace(/[ \t]/g, '')));
+            $('#text-btn-clear-newline').on('click', () => processText($textIO.val().replace(/\n/g, '')));
             // --- END: 文本处理工具逻辑 ---
 
 
