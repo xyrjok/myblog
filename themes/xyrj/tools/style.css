@@ -116,6 +116,19 @@ dl, ol, ul {
     min-width: 0;
 }
 
+.xyrjbox-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.875rem;
+    position: relative;
+    transition: box-shadow .3s ease-in-out;
+}
+
+.xyrjbox-content::after {
+    content: "";
+    display: table;
+    clear: both;
+}
 
 @media only screen and (max-width: 1200px) {
     .xyrjsidebar {
