@@ -407,18 +407,59 @@ async function handleRequest({ request, env, ctx }) {
 					const CONFIG_keys = await env.XYRJ_CONFIG.list();
 					let CONFIG_json = {};
 					for (const key of CONFIG_keys.keys) { CONFIG_json[key.name] = await env.XYRJ_CONFIG.get(key.name); }
+					
 					const BLOG_keys = await env.XYRJ_BLOG.list();
 					let BLOG_json = {};
 					for (const key of BLOG_keys.keys) { BLOG_json[key.name] = await env.XYRJ_BLOG.get(key.name); }
-					return new Response(JSON.stringify({ "CONFIG": CONFIG_json, "BLOG": BLOG_json, }), { status: 200, headers: { 'Content-Type': 'application/json' }});
+
+					// --- START: 添加的代码 (导出评论) ---
+					const COMMENTS_keys = await env.XYRJ_COMMENTS_KV.list();
+					let COMMENTS_json = {};
+					for (const key of COMMENTS_keys.keys) { COMMENTS_json[key.name] = await env.XYRJ_COMMENTS_KV.get(key.name); }
+					// --- END: 添加的代码 ---
+
+					// --- START: 添加的代码 (导出轮播图) ---
+					const CAROUSEL_keys = await env.XYRJ_CAROUSEL_KV.list();
+					let CAROUSEL_json = {};
+					for (const key of CAROUSEL_keys.keys) { CAROUSEL_json[key.name] = await env.XYRJ_CAROUSEL_KV.get(key.name); }
+					// --- END: 添加的代码 ---
+
+					// --- START: 修改返回的JSON ---
+					return new Response(JSON.stringify({ 
+						"CONFIG": CONFIG_json, 
+						"BLOG": BLOG_json,
+						"COMMENTS": COMMENTS_json, // 新增
+						"CAROUSEL": CAROUSEL_json  // 新增
+					}), { status: 200, headers: { 'Content-Type': 'application/json' }});
+					// --- END: 修改返回的JSON ---
 				}
 				else if (pathname.startsWith("/admin/import/")) {
 					let jsonA = await request.json();
 					let config = {};
 					jsonA.forEach(function (item) { config[item.name] = item.value; });
 					let data = JSON.parse(config.importJson);
+					
 					for (var key in data.CONFIG) { await env.XYRJ_CONFIG.put(key, data.CONFIG[key]); }
 					for (var key in data.BLOG) { await env.XYRJ_BLOG.put(key, data.BLOG[key]); }
+
+					// --- START: 添加的代码 (导入评论) ---
+					// 检查导入的JSON中是否包含COMMENTS
+					if (data.COMMENTS) {
+						for (var key in data.COMMENTS) { 
+							await env.XYRJ_COMMENTS_KV.put(key, data.COMMENTS[key]); 
+						}
+					}
+					// --- END: 添加的代码 ---
+
+					// --- START: 添加的代码 (导入轮播图) ---
+					// 检查导入的JSON中是否包含CAROUSEL
+					if (data.CAROUSEL) {
+						for (var key in data.CAROUSEL) { 
+							await env.XYRJ_CAROUSEL_KV.put(key, data.CAROUSEL[key]); 
+						}
+					}
+					// --- END: 添加的代码 ---
+
 					return new Response(JSON.stringify({ "msg": "OK" }), { status: 200, headers: { 'Content-Type': 'application/json' }});
 				}
 				else if (pathname.startsWith("/admin/publish/")) {
