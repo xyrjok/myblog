@@ -70,10 +70,14 @@ ul, li {
     list-style: none;
 }
 
-input:focus,
+/*input:focus,
 textarea:focus {
     outline: none;
     box-shadow: 0 0 0 1px #00000052;
+}*/
+input,
+textarea {
+    outline: none;
 }
 
 /* 4. Layout Structure (Container, Columns) */
