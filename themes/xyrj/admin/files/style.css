@@ -6,13 +6,18 @@
     z-index: 1000;
 }
 .login-container {
+    margin: 16px 0;
+}
+.footer-link {
     /*width: 100%; */
     /*max-width: 360px; */
-    width: 360px; /* 1. 修改为固定宽度 */
+    width: 380px; /* 1. 修改为固定宽度 */
     padding: 40px;
     background-color: #fff; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; text-align: center;
+    border-radius: 8px; 
+    text-align: right;
 }
+
 /* --- 新增：登录框响应式 --- 
 @media screen and (max-width: 400px) {
     .login-container { 
