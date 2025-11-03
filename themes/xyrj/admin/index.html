@@ -1067,7 +1067,7 @@ tinymce.init({
 		list.empty();
 		if (categories && categories.length > 0) {
 			$.each(categories, function(index, category) {
-				var categoryHtml = `<div class="form-group category-item"><div class="input-group"><span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span><span class="input-group-addon">名称</span><input type="text" class="form-control" value="${category.name || ''}" placeholder="分类名称 (必填)"><span class="input-group-addon">图标</span><input type="text" class="form-control" value="${category.icon || ''}" placeholder="例: fas fa-home"><div class="input-group-btn"><button class="btn btn-danger" type="button" onclick="removeCategory(this)"><i class="fas fa-trash"></i></button></div></div></div>`;
+				var categoryHtml = `<div class="form-group category-item"><div class="input-group"><span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span><span class="input-group-addon">名称</span><input type="text" class="form-control" value="${category.name || ''}" placeholder="分类名称 (必填)"><span class="input-group-addon">图标</span><input type="text" class="form-control" value="${category.icon || ''}" placeholder="例: fas fa-home #ff0000"><div class="input-group-btn"><button class="btn btn-danger" type="button" onclick="removeCategory(this)"><i class="fas fa-trash"></i></button></div></div></div>`;
 				list.append(categoryHtml);
 			});
 		}
@@ -1075,7 +1075,7 @@ tinymce.init({
 
 	function addCategory() {
 		var list = $('#category-list');
-		var categoryHtml = `<div class="form-group category-item"><div class="input-group"><span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span><span class="input-group-addon">名称</span><input type="text" class="form-control" value="" placeholder="分类名称 (必填)"><span class="input-group-addon">图标</span><input type="text" class="form-control" value="" placeholder="例: fas fa-home"><div class="input-group-btn"><button class="btn btn-danger" type="button" onclick="removeCategory(this)"><i class="fas fa-trash"></i></button></div></div></div>`;
+		var categoryHtml = `<div class="form-group category-item"><div class="input-group"><span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span><span class="input-group-addon">名称</span><input type="text" class="form-control" value="" placeholder="分类名称 (必填)"><span class="input-group-addon">图标</span><input type="text" class="form-control" value="" placeholder="例: fas fa-home #ff0000"><div class="input-group-btn"><button class="btn btn-danger" type="button" onclick="removeCategory(this)"><i class="fas fa-trash"></i></button></div></div></div>`;
 		list.append(categoryHtml);
 	}
 
@@ -1096,7 +1096,7 @@ tinymce.init({
 							<span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span>
 							<span class="input-group-addon">名称</span><input type="text" class="form-control" value="${menu.name || ''}" placeholder="菜单名称">
 							<span class="input-group-addon">链接</span><input type="text" class="form-control" value="${menu.url || ''}" placeholder="URL">
-							<span class="input-group-addon">图标</span><input type="text" class="form-control" value="${menu.icon || ''}" placeholder="例: fas fa-home">
+							<span class="input-group-addon">图标</span><input type="text" class="form-control" value="${menu.icon || ''}" placeholder="例: fas fa-home #ff0000">
 							<div class="input-group-btn">
 								${addSubMenuButton}
 								<button class="btn btn-danger btn-xs" type="button" onclick="removeMenuItem(this)"><i class="fas fa-trash"></i></button>
@@ -1123,7 +1123,7 @@ tinymce.init({
 					<span class="input-group-addon sortable-handle" style="border-left-width: 1px;"><i class="fas fa-grip-vertical"></i></span>
 					<span class="input-group-addon">名称</span><input type="text" class="form-control" value="" placeholder="菜单名称">
 					<span class="input-group-addon">链接</span><input type="text" class="form-control" value="" placeholder="URL">
-					<span class="input-group-addon">图标</span><input type="text" class="form-control" value="" placeholder="例: fas fa-home">
+					<span class="input-group-addon">图标</span><input type="text" class="form-control" value="" placeholder="例: fas fa-home #ff0000">
 					<div class="input-group-btn">
 						${addSubMenuButton}
 						<button class="btn btn-danger btn-xs" type="button" onclick="removeMenuItem(this)"><i class="fas fa-trash"></i></button>
