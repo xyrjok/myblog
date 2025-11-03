@@ -3,14 +3,10 @@
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
 }
 .xy-oj {
     position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
 }
 .box {
     background-color: #fff;
@@ -26,6 +22,7 @@
         -ms-flex: 0 0 16.666667%;
         flex: 0 0 16.666667%;
         max-width: 16.666667%;
+		padding-right: 15px;
     }
     .xyrj-right {
         -ms-flex: 0 0 83.333333%;
