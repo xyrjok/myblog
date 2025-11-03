@@ -171,7 +171,7 @@ dl, ol, ul {
     .xyrjsidebar {
         border-bottom: 0;
         border-radius: 0;
-        box-shadow: 0px 6px 10px rgba(103, 118, 128, 0.2);
+        box-shadow: 0px 1px 10px rgba(103, 118, 128, 0.2);
         padding: 0.5rem 0.9375rem;
         position: fixed;
         top: 50px;
@@ -181,7 +181,7 @@ dl, ol, ul {
     }
     
     .box {
-        padding: 1rem;
+        padding: 0rem 1rem 0rem 1rem;
     }
 
     .xyrj-nav {
@@ -206,7 +206,7 @@ dl, ol, ul {
     }
 
 	.xyrj-right {
-        top: 50px;
+        padding-top: 50px;
     }
 	
 	.xyrjbox-content {
