@@ -7,6 +7,9 @@
 .nav__item a:not(.active):hover {
   color: #0ba360 !important;
 }
+.nav__item a.active:hover {
+  color: #fff !important;
+}
 
 .xy-oj {
     position: relative;
