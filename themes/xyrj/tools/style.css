@@ -4,9 +4,8 @@
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
-.nav__item a:hover {
+.nav__item a:not(.active):hover {
   color: #0ba360; /* 鼠标移上去时显示绿色 */
-}
 
 .xy-oj {
     position: relative;
@@ -210,7 +209,7 @@ dl, ol, ul {
     }
 
 	.xyrj-right {
-        padding-top: 50px;
+        padding-top: 65px;
     }
 	
 	.xyrjbox-content {
