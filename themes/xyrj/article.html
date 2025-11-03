@@ -202,12 +202,11 @@
                 <div class="mobile-nav-header">
                     <img src="{{ &OPT.theme_github_path }}xyrj/files/mobile-header.svg" alt="导航背景" class="mobile-nav-header-image">
                 </div>
-
                 <ul>
                     {{ #OPT.widgetMenuList }}
                     <li>
-                        <a href="{{ &url }}">
-                            {{ #icon }}<i class="{{ &icon }}" style="margin-right: 5px;"></i> {{ /icon}}{{ &name }}
+                        <a href="{{ &url }}" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}>
+                            {{ #iconClass }}<i class="{{ &iconClass }}" style="margin-right: 5px; {{&iconStyle}}"></i> {{ /iconClass}}{{ &name }}
                             {{ #hasChildren }}
                             <span class="arrow-container"><i class="fal fa-angle-down"></i></span>
                             {{ /hasChildren }}
@@ -220,8 +219,8 @@
                         <ul class="sub-menu">
                             {{ #children }}
                             <li>
-                                <a href="{{ &url }}">
-                                    {{ #icon }}<i class="{{ &icon }}" style="margin-right: 5px;"></i> {{ /icon}}{{ &name }}
+                                <a href="{{ &url }}" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}>
+                                    {{ #iconClass }}<i class="{{ &iconClass }}" style="margin-right: 5px; {{&iconStyle}}"></i> {{ /iconClass}}{{ &name }}
                                     {{ #hasChildren }}
                                     <span class="arrow-container"><i class="fal fa-angle-right"></i></span>
                                     {{ /hasChildren }}
@@ -234,8 +233,8 @@
                                 <ul class="sub-menu">
                                     {{ #children }}
                                     <li>
-                                        <a href="{{ &url }}">
-                                            {{ #icon }}<i class="{{ &icon }}" style="margin-right: 5px;"></i> {{ /icon}}{{ &name }}
+                                        <a href="{{ &url }}" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}>
+                                            {{ #iconClass }}<i class="{{ &iconClass }}" style="margin-right: 5px; {{&iconStyle}}"></i> {{ /iconClass}}{{ &name }}
                                         </a>
                                     </li>
                                     {{ /children }}
@@ -248,10 +247,10 @@
                     </li>
                     {{ /OPT.widgetMenuList }}
                      <li class="login-btn-mobile">
-                        <a href="/admin">
-                            <button class="login-btn-header">登录</button>
-                        </a>
-                    </li>
+                         <a href="/admin">
+                             <button class="login-btn-header">登录</button>
+                         </a>
+                     </li>
                 </ul>
             </nav>
             </div>
@@ -432,7 +431,7 @@
 									<h3 class="widget-title">分类目录</h3>
 									<ul>
 										{{#widgetCategoryList}}
-										<li><a href="/category/{{name}}/"> <i class="{{icon}}"></i> {{name}}</a></li>
+										<li><a href="/category/{{name}}/" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}> <i class="{{iconClass}}" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}></i> {{name}}</a></li>
 										{{/widgetCategoryList}}
 									</ul>
 								</div>
