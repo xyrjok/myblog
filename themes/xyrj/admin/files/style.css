@@ -5,17 +5,17 @@
     display: flex; justify-content: center; align-items: center;
     z-index: 1000;
 }
-.footer-link {
-    margin: 16px 0;
+.login-container {
     /*width: 100%; */
     /*max-width: 360px; */
     width: 380px; /* 1. 修改为固定宽度 */
     padding: 40px;
     background-color: #fff; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; 
-    text-align: right;
+    border-radius: 8px; text-align: center;
 }
-
+.footer-link {
+    margin: 16px 0;
+}
 /* --- 新增：登录框响应式 --- 
 @media screen and (max-width: 400px) {
     .login-container { 
