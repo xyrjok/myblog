@@ -175,6 +175,9 @@ dl, ol, ul {
 }
 
 @media only screen and (max-width: 580px) {
+	.nav__item a.active:hover {
+	  	color: #0ba360 !important;
+	}
     .xyrjsidebar {
         border-bottom: 0;
         border-radius: 0;
