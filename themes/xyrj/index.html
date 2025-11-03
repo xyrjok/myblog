@@ -41,9 +41,8 @@
                 <ul>
                     {{ #OPT.widgetMenuList }}
                     <li>
-                        <a href="{{ &url }}">
-                            {{ #icon }}<i class="{{ &icon }}" style="margin-right: 5px;"></i> {{ /icon}}{{ &name }}
-                            {{! 使用我们新的、清晰无误的 hasChildren 标记来判断 }}
+                        <a href="{{ &url }}" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}>
+                            {{ #iconClass }}<i class="{{ &iconClass }}" style="margin-right: 5px; {{&iconStyle}}"></i> {{ /iconClass}}{{ &name }}
                             {{ #hasChildren }}
                             <span class="arrow-container"><i class="fal fa-angle-down"></i></span>
                             {{ /hasChildren }}
@@ -56,8 +55,8 @@
                         <ul class="sub-menu">
                             {{ #children }}
                             <li>
-                                <a href="{{ &url }}">
-                                    {{ #icon }}<i class="{{ &icon }}" style="margin-right: 5px;"></i> {{ /icon}}{{ &name }}
+                                <a href="{{ &url }}" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}>
+                                    {{ #iconClass }}<i class="{{ &iconClass }}" style="margin-right: 5px; {{&iconStyle}}"></i> {{ /iconClass}}{{ &name }}
                                     {{ #hasChildren }}
                                     <span class="arrow-container"><i class="fal fa-angle-right"></i></span>
                                     {{ /hasChildren }}
@@ -70,8 +69,8 @@
                                 <ul class="sub-menu">
                                     {{ #children }}
                                     <li>
-                                        <a href="{{ &url }}">
-                                            {{ #icon }}<i class="{{ &icon }}" style="margin-right: 5px;"></i> {{ /icon}}{{ &name }}
+                                        <a href="{{ &url }}" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}>
+                                            {{ #iconClass }}<i class="{{ &iconClass }}" style="margin-right: 5px; {{&iconStyle}}"></i> {{ /iconClass}}{{ &name }}
                                         </a>
                                     </li>
                                     {{ /children }}
@@ -208,7 +207,7 @@
 									<h3 class="widget-title">分类目录</h3>
 									<ul>
 										{{#widgetCategoryList}}
-										<li><a href="/category/{{name}}/"> <i class="{{icon}}"></i> {{name}}</a></li>
+										<li><a href="/category/{{name}}/" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}> <i class="{{iconClass}}" {{#iconStyle}}style="{{&iconStyle}}"{{/iconStyle}}></i> {{name}}</a></li>
 										{{/widgetCategoryList}}
 									</ul>
 								</div>
