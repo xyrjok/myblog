@@ -5,7 +5,7 @@
     flex-wrap: wrap;
 }
 .nav__item a:not(.active):hover {
-  color: #0ba360; /* 鼠标移上去时显示绿色 */
+  color: #0ba360 !important;
 }
 
 .xy-oj {
