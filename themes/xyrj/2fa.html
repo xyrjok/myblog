@@ -134,7 +134,7 @@
 									<hr>
 									<div class="class-2fa">
 										<div class="div-2fa"><input id="secret-input-js" class="input-2fa" type="text" placeholder="点击此处输入密钥" autocomplete="on"></div>
-										<div class="div-2fa"><button id="btn-js" class="btn-get">点击获取验证码</button><span class="message-class">JS实现</span></div>
+										<div class="div-2fa"><button id="btn-js" class="btn-get">点击获取验证码</button><span class="message-class"></span></div>
 										<div class="div-2fa" id="key-output-js">双重密钥为: <span id="key_js"></span></div>
 										<div class="div-2fa" id="code-output-js">当前验证码: <span id="code_js" style="color: rgb(50, 174, 77);"></span></div>
 										<div class="div-2fa">剩余的时间: <span id="timer_js"></span> 秒 <button class="btn-qr" id="btn-qr-js">生成二维码</button></div>
@@ -146,7 +146,7 @@
 									</div>
 									<hr>
 									<h3 class="title title--h5">2FA工具说明</h3>
-									<p class="tip-p"><strong>新手提示</strong>：必须在倒计时结束前输入验证码登录或验证，否则会失效显示错误。测试功能时必须输入正确编码的密钥，不要随便输入1串字符测试获取功能。目前点击获取验证码的按钮后会自动复制验证码到剪切板，直接去粘贴即可。如果想要验证生成的验证码是否正确，点击生成二维码的按钮，使用谷歌验证器APP扫描添加检查。<br><strong>更多方式</strong>：还可以将密钥加在网址后面，示例：，这样访问也可查询验证码。这样的格式发给新手使用，最合适不过。
+									<p class="tip-p"><strong>新手提示</strong>：必须在倒计时结束前输入验证码登录或验证，否则会失效显示错误。测试功能时必须输入正确编码的密钥，不要随便输入1串字符测试获取功能。目前点击获取验证码的按钮后会自动复制验证码到剪切板，直接去粘贴即可。如果想要验证生成的验证码是否正确，点击生成二维码的按钮，使用谷歌验证器APP扫描添加检查。<br><strong>使用方法</strong>：只要是能用2fa增加安全的软件和APP都可以使用它，示例：<span style="font-size:12px; font-weight:600; color:red;">谷歌Google账号</span>，<span style="font-size:12px; font-weight:600; color:red;">微软账号Microsoft</span>等众多账号的安全设置。
 										<br><strong>最近维护</strong>：2025年10月22日
 									</p>
                                 </div>
@@ -279,15 +279,15 @@
                                     </div>
                                     <div class="class-2fa text-tool-buttons">
 										<button id="text-btn-pinyin" class="btn-get-sm">汉字转拼音</button>
+                                        <button id="text-btn-copy" class="btn-get-sm btn-qr del_2fakeys">复制</button>
+                                        <button id="text-btn-cut" class="btn-get-sm btn-qr del_2fakeys">剪切</button>
+                                        <button id="text-btn-clear" class="btn-get-sm btn-qr del_2fakeys">清空</button>
                                         <button id="text-btn-upper" class="btn-get-sm">全大写 AB</button>
                                         <button id="text-btn-lower" class="btn-get-sm">全小写 ab</button>
                                         <button id="text-btn-cap-words" class="btn-get-sm">首字母大写 Aa Bb</button>
                                         <button id="text-btn-lower-words" class="btn-get-sm">首字母小写 aA bB</button>
                                         <button id="text-btn-cap-sentence" class="btn-get-sm">句子首字母大写</button>
                                         <button id="text-btn-cap-title" class="btn-get-sm">标题大小写</button>
-                                        <button id="text-btn-copy" class="btn-get-sm btn-qr del_2fakeys">复制</button>
-                                        <button id="text-btn-cut" class="btn-get-sm btn-qr del_2fakeys">剪切</button>
-                                        <button id="text-btn-clear" class="btn-get-sm btn-qr del_2fakeys">清空</button>
 										<button id="text-btn-space-to-underscore" class="btn-get-sm">空格→下划线</button>
                                         <button id="text-btn-to-camel" class="btn-get-sm">下划线&空格→驼峰</button>
                                         <button id="text-btn-camel-to-underscore" class="btn-get-sm">驼峰→下划线</button>
