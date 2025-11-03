@@ -524,3 +524,260 @@ button, input, optgroup, select, textarea {
     cursor: pointer;
 }
 /* --- END: 为单选框添加新样式 --- */
+
+
+ /* --- START: 新增图标库样式 --- */
+		 @media (max-width: 990px) {
+			.main-layout {
+				margin: -10px 10px;
+				max-width: 870px;
+			}
+		}
+        .breadcrumb a {
+            color: #888; /* 设置面包屑导航中链接的颜色为灰色 */
+        }
+        .breadcrumb a:hover {
+            color: #333; /* (可选) 设置鼠标悬停时链接的颜色为深灰色 */
+        }
+
+        .comment-form {
+            margin-top: 20px;
+        }
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; 
+            min-height: 100px;
+        }
+        .comment-form .form-submit {
+            margin-top: 10px;
+        }
+        .comment-form .submit {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .comment-form .submit:hover {
+            background-color: #555;
+        }
+        .comment-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .comment-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+        .comment-body p {
+            margin: 0 0 10px;
+        }
+        .comment-meta {
+            font-size: 12px;
+            color: #888;
+        }
+        .comment-contact {
+            margin-left: 10px;
+            color: #555;
+            font-style: italic;
+        }
+        
+        .comment-form p {
+             margin: 10px 0;
+        }
+        .comment-form label {
+            margin-right: 5px;
+            font-size: 14px;
+            color: #555;
+            vertical-align: middle; 
+        }
+
+        .comment-form-bottom-row {
+            display: flex;
+            flex-wrap: wrap; 
+            align-items: center; 
+            justify-content: flex-start; 
+            margin-top: 10px;
+        }
+
+        .comment-form-bottom-row p {
+            margin: 5px 15px 5px 0; 
+        }
+        .comment-form-bottom-row .form-submit {
+            margin-right: 0; 
+        }
+
+        #contact-type,
+        #contact-value,
+        #captcha-input,
+        .comment-form-bottom-row .submit {
+            height: 36px; 
+            padding-top: 5px;
+            padding-bottom: 5px;
+            box-sizing: border-box; 
+            vertical-align: middle;
+        }
+        
+        #contact-type {
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        #contact-value {
+            width: 130px; 
+            margin-left: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        #captcha-input {
+            width: 60px; /* 验证码输入框宽度 */
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .comment-form-bottom-row .submit {
+
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+/* ========== START: 图标展示 ========== */
+       .xyrj-page.is-active {
+			display: block;
+			animation: fadeIn .3s;
+		}
+		.page-header {
+			position: relative;
+			text-align: center;
+			margin: 15px 0 15px 0; /* 移到 wrapper 上 */
+		}
+		/* 搜索框样式 */
+		.search-wrapper {
+			position: relative;
+			margin: 15px 0 15px 0; /* 移到 wrapper 上 */
+		}
+		
+		#icon-search-input {
+			width: 100%;
+			padding: 8px 30px 8px 10px; /* 右侧留出空间给 'x' */
+			font-size: 14px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+		
+		#clear-search-btn {
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #aaa;
+			cursor: pointer;
+			display: none; /* 默认隐藏 */
+		}
+		#clear-search-btn:hover {
+			color: #333;
+		}
+		
+		/* 网格布局 */
+		#icon-grid {
+			display: grid;
+			/* 调整列宽以适应更多图标，并减少间距 */
+			grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+			gap: 10px; /* 减小网格间距 */
+		}
+		
+		.icon-item-group {
+			border: 1px solid #eee;
+			border-radius: 5px;
+			transition: all 0.2s ease; /* 动画更快 */
+			background: #fff;
+			overflow: hidden; /* 防止内容溢出 */
+		}
+		.icon-item-group:hover {
+			box-shadow: 0 2px 8px rgba(0,0,0,0.06); /* 阴影更轻 */
+			transform: translateY(-1px); /* 悬停效果更轻 */
+		}
+		
+		.icon-item-group-title {
+			padding: 8px 10px; /* 减小内边距 */
+			font-size: 14px; /* 减小字体 */
+			font-weight: 500; /* 字体更细 */
+			border-bottom: 1px solid #eee;
+			background: #fcfcfc; /* 背景更浅 */
+			color: #444; /* 颜色略深 */
+			border-radius: 5px 5px 0 0;
+			white-space: nowrap; /* 防止标题换行 */
+			overflow: hidden; /* 隐藏溢出文字 */
+			text-overflow: ellipsis; /* 显示省略号 */
+		}
+		
+		/* 图标变体 flex 布局 */
+		.icon-variants {
+			display: flex;
+		    flex-wrap: nowrap;
+		    padding: 5px;
+		    justify-content: center;
+		    flex-direction: row;
+		}
+		
+		.icon-variant {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 60px; /* 减小宽度 */
+			height: 60px; /* 减小高度 */
+			margin: 3px; /* 减小外边距 */
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.2s ease;
+		}
+		.icon-variant:hover {
+			background-color: #f0f0f0; /* 悬停背景更浅 */
+		}
+		.icon-variant i {
+			font-size: 20px; /* 减小图标大小 */
+			color: #666; /* 颜色更浅 */
+			margin-bottom: 5px; /* 减小外边距 */
+		}
+		.icon-variant span {
+			font-size: 10px; /* 减小标签字体 */
+			color: #777; /* 标签颜色更浅 */
+			background: #e9e9e9; /* 标签背景更浅 */
+			padding: 1px 3px; /* 减小内边距 */
+			border-radius: 3px;
+		}
+		
+		/* 复制成功提示框 */
+		#copy-notification {
+			position: fixed;
+			top: 280px; /* 位置更高 */
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: rgba(0, 0, 0, 0.75); /* 背景更透明 */
+			color: #fff;
+			padding: 8px 15px; /* 减小内边距 */
+			border-radius: 4px; /* 圆角更小 */
+			font-size: 13px; /* 字体更小 */
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 0.2s, visibility 0.2s; /* 动画更快 */
+			z-index: 9999;
+		}
+		#copy-notification.show {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		/* --- END: 新增图标库样式 --- */
