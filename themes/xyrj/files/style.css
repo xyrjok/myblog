@@ -396,22 +396,22 @@ ul, li {
 
 /* --- 新增的置顶标签样式 --- */
 .label-pinned {
-    display: inline-block;
-    background-color: #007bff; /* 蓝色背景 (您想要的蓝色) */
-    color: #ffffff !important; /* 白色文字 (使用 !important 确保覆盖链接的默认颜色) */
-    padding: 2px 6px;
+    background-color: var(--Maincolor);
+    color: #fff;
     font-size: 12px;
-    font-weight: bold;
-    line-height: 1.4;
-    border-radius: 4px;
-    margin-right: 5px;
-    vertical-align: middle; /* 确保与标题文字对齐 */
+    padding: 1px 5px;
+    line-height: 1.5;
+    border-radius: 2px;
+    /* margin-right: 3px; */
+    font-weight: 500;
+    position: relative;
+    top: -1px;
 }
 
 /* 调整侧边栏热门文章中的标签大小 */
 .recent-article-item-content a .label-pinned {
     font-size: 11px;
-    padding: 1px 4px;
+    padding: 1px 3px;
 }
 
 .article-item-content {
