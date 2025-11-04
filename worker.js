@@ -280,7 +280,9 @@ async function handleRequest({ request, env, ctx }) {
                         isPinned: article.isPinned, // 布尔值
                         hasPassword: !!article.password, // 布尔值
                         views: article.views, // 数字
-						isHidden: article.isHidden // 布尔值
+						isHidden: article.isHidden, // 布尔值
+						changefreq: article.changefreq, // 添加 sitemap 频率
+                        priority: article.priority      // 添加 sitemap 权重
                         // ========== END: 新增Meta字段 ==========
                     };
 
@@ -329,7 +331,9 @@ async function handleRequest({ request, env, ctx }) {
                         isPinned: article.isPinned, // 布尔值
                         hasPassword: !!article.password, // 布尔值
                         views: article.views, // 数字
-						isHidden: article.isHidden // 布尔值
+						isHidden: article.isHidden, // 布尔值
+						changefreq: article.changefreq, // 添加 sitemap 频率
+                    	priority: article.priority      // 添加 sitemap 权重
                         // ========== END: 新增Meta字段 ==========
                     };
 
