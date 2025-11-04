@@ -744,7 +744,10 @@ tinymce.init({
     /* ⬇️ 第2步：(关键)给编辑器内部添加类名, 让CSS生效 ⬇️ */
     body_class: 'entry-content', 
     plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code codesample fullscreen insertdatetime media nonbreaking save table directionality emoticons template paste',
-	toolbar: 'insertfile undo redo | styleselect fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons | codesample | code',  
+	toolbar: 'insertfile undo redo | styleselect fontsizeselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons | codesample | code', 
+	mobile: {
+        toolbar_mode: 'wrap'
+    },
     style_formats: [
         { title: '标题', items: [
             { title: '标题 1', format: 'h1' },
