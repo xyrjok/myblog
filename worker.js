@@ -567,8 +567,13 @@ async function handleRequest({ request, env, ctx }) {
 			let articleIndex = JSON.parse(await env.XYRJ_BLOG.get("article_index") || "[]");
 			let xml = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 			for (const item of articleIndex) {
-				xml += `<url><loc>${url.origin}/article/${item.id}/${item.link}</loc><lastmod>${new Date(item.createDate).toISOString()}</lastmod></url>`;
-			}
+				xml += `<url>
+          <loc>${url.origin}/article/${item.id}/${item.link}</loc>
+          <lastmod>${new Date(item.createDate).toISOString()}</lastmod>
+          <changefreq>${item.changefreq || 'daily'}</changefreq>
+          <priority>${item.priority || '0.5'}</priority>
+        </url>`;
+		}
 			xml += `</urlset>`;
 			return new Response(xml, { status: 200, headers: { 'Content-Type': 'application/xml;charset=UTF-8' }});
 		}
