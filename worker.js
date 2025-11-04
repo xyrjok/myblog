@@ -745,7 +745,8 @@ async function render(data, template_path, env) {
         site_keywords,
         site_footer_copyright,
         footer_links_json,
-        showSiteNameInHeader
+        showSiteNameInHeader,
+        marqueeContent
     ] = await Promise.all([
         env.XYRJ_CONFIG.get('logo'),
         env.XYRJ_CONFIG.get('siteName'),
@@ -755,7 +756,8 @@ async function render(data, template_path, env) {
         env.XYRJ_CONFIG.get('site_keywords'),
         env.XYRJ_CONFIG.get('site_footer_copyright'),
         env.XYRJ_CONFIG.get('footer_links'),
-        env.XYRJ_CONFIG.get('showSiteNameInHeader')
+        env.XYRJ_CONFIG.get('showSiteNameInHeader'),
+        env.XYRJ_CONFIG.get('marqueeContent') 
     ]);
 
     site.logo = logo || "";
@@ -764,6 +766,7 @@ async function render(data, template_path, env) {
     site.siteDescription = site_description || "";
     site.siteKeywords = site_keywords || "";
     site.showSiteNameInHeader = showSiteNameInHeader === 'true';
+	site.marqueeContent = marqueeContent || "";
 
     // ===== 核心修改：在这里预处理菜单数据 =====
     try {
