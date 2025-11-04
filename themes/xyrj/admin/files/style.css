@@ -300,13 +300,8 @@ body {
 	/* 5. 修复按钮组内的按钮 */
 	.admin-content .input-group-btn .btn {
 		width: 100%;
-		display: block; 
-		margin: 0; 
-		border-radius: 4px !important; 
 	}
-	.admin-content .input-group-btn .btn:not(:last-child) {
-		margin-bottom: 5px !important;
-	}
+
 	/* 6. 最后一个元素不需要底部边距 */
 	.admin-content .input-group > :last-child {
 		margin-bottom: 0;
