@@ -137,7 +137,7 @@
 			</a>
 		</div>
 		<button id="mobile-menu-toggle" class="btn btn-default">
-			<i class="fas fa-bars"></i>
+			<i class="far fa-bars"></i>
 		</button>
 	</div>
 	<div class="admin-overlay"></div>
@@ -615,7 +615,7 @@
 			e.stopPropagation(); // 防止点击穿透
 			$('.admin-sidebar').toggleClass('is-visible');
 			$('.admin-overlay').toggleClass('is-visible');
-            var $icon = $(this).find('.fas');
+            var $icon = $(this).find('.far');
             if ($icon.hasClass('fa-bars')) {
                 $icon.removeClass('fa-bars').addClass('fa-times');
             } else {
@@ -626,7 +626,7 @@
 		$(document).on('click', '.admin-overlay', function() {
 			$('.admin-sidebar').removeClass('is-visible');
 			$('.admin-overlay').removeClass('is-visible');
-            $('#mobile-menu-toggle').find('.fas').removeClass('fa-times').addClass('fa-bars');
+            $('#mobile-menu-toggle').find('.far').removeClass('fa-times').addClass('fa-bars');
 		});
 
 		$(document).on('click', '.admin-sidebar .nav > li > a', function() {
@@ -635,7 +635,7 @@
 				setTimeout(function() {
 					$('.admin-sidebar').removeClass('is-visible');
 					$('.admin-overlay').removeClass('is-visible');
-                    $('#mobile-menu-toggle').find('.fas').removeClass('fa-times').addClass('fa-bars');
+                    $('#mobile-menu-toggle').find('.far').removeClass('fa-times').addClass('fa-bars');
 				}, 150);
 			}
 		});
