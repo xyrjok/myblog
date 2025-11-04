@@ -120,6 +120,27 @@
 
 
 <div id="admin-container" class="admin-container" style="display:none;">
+	<div class="admin-mobile-header">
+		<div class="mobile-logo">
+			<a href="/">
+				{{ #OPT.logo }}
+					<img src="{{ &OPT.logo }}" alt="Logo">
+				{{ /OPT.logo }}
+				{{ ^OPT.logo }}
+					{{ #OPT.siteName }}
+						<span>{{ &OPT.siteName }}</span>
+					{{ /OPT.siteName }}
+					{{ ^OPT.siteName }}
+						<span>CF-blog</span>
+					{{ /OPT.siteName }}
+				{{ /OPT.logo }}
+			</a>
+		</div>
+		<button id="mobile-menu-toggle" class="btn btn-default">
+			<i class="fas fa-bars"></i>
+		</button>
+	</div>
+	<div class="admin-overlay"></div>
 	<div class="admin-sidebar">
 		<div class="sidebar-header">
 			<a href="/" >CF-blog</a>
@@ -589,6 +610,30 @@
         }
 		
         checkLoginStatus();
+		// --- START: 新增的移动端菜单切换逻辑 ---
+		$(document).on('click', '#mobile-menu-toggle', function(e) {
+			e.stopPropagation(); // 防止点击穿透
+			$('.admin-sidebar').toggleClass('is-visible');
+			$('.admin-overlay').toggleClass('is-visible');
+		});
+
+		// 点击遮罩层关闭菜单
+		$(document).on('click', '.admin-overlay', function() {
+			$('.admin-sidebar').removeClass('is-visible');
+			$('.admin-overlay').removeClass('is-visible');
+		});
+
+		// 点击菜单项后自动关闭菜单 (在小屏幕上)
+		$(document).on('click', '.admin-sidebar .nav > li > a', function() {
+			if ($(window).width() <= 800) {
+				// 稍微延迟关闭，确保链接跳转可以被触发
+				setTimeout(function() {
+					$('.admin-sidebar').removeClass('is-visible');
+					$('.admin-overlay').removeClass('is-visible');
+				}, 150);
+			}
+		});
+		// --- END: 新增的移动端菜单切换逻辑 ---
 		// --- START: 新增的文章 (服务器端) 和评论 (客户端) 搜索JS ---
 		// 1. 文章搜索 (服务器端)		
 		// 1.1 点击搜索按钮
