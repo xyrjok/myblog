@@ -69,7 +69,7 @@
     --theme-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Helvetica Neue, Helvetica, Arial, PingFang SC, Hirgino Sans GB, Microsoft YaHei UI, Microsoft YaHei, Source Han Sans CN, sans-serif;
     --text-color: #333;
     --text-color-light: #777;
-    --bg-color: #f5f5ff5;
+    --bg-color: #f5f5f5;
     --widget-bg: #fff;
     --border-color: #fff;
 }
@@ -137,6 +137,61 @@ body {
     padding: 20px;
 }
 
+/* --- START: 新增移动端顶栏和遮罩层样式 --- */
+.admin-mobile-header {
+	display: none; /* 默认在PC端隐藏 */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 50px;
+	background-color: #ffffff;
+	border-bottom: 1px solid #ddd;
+	padding: 0 15px;
+	z-index: 1001; /* 必须高于 admin-content */
+	justify-content: space-between;
+	align-items: center;
+}
+.mobile-logo {
+	height: 30px; /* 限制Logo高度 */
+}
+.mobile-logo a {
+	display: flex;
+	height: 100%;
+	align-items: center;
+	color: #333;
+	font-weight: bold;
+	font-size: 18px;
+	text-decoration: none;
+}
+.mobile-logo img {
+	height: 100%;
+	width: auto;
+	object-fit: contain;
+}
+#mobile-menu-toggle {
+	font-size: 18px;
+	padding: 5px 10px;
+}
+
+.admin-overlay {
+	display: none; /* 默认隐藏 */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.4);
+	z-index: 1001; /* 与顶栏同级，但低于侧边栏 */
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+.admin-overlay.is-visible {
+	display: block;
+	opacity: 1;
+}
+/* --- END: 新增移动端顶栏和遮罩层样式 --- */
+
 .tab-content .container-fluid {
     background: #fff;
     padding: 20px;
@@ -169,13 +224,47 @@ body {
     content: '';
     width: 4px;
     background: #3598db; 
-    /* height: 20px; */  
-    /* top: 50%; 将竖条定位到标题的垂直中间 */
-    /* left: 2px; */
-    /* transform: translateY(-50%); 精确居中 */
     top: 0.30em;
     bottom: 0.30em;
     left: 0;
     border-radius: 5px;
     transition: .4s;
 }
+/* --- START: 新增 800px 响应式布局 --- */
+@media only screen and (max-width: 800px) {
+	/* 1. 显示移动端顶栏 */
+	.admin-mobile-header {
+		display: flex;
+	}
+
+	/* 2. 隐藏PC端侧边栏 (移出屏幕) */
+	.admin-sidebar {
+		position: fixed;
+		left: -220px; /* 侧边栏宽度为 220px */
+		top: 0;
+		height: 100vh; /* 占满全屏高 */
+		z-index: 1002; /* 层级最高，盖住顶栏和遮罩层 */
+		transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		border-right: 1px solid #34495e;
+		box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	}
+
+	/* 3. "is-visible" 类用于滑出侧边栏 */
+	.admin-sidebar.is-visible {
+		left: 0;
+	}
+
+	/* 4. 调整主内容区域 */
+	.admin-content {
+		margin-left: 0; /* 移除左边距 */
+		width: 100%;
+		padding: 20px; /* 重置内边距 */
+		padding-top: 70px; /* 50px顶栏高度 + 20px间距 */
+	}
+
+	/* 5. 缩小内容区的内边距 */
+	.tab-content .container-fluid {
+		padding: 15px;
+	}
+}
+/* --- END: 新增 800px 响应式布局 --- */
