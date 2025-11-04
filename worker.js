@@ -260,6 +260,7 @@ async function handleRequest({ request, env, ctx }) {
                     article.isPinned = article.isPinned === 'true'; // 转为布尔值
                     article.views = parseInt(article.views || 0); // 转为数字
 					article.isHidden = article.isHidden === 'true'; // 转为布尔值
+					article.allowComments = article.allowComments === 'true'; // (新增) 允许评论转为布尔值
                     // article.password 保持为字符串
                     // ========== END: 新增字段类型转换 ==========
 
@@ -281,6 +282,7 @@ async function handleRequest({ request, env, ctx }) {
                         hasPassword: !!article.password, // 布尔值
                         views: article.views, // 数字
 						isHidden: article.isHidden, // 布尔值
+						allowComments: article.allowComments, // (新增) 允许评论
 						changefreq: article.changefreq, // 添加 sitemap 频率
                         priority: article.priority      // 添加 sitemap 权重
                         // ========== END: 新增Meta字段 ==========
@@ -310,6 +312,7 @@ async function handleRequest({ request, env, ctx }) {
                     article.isPinned = article.isPinned === 'true'; // 转为布尔值
                     article.views = parseInt(article.views || 0); // 转为数字
 					article.isHidden = article.isHidden === 'true'; // 转为布尔值
+					article.allowComments = article.allowComments === 'true'; // (新增) 允许评论转为布尔值
                     // article.password 保持为字符串
                     // ========== END: 新增字段类型转换 ==========
 
@@ -332,6 +335,7 @@ async function handleRequest({ request, env, ctx }) {
                         hasPassword: !!article.password, // 布尔值
                         views: article.views, // 数字
 						isHidden: article.isHidden, // 布尔值
+						allowComments: article.allowComments, // (新增) 允许评论
 						changefreq: article.changefreq, // 添加 sitemap 频率
                     	priority: article.priority      // 添加 sitemap 权重
                         // ========== END: 新增Meta字段 ==========
