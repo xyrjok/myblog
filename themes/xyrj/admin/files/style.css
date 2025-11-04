@@ -266,5 +266,46 @@ body {
 	.tab-content .container-fluid {
 		padding: 15px;
 	}
+	/* --- START: 新增 - 解决移动端 input-group 溢出问题 --- */
+	
+	/* 1. 强制 input-group 放弃 table 布局，允许换行 */
+	.admin-content .input-group {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	/* 2. 让所有子元素（标签、输入框、按钮）都占满 100% 宽度，实现垂直堆叠 */
+	.admin-content .input-group > .form-control,
+	.admin-content .input-group > .input-group-addon,
+	.admin-content .input-group > .input-group-btn {
+		width: 100% !important; /* 强制100%宽度 */
+		display: block;
+		border-radius: 4px !important; /* 重置所有圆角 */
+		margin-bottom: 5px; /* 增加堆叠间距 */
+	}
+
+	/* 3. 修复 addon 和 btn 丢失的边框 */
+	.admin-content .input-group > .input-group-addon,
+	.admin-content .input-group > .input-group-btn {
+		border: 1px solid #ccc;
+	}
+
+	/* 4. 修复输入框的 z-index 和边框问题 */
+	.admin-content .input-group > .form-control {
+		border: 1px solid #ccc;
+		position: relative;
+		z-index: auto;
+	}
+
+	/* 5. 修复按钮组内的按钮 */
+	.admin-content .input-group-btn .btn {
+		width: 100%;
+	}
+
+	/* 6. 最后一个元素不需要底部边距 */
+	.admin-content .input-group > :last-child {
+		margin-bottom: 0;
+	}
+	/* --- END: 新增 - 解决移动端 input-group 溢出问题 --- */
 }
 /* --- END: 新增 800px 响应式布局 --- */
