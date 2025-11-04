@@ -816,9 +816,8 @@ tinymce.init({
 			$('#site_keywords').val(`{{& site_keywords }}`);
 			$('#site_footer_copyright').val(`{{& site_footer_copyright }}`);
 			var tempDivMarquee = $('<div>');
-            tempDivMarquee.html(`{{& marqueeContent }}`);
+            tempDivMarquee.html(`{{& OPT.marqueeContent }}`);
             $('#marqueeContent').val(tempDivMarquee.text());
-
 			const footerLinksContainer = $('#footer-links-container');
 			footerLinksContainer.empty();
 			try {
