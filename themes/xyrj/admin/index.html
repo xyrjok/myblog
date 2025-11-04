@@ -375,6 +375,10 @@
 							<label for="site_footer_copyright">页脚版权信息</label>
 							<textarea class="form-control" id="site_footer_copyright" rows="3" placeholder="例如：© 2025 Your Blog. All Rights Reserved."></textarea>
 						</div>
+						<div class="form-group">
+							<label for="marqueeContent">滚动广告内容 (支持HTML)</label>
+							<textarea class="form-control" id="marqueeContent" name="marqueeContent" rows="3" placeholder="例如：<a href='#'>这是一个广告</a> <span style='color: red;'>这是第二个广告</span>"></textarea>
+						</div>
 						<hr/>
 <div class="form-group">
 							<label>友情链接</label>
@@ -811,6 +815,9 @@ tinymce.init({
 			$('#site_description').val(`{{& site_description }}`);
 			$('#site_keywords').val(`{{& site_keywords }}`);
 			$('#site_footer_copyright').val(`{{& site_footer_copyright }}`);
+			var tempDivMarquee = $('<div>');
+            tempDivMarquee.html(`{{& marqueeContent }}`);
+            $('#marqueeContent').val(tempDivMarquee.text());
 
 			const footerLinksContainer = $('#footer-links-container');
 			footerLinksContainer.empty();
@@ -1411,6 +1418,7 @@ function handleLinkInput(input) {
 			{ name: 'footer_links', value: JSON.stringify(footerLinks) },
 			{ name: 'WidgetLink', value: JSON.stringify(links) },
 			{ name: 'showSiteNameInHeader', value: $('#showSiteNameInHeader').val() }
+			{ name: 'marqueeContent', value: $('#marqueeContent').val() }
 		];
 
 		$.ajax({
