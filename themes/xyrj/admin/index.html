@@ -615,21 +615,27 @@
 			e.stopPropagation(); // 防止点击穿透
 			$('.admin-sidebar').toggleClass('is-visible');
 			$('.admin-overlay').toggleClass('is-visible');
+            var $icon = $(this).find('.fas');
+            if ($icon.hasClass('fa-bars')) {
+                $icon.removeClass('fa-bars').addClass('fa-times');
+            } else {
+                $icon.removeClass('fa-times').addClass('fa-bars');
+            }
 		});
 
-		// 点击遮罩层关闭菜单
 		$(document).on('click', '.admin-overlay', function() {
 			$('.admin-sidebar').removeClass('is-visible');
 			$('.admin-overlay').removeClass('is-visible');
+            $('#mobile-menu-toggle').find('.fas').removeClass('fa-times').addClass('fa-bars');
 		});
 
-		// 点击菜单项后自动关闭菜单 (在小屏幕上)
 		$(document).on('click', '.admin-sidebar .nav > li > a', function() {
 			if ($(window).width() <= 800) {
 				// 稍微延迟关闭，确保链接跳转可以被触发
 				setTimeout(function() {
 					$('.admin-sidebar').removeClass('is-visible');
 					$('.admin-overlay').removeClass('is-visible');
+                    $('#mobile-menu-toggle').find('.fas').removeClass('fa-times').addClass('fa-bars');
 				}, 150);
 			}
 		});
