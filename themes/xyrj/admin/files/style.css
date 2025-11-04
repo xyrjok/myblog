@@ -153,7 +153,7 @@ body {
 	align-items: center;
 }
 .mobile-logo {
-	height: 30px; /* 限制Logo高度 */
+	height: 39px; /* 限制Logo高度 */
 }
 .mobile-logo a {
 	display: flex;
@@ -170,8 +170,8 @@ body {
 	object-fit: contain;
 }
 #mobile-menu-toggle {
-	font-size: 18px;
-	padding: 5px 10px;
+	font-size: 20px;
+	padding: 5px 0px 5px 16px;
 }
 #mobile-menu-toggle.btn.btn-default,
 #mobile-menu-toggle.btn.btn-default:focus,
@@ -276,7 +276,7 @@ body {
 
 	/* 5. 缩小内容区的内边距 */
 	.tab-content .container-fluid {
-		padding: 15px;
+		padding: 5px;
 	}
 	/* --- START: 新增 - 解决移动端 input-group 溢出问题 --- */
 	
