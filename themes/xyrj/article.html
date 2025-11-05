@@ -350,24 +350,31 @@
         <div class="main-layout">
             <article id="post-{{ &articleSingle.id }}" class="post-article">
                 <div class="entry-card">
-					{{#OPT.marqueeContent}}
-					<div class="breadcrumb-with-marquee">
-						<div class="breadcrumb">
+					{{#OPT.showMarqueeOnArticle}}
+						{{#OPT.marqueeContent}}
+						<div class="breadcrumb-with-marquee">
+							<div class="breadcrumb">
+								{{{ articleBreadcrumb }}}
+							</div>
+							<div class="marquee-container">
+								<div class="marquee-content-wrapper">
+									<span>{{{ OPT.marqueeContent }}}</span>
+									<span>{{{ OPT.marqueeContent }}}</span>
+								</div>
+								</div>
+						</div>
+						{{/OPT.marqueeContent}}
+						{{^OPT.marqueeContent}}
+						<div class="breadcrumb" style="margin-bottom: 23px; font-size: 14px; color: #888;">
 							{{{ articleBreadcrumb }}}
 						</div>
-						<div class="marquee-container">
-							<div class="marquee-content-wrapper">
-								<span>{{{ OPT.marqueeContent }}}</span>
-								<span>{{{ OPT.marqueeContent }}}</span>
-							</div>
-							</div>
-					</div>
-					{{/OPT.marqueeContent}}
-					{{^OPT.marqueeContent}}
+						{{/OPT.marqueeContent}}
+					{{/OPT.showMarqueeOnArticle}}
+					{{^OPT.showMarqueeOnArticle}}
 					<div class="breadcrumb" style="margin-bottom: 23px; font-size: 14px; color: #888;">
 						{{{ articleBreadcrumb }}}
 					</div>
-					{{/OPT.marqueeContent}}
+					{{/OPT.showMarqueeOnArticle}}
                     <div class="entry-head">
                         <h1 class="entry-title">
 							{{#articleSingle.isEncrypted}}
