@@ -834,7 +834,7 @@ tinymce.init({
 			$('#site_footer_copyright').val(`{{& site_footer_copyright }}`);
 			var tempDivMarquee = $('<div>');
             tempDivMarquee.html(`{{& OPT.marqueeContent }}`);
-            $('#marqueeContent').val(tempDivMarquee.text());
+            $('#marqueeContent').val(tempDivMarquee.html());
 			$('#marqueeSpeed').val(`{{ OPT.marqueeSpeed }}`);
 			$('#showMarqueeOnIndex').prop('checked', `{{ OPT.showMarqueeOnIndex }}` === 'true');
 			$('#showMarqueeOnArticle').prop('checked', `{{ OPT.showMarqueeOnArticle }}` === 'true');
