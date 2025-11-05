@@ -35,7 +35,13 @@
 	/* --- START: 新的无缝走马灯 CSS --- */
 	/* 3. 走马灯容器 */
 	.marquee-container {
-		flex-grow: 1; /* 占据剩余空间 */
+		/* --- 控制走马的区域宽度 --- */
+		/* 在这里设置您想要的走马灯区域的总宽度 */
+		width: 300px; 
+		/* (可选) 设置一个最大宽度，防止它过宽 */
+		max-width: 40%; 
+		/* 确保容器本身不会被压缩 */
+		flex-shrink: 0; 
 		overflow: hidden; /* 关键：隐藏溢出内容 */
 		position: relative;
 		margin-left: 15px; /* 与标题拉开距离 */
