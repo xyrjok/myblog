@@ -198,6 +198,7 @@
 			text-overflow: ellipsis; /* 溢出时显示省略号 */
 		}
 
+		/* --- START: 新的无缝走马灯 CSS --- */
 		/* 3. 走马灯容器 */
 		.marquee-container {
 			flex-grow: 1; /* 占据剩余空间 */
@@ -209,36 +210,44 @@
 			line-height: 20px; /* 垂直居中 */
 		}
 		
-		/* 4. 走马灯滚动内容 */
-		.marquee-content {
-			display: inline-block; /* 确保内容在同一行 */
-			white-space: nowrap; /* 防止内容换行 */
-			position: absolute;
+		/* 4. 走马灯滚动内容 (改为 wrapper) */
+		.marquee-content-wrapper {
+			display: flex; /* 使用 flex 布局 */
+			width: fit-content; /* 宽度由内容决定 */
 			/* * --- 控制速度 ---
 			 * 减小 15s (例如 5s) 来加快速度
 			 * 增大 15s (例如 30s) 来减慢速度
 			 *
 			 * --- 控制方向 ---
-			 * 默认: marquee-left (从右到左)
-			 * 可选: marquee-right (从左到右, 见下方的 @keyframes)
+			 * 默认: marquee-seamless-left (从右到左)
+			 * 可选: marquee-seamless-right (从左到右, 见下方的 @keyframes)
 			 */
-			animation: marquee-left 15s linear infinite;
+			animation: marquee-seamless-left 15s linear infinite;
 		}
 		
-		.marquee-content:hover {
+		.marquee-content-wrapper:hover {
 			animation-play-state: paused; /* 鼠标悬停暂停 */
 		}
-
-		@keyframes marquee-left {
-			0%   { transform: translateX(100%); } /* 从容器右侧外开始 */
-			100% { transform: translateX(-100%); } /* 滚动到容器左侧外 */
+		
+		/* 5. 走马灯的单个内容项 */
+		.marquee-content-wrapper span {
+			white-space: nowrap; /* 防止内容换行 */
+			/* 在重复内容间添加 40px 的间距 */
+			padding-right: 40px; 
+		}
+	
+		/* 6. 新的无缝滚动 keyframes */
+		@keyframes marquee-seamless-left {
+			0%   { transform: translateX(0); }
+			/* 移动一个副本的宽度 (即 wrapper 总宽度的 50%) */
+			100% { transform: translateX(-50%); } 
 		}
 		
-		@keyframes marquee-right {
-			0%   { transform: translateX(-100%); } /* 从容器左侧外开始 */
-			100% { transform: translateX(100%); } /* 滚动到容器右侧外 */
+		@keyframes marquee-seamless-right {
+			0%   { transform: translateX(-50%); }
+			100% { transform: translateX(0); }
 		}
-		/* --- END: 新增走马灯 CSS --- */
+		/* --- END: 新的无缝走马灯 CSS --- */
     </style>
     </head>
 <body class="m-flex"> 
@@ -341,10 +350,11 @@
 							{{{ articleBreadcrumb }}}
 						</div>
 						<div class="marquee-container">
-							<div class="marquee-content">
-								{{{ OPT.marqueeContent }}}
+							<div class="marquee-content-wrapper">
+								<span>{{{ OPT.marqueeContent }}}</span>
+								<span>{{{ OPT.marqueeContent }}}</span>
 							</div>
-						</div>
+							</div>
 					</div>
 					{{/OPT.marqueeContent}}
 					{{^OPT.marqueeContent}}
