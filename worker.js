@@ -1,5 +1,4 @@
-// worker.js (已修正图片逻辑，并集成所有功能)
-
+// worker.js (并集成所有功能)
 /**
  * Welcome to cf-blog-plus
  * @license Apache-2.0
