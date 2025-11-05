@@ -203,20 +203,25 @@
                 {{/carousel_slides.length}}
 
                 <div class="article-list">
-					{{#OPT.marqueeContent}}
-					<div class="title-with-marquee">
+					{{#OPT.showMarqueeOnIndex}}
+						{{#OPT.marqueeContent}}
+						<div class="title-with-marquee">
+							<h3 class="widget-title">{{listTitle}}</h3>
+							<div class="marquee-container">
+								<div class="marquee-content-wrapper">
+									<span>{{{ OPT.marqueeContent }}}</span>
+									<span>{{{ OPT.marqueeContent }}}</span>
+								</div>
+								</div>
+						</div>
+						{{/OPT.marqueeContent}}
+						{{^OPT.marqueeContent}}
+							<h3 class="widget-title">{{listTitle}}</h3>
+						{{/OPT.marqueeContent}}
+					{{/OPT.showMarqueeOnIndex}}
+					{{^OPT.showMarqueeOnIndex}}
 						<h3 class="widget-title">{{listTitle}}</h3>
-						<div class="marquee-container">
-							<div class="marquee-content-wrapper">
-								<span>{{{ OPT.marqueeContent }}}</span>
-								<span>{{{ OPT.marqueeContent }}}</span>
-							</div>
-							</div>
-					</div>
-					{{/OPT.marqueeContent}}
-					{{^OPT.marqueeContent}}
-						<h3 class="widget-title">{{listTitle}}</h3>
-					{{/OPT.marqueeContent}}
+					{{/OPT.showMarqueeOnIndex}}
                     <ul>
                     {{#articleList}}
                         <li class="article-item-box">
