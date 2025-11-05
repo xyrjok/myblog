@@ -54,15 +54,9 @@
 	.marquee-content-wrapper {
 		display: flex; /* 使用 flex 布局 */
 		width: fit-content; /* 宽度由内容决定 */
-		/* * --- 控制速度 ---
-		 * 减小 15s (例如 5s) 来加快速度
-		 * 增大 15s (例如 30s) 来减慢速度
-		 *
-		 * --- 控制方向 ---
-		 * 默认: marquee-seamless-left (从右到左)
-		 * 可选: marquee-seamless-right (从左到右, 见下方的 @keyframes)
-		 */
-		animation: marquee-seamless-left 15s linear infinite;
+		/* 默认: marquee-seamless-left (从右到左)
+		 * 可选: marquee-seamless-right (从左到右, 见下方的 @keyframes)*/
+		animation: marquee-seamless-left {{ OPT.marqueeSpeed }} linear infinite;
 	}
 	
 	.marquee-content-wrapper:hover {
