@@ -1,4 +1,5 @@
-// worker.js (并集成所有功能)
+// worker.js (已修正图片逻辑，并集成所有功能)
+
 /**
  * Welcome to cf-blog-plus
  * @license Apache-2.0
@@ -745,7 +746,10 @@ async function render(data, template_path, env) {
         site_footer_copyright,
         footer_links_json,
         showSiteNameInHeader,
-        marqueeContent
+        marqueeContent,
+		showMarqueeOnIndex,
+		showMarqueeOnArticle,
+        marqueeSpeed
     ] = await Promise.all([
         env.XYRJ_CONFIG.get('logo'),
         env.XYRJ_CONFIG.get('siteName'),
@@ -756,7 +760,10 @@ async function render(data, template_path, env) {
         env.XYRJ_CONFIG.get('site_footer_copyright'),
         env.XYRJ_CONFIG.get('footer_links'),
         env.XYRJ_CONFIG.get('showSiteNameInHeader'),
-        env.XYRJ_CONFIG.get('marqueeContent') 
+        env.XYRJ_CONFIG.get('marqueeContent'), 
+		env.XYRJ_CONFIG.get('showMarqueeOnIndex'),
+		env.XYRJ_CONFIG.get('showMarqueeOnArticle'),
+        env.XYRJ_CONFIG.get('marqueeSpeed')
     ]);
 
     site.logo = logo || "";
@@ -766,6 +773,9 @@ async function render(data, template_path, env) {
     site.siteKeywords = site_keywords || "";
     site.showSiteNameInHeader = showSiteNameInHeader === 'true';
 	site.marqueeContent = marqueeContent || "";
+	site.showMarqueeOnIndex = showMarqueeOnIndex === 'true';
+    site.showMarqueeOnArticle = showMarqueeOnArticle === 'true';
+	site.marqueeSpeed = marqueeSpeed || '15s';
 
     // ===== 核心修改：在这里预处理菜单数据 =====
     try {
