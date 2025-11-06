@@ -851,15 +851,21 @@ tinymce.init({
 		        }
 		    });
 		}*/
-		/* --- END: 自动为代码块添加 line-numbers 和 data-line --- */
+	  /* --- END: 自动为代码块添加 line-numbers 和 data-line --- */
 	  /* --- START: 自定义按钮和设置 --- */
 		setup: function(editor) {
-			// 注册自定义间距格式
-        editor.formatter.register('margin_default', { selector: 'p', styles: { 'margin-bottom': '' } });
-		editor.formatter.register('margin_0', { selector: 'p', styles: { 'margin-bottom': '0' } });
-		editor.formatter.register('margin_small', { selector: 'p', styles: { 'margin-bottom': '0.5em' } }); // 0.5倍字高
-		editor.formatter.register('margin_medium', { selector: 'p', styles: { 'margin-bottom': '1em' } });   // 1倍字高
-		editor.formatter.register('margin_large', { selector: 'p', styles: { 'margin-bottom': '1.5em' } }); // 1.5倍字高
+			
+			// --- FIX: Wrap formatter registrations in the 'init' event ---
+			editor.on('init', function() {
+				// 注册自定义间距格式
+				editor.formatter.register('margin_default', { selector: 'p', styles: { 'margin-bottom': '' } });
+				editor.formatter.register('margin_0', { selector: 'p', styles: { 'margin-bottom': '0' } });
+				editor.formatter.register('margin_small', { selector: 'p', styles: { 'margin-bottom': '0.5em' } }); // 0.5倍字高
+				editor.formatter.register('margin_medium', { selector: 'p', styles: { 'margin-bottom': '1em' } });   // 1倍字高
+				editor.formatter.register('margin_large', { selector: 'p', styles: { 'margin-bottom': '1.5em' } }); // 1.5倍字高
+			});
+			// --- END FIX ---
+
 			// 1. 添加 "信息提示框" 按钮 (对应 infoBox)
 			editor.ui.registry.addButton('fgxBox', {
 			  text: '分隔线', // 您可以用图标，也可以用文字
