@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-g">
+	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>XYRJ-Blog后台</title>
 	<link rel="icon" type="image/x-icon" href="{{ &OPT.theme_github_path }}xyrj/admin/files/favicon.ico" />
@@ -1826,10 +1826,6 @@ function loadComments() {
 	}
 	// --- END: 新增 - 保存轮播图顺序 ---
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-      if(e.target.hash == "#comments-manager"){ loadComments(); }
-      if(e.target.hash == "#carousel-manager"){ loadCarousel(); }
-    });
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       if(e.target.hash == "#comments-manager"){ loadComments(); }
       if(e.target.hash == "#carousel-manager"){ loadCarousel(); }
     });
