@@ -1325,7 +1325,7 @@ textarea {
     color: #333;
 }
 .entry-content p {
-    margin-bottom: 1.2em;
+   /* margin-bottom: 1.2em;*/
 }
 .entry-content ul {
     list-style: disc !important; /* 使用 !important 强制覆盖全局重置 */
