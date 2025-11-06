@@ -765,7 +765,7 @@ tinymce.init({
     /* ⬇️ 第2步：(关键)给编辑器内部添加类名, 让CSS生效 ⬇️ */
     body_class: 'entry-content', 
     plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code codesample fullscreen insertdatetime media nonbreaking save table directionality emoticons template paste',
-	toolbar: 'insertfile undo redo styleselect fontsizeselect bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link image print preview media forecolor backcolor emoticons codesample code',  
+	toolbar: 'insertfile undo redo styleselect fontsizeselect bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link image print preview media forecolor backcolor emoticons codesample  fgxBox infoBox warningBox code',
 	mobile: {
         toolbar_mode: 'wrap'
     },
@@ -802,6 +802,37 @@ tinymce.init({
             { title: '两端对齐', format: 'alignjustify' }
         ]}
     ],
+	/* --- START: 在这里添加您的模板 --- */
+	template_templates: [
+		title: '文字下面分割线)', 
+			description: '插入一个灰色的横线', 
+			content: '<div style="padding-bottom: .3em;border-bottom: 1px solid #eaecef;">在这里输入分隔线...</div>' 
+		},
+		{ 
+			title: '提示框 (信息)', 
+			description: '插入一个蓝色的信息提示框', 
+			content: '<div style="padding: 15px; background-color: #f0f7fd; border: 1px solid #d4e8fa; border-radius: 4px; color: #31708f;">在这里输入提示信息...</div>' 
+		},
+		{ 
+			title: '提示框 (警告)', 
+			description: '插入一个黄色的警告提示框', 
+			content: '<div style="padding: 15px; background-color: #fefbec; border: 1px solid #fce38a; border-radius: 4px; color: #8a6d3b;">在这里输入警告信息...</div>' 
+		},
+		{ 
+			title: '提示框 (危险)', 
+			description: '插入一个红色的危险提示框', 
+			content: '<div style="padding: 15px; background-color: #fdf7f7; border: 1px solid #f8d7da; border-radius: 4px; color: #721c24;">在这里输入危险信息...</div>' 
+		},
+		{ 
+			title: '两列布局', 
+			description: '插入一个50/50的两列布局', 
+			content: '<div style="display: flex; width: 100%; gap: 20px;">' +
+					 '<div style="flex-basis: 50%;"> <p>这是左侧列...</p> </div>' +
+					 '<div style="flex-basis: 50%;"> <p>这是右侧列...</p> </div>' +
+					 '</div>' 
+		}
+	],
+	/* --- END: 模板结束 --- */
 		/* --- START: 自动为代码块添加 line-numbers 和 data-line --- */
 		/*setup: function(editor) {
 		    editor.on('NodeChange', function(e) {
@@ -824,6 +855,46 @@ tinymce.init({
 		    });
 		}*/
 		/* --- END: 自动为代码块添加 line-numbers 和 data-line --- */
+	  /* --- START: 自定义按钮和设置 --- */
+		setup: function(editor) {
+			// 1. 添加 "信息提示框" 按钮 (对应 infoBox)
+			editor.ui.registry.addButton('fgxBox', {
+			  text: '分隔线', // 您可以用图标，也可以用文字
+			  //icon: 'info',  // 使用内置的 "info" 图标
+			  tooltip: '插入分隔线提示框', // 鼠标悬停提示
+			  onAction: function () {
+				// 这是您模板里的 content 内容
+				var content = '<div style="padding-bottom: .3em;border-bottom: 1px solid #eaecef;">在这里输入分隔线信息...</div><p></p>';
+				editor.insertContent(content); // 插入内容
+			  }
+			});
+			
+			// 1. 添加 "信息提示框" 按钮 (对应 infoBox)
+			editor.ui.registry.addButton('infoBox', {
+			  // text: '提示', // 您可以用图标，也可以用文字
+			  icon: 'info',  // 使用内置的 "info" 图标
+			  tooltip: '插入信息提示框', // 鼠标悬停提示
+			  onAction: function () {
+				// 这是您模板里的 content 内容
+				var content = '<div style="padding: 15px; background-color: #f0f7fd; border: 1px solid #d4e8fa; border-radius: 4px; color: #31708f;">在这里输入提示信息...</div><p></p>';
+				editor.insertContent(content); // 插入内容
+			  }
+			});
+
+			// 2. 添加 "警告提示框" 按钮 (对应 warningBox)
+			editor.ui.registry.addButton('warningBox', {
+			  icon: 'warning', // 使用内置的 "warning" 图标
+			  tooltip: '插入警告提示框',
+			  onAction: function () {
+				var content = '<div style="padding: 15px; background-color: #fefbec; border: 1px solid #fce38a; border-radius: 4px; color: #8a6d3b;">在这里输入警告信息...</div><p></p>';
+				editor.insertContent(content);
+			  }
+			});
+
+			// (这里可以添加更多按钮...)
+
+		}
+		/* --- END: 自定义按钮和设置 --- */
 });
 			$('#createDate').val(new Date().toISOString().slice(0, 16));
 			
