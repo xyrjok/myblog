@@ -765,7 +765,7 @@ tinymce.init({
     /* ⬇️ 第2步：(关键)给编辑器内部添加类名, 让CSS生效 ⬇️ */
     body_class: 'entry-content', 
     plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars code codesample fullscreen insertdatetime media nonbreaking save table directionality emoticons template paste',
-	toolbar: 'insertfile undo redo styleselect fontsizeselect lineheight bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link image print preview media forecolor backcolor emoticons codesample fgxBox infoBox warningBox code',
+	toolbar: 'insertfile undo redo styleselect fontsizeselect lineheight paragraphspacing bold italic alignleft aligncenter alignright alignjustify bullist numlist outdent indent link image print preview media forecolor backcolor emoticons codesample fgxBox infoBox warningBox code',
 	mobile: {
         toolbar_mode: 'wrap'
     },
@@ -854,6 +854,12 @@ tinymce.init({
 		/* --- END: 自动为代码块添加 line-numbers 和 data-line --- */
 	  /* --- START: 自定义按钮和设置 --- */
 		setup: function(editor) {
+			// 注册自定义间距格式
+        editor.formatter.register('margin_default', { selector: 'p', styles: { 'margin-bottom': '' } });
+		editor.formatter.register('margin_0', { selector: 'p', styles: { 'margin-bottom': '0' } });
+		editor.formatter.register('margin_small', { selector: 'p', styles: { 'margin-bottom': '0.5em' } }); // 0.5倍字高
+		editor.formatter.register('margin_medium', { selector: 'p', styles: { 'margin-bottom': '1em' } });   // 1倍字高
+		editor.formatter.register('margin_large', { selector: 'p', styles: { 'margin-bottom': '1.5em' } }); // 1.5倍字高
 			// 1. 添加 "信息提示框" 按钮 (对应 infoBox)
 			editor.ui.registry.addButton('fgxBox', {
 			  text: '分隔线', // 您可以用图标，也可以用文字
@@ -887,6 +893,41 @@ tinymce.init({
 				editor.insertContent(content);
 			  }
 			});
+			// 注册 "段落间距" 下拉菜单按钮
+			editor.ui.registry.addMenuButton('paragraphspacing', {
+	          text: '段间距', // 按钮上显示的文字
+	          tooltip: '设置段落间距 (margin-bottom)',
+	          fetch: function (callback) {
+	            var items = [
+				  {
+				    type: 'menuitem',
+				    text: '默认间距 (移除)',
+				    onAction: function () { editor.formatter.apply('margin_default'); }
+				  },
+				  {
+				    type: 'menuitem',
+				    text: '无间距 (0)',
+				    onAction: function () { editor.formatter.apply('margin_0'); }
+				  },
+				  {
+				    type: 'menuitem',
+				    text: '小间距 (0.5em)',
+				    onAction: function () { editor.formatter.apply('margin_small'); }
+				  },
+				  {
+				    type: 'menuitem',
+				    text: '中间距 (1em)',
+				    onAction: function () { editor.formatter.apply('margin_medium'); }
+				  },
+				  {
+				    type: 'menuitem',
+				    text: '大间距 (1.5em)',
+				    onAction: function () { editor.formatter.apply('margin_large'); }
+				  }
+				];
+	            callback(items);
+	          }
+	        });
 
 			// (这里可以添加更多按钮...)
 
